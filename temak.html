@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Színházi témák · TapsPont</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&amp;family=Overpass:wght@400;600&amp;family=Overpass+Mono:wght@400;700&amp;family=Tinos:wght@700&amp;display=swap">
+  <link rel="stylesheet" href="tapspont.css">
+  <link rel="stylesheet" href="kozos-fejlec.css">
+  <style>
+    .topic-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px 24px; padding-block: 24px; border-bottom: 1px solid var(--border); }
+    .topic-home { color: var(--red); font: 700 24px/1 var(--serif); }
+    .topic-header .site-nav { flex: 0 1 auto; flex-wrap: wrap; justify-content: flex-start; }
+    .topic-header [aria-current="page"] { color: var(--red); }
+    .topic-page { padding-block: clamp(36px, 6vw, 76px); }
+    .topic-page h1 { margin-bottom: 28px; color: var(--red); font: 700 30px/1.2 var(--mono); }
+    .topic-records { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 225px), 1fr)); gap: 24px; }
+    .topic-record { display: flex; flex-direction: column; overflow: hidden; background: var(--white); border-radius: var(--card-radius); box-shadow: var(--card-shadow); }
+    .topic-record:is(:hover, :focus-visible) { border-color: var(--red); text-decoration: none; }
+    .topic-photo { display: block; aspect-ratio: 10 / 11; overflow: hidden; background: var(--placeholder); }
+    .topic-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 24%; }
+    .topic-photo .topic-logo { object-fit: contain; padding: 16%; }
+    .topic-caption { display: grid; gap: 8px; padding: 17px; }
+    .topic-caption h2 { font: 700 22px/1.2 var(--serif); }
+    .topic-caption p { font: 400 14px/1.35 var(--mono); }
+    .topic-page.actor-page { padding-top: 26px; }
+    .actor-intro { margin-bottom: 30px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .actor-breadcrumb { margin-bottom: 38px; color: #71666a; font: 400 10px/1.4 var(--mono); }
+    .actor-breadcrumb span { color: var(--red); }
+    .actor-eyebrow { margin-bottom: 8px; color: var(--red); font: 700 10px/1.4 var(--mono); letter-spacing: .22em; text-transform: uppercase; }
+    .topic-page.actor-page h1 { margin: 0; color: var(--ink); font: 700 clamp(40px, 5vw, 50px)/1 "Cormorant Garamond", Georgia, serif; }
+    .actor-description { max-width: 560px; margin-top: 5px; color: #625a5c; font: 400 13px/1.5 "Overpass", sans-serif; }
+    .topic-records[data-topic="szineszek"] .topic-record { border: 1px solid #e2dfe0; border-radius: 12px; text-align: left; }
+    .topic-records[data-topic="szineszek"] .topic-record:is(:hover, :focus-visible) { border-color: var(--red); }
+    .topic-records[data-topic="szineszek"] .topic-photo { position: relative; aspect-ratio: 225 / 280; }
+    .actor-theatre { position: absolute; inset: auto 0 0; padding: 28px 13px 12px; background: linear-gradient(transparent, #000a); color: #f8e9bb; font: 700 10px/1.3 var(--mono); text-transform: uppercase; }
+    .topic-records[data-topic="szineszek"] .topic-caption { display: block; flex: 1; min-height: 86px; padding: 17px 16px 14px; }
+    .topic-records[data-topic="szineszek"] h2 { color: var(--ink); font: 700 22px/1.05 "Cormorant Garamond", Georgia, serif; }
+    .topic-records[data-topic="szineszek"] p { margin-top: 4px; color: #756b6d; font: 400 10px/1.35 "Overpass", sans-serif; }
+    .actor-footer { display: flex; justify-content: flex-end; padding: 10px 16px; border-top: 1px solid #e2dfe0; background: #faf8f6; color: var(--red); font: 600 10px/1.3 "Overpass", sans-serif; }
+    @media (max-width: 540px) { .actor-breadcrumb { margin-bottom: 30px; } }
+    .work-intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .work-intro[hidden] { display: none; }
+    .work-intro-copy { max-width: 670px; }
+    .work-eyebrow { margin-bottom: 8px; color: var(--red); font: 700 11px/1.3 var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+    .topic-page.work-page h1 { margin: 0; color: var(--ink); font: 700 clamp(38px, 4vw, 50px)/1 var(--serif); }
+    .work-description { max-width: 590px; margin-top: 7px; color: var(--muted); font: 400 14px/1.5 "Overpass", sans-serif; }
+    .work-filters { display: flex; flex-wrap: wrap; gap: 7px; }
+    .work-filter { min-height: 38px; padding: 0 18px; border: 1px solid var(--red); border-radius: 999px; background: transparent; color: var(--ink); font: 700 15px/1 var(--mono); cursor: pointer; }
+    .work-filter:hover { background: #f9dce1; }
+    .work-filter[aria-pressed="true"] { border-color: var(--red); background: var(--red); color: white; }
+    .topic-records[data-topic="szindarabok"] { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .work-record { position: relative; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: 22px; background: var(--white); }
+    .work-record[hidden] { display: none; }
+    .work-record { box-shadow: var(--card-shadow); }
+    .work-photo { position: relative; aspect-ratio: 1.6; overflow: hidden; background: var(--placeholder); }
+    .work-photo img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .work-kind { position: absolute; inset: auto 0 0; padding: 30px 16px 12px; background: linear-gradient(transparent, #000c); color: #f8e9bb; font: 700 11px/1.3 var(--mono); text-transform: uppercase; }
+    .work-caption { flex: 1; padding: 20px 18px; }
+    .work-venue { margin-bottom: 7px; color: var(--red); font: 700 11px/1.4 var(--mono); text-transform: uppercase; }
+    .work-caption h2 { font: 700 25px/1.12 var(--serif); }
+    .work-author { margin-top: 5px; color: var(--muted); font: 400 12px/1.4 "Overpass", sans-serif; }
+    .work-summary { margin-top: 12px; color: #625a5c; font: 400 13px/1.5 "Overpass", sans-serif; }
+    .work-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; padding: 10px 18px; border-top: 1px solid var(--border); background: #faf8f6; font: 400 11px/1.4 "Overpass", sans-serif; }
+    .work-footer strong { font: 600 11px/1.4 "Overpass", sans-serif; }
+    .work-link { margin-left: auto; display: grid; place-items: center; flex: none; width: 36px; height: 36px; border: 0; color: var(--red); }
+    .work-link::before { content: ''; position: absolute; inset: 0; }
+    .work-link svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .work-save { position: absolute; z-index: 2; top: 14px; left: 14px; display: grid; place-items: center; width: 36px; height: 36px; padding: 8px; border: 0; border-radius: 50%; background: #e7e4e5; color: #30262b; cursor: pointer; }
+    .work-save[aria-pressed="true"] { background: var(--red); color: white; }
+    .work-save svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    @media (prefers-reduced-motion: reduce) { .work-record { transition: none; } }
+    .work-empty { color: var(--muted); font-size: 14px; }
+    @media (max-width: 900px) { .work-intro { align-items: start; flex-direction: column; } .topic-records[data-topic="szindarabok"] { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 540px) { .topic-records[data-topic="szindarabok"] { grid-template-columns: 1fr; } }
+    .topic-page.theatre-page { padding-top: 26px; }
+    .theatre-intro { margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+    .theatre-breadcrumb { margin-bottom: 38px; color: #71666a; font: 400 11px/1.4 var(--mono); }
+    .theatre-breadcrumb span { color: var(--red); }
+    .theatre-eyebrow { margin-bottom: 8px; color: var(--red); font: 700 11px/1.4 var(--mono); letter-spacing: .2em; text-transform: uppercase; }
+    .topic-page.theatre-page h1 { margin: 0; color: var(--ink); font: 700 clamp(38px, 4vw, 50px)/1 var(--serif); }
+    .theatre-description { max-width: 630px; margin-top: 8px; color: #625a5c; font: 400 14px/1.5 "Overpass", sans-serif; }
+    .topic-records[data-topic="szinhazak"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
+    .theatre-record { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--white); box-shadow: var(--card-shadow); }
+    .theatre-record:is(:hover, :focus-visible) { border-color: var(--red); text-decoration: none; }
+    .theatre-photo { position: relative; aspect-ratio: 1.8; overflow: hidden; background: var(--placeholder); }
+    .theatre-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .theatre-photo img.theatre-logo { object-fit: contain; padding: 12%; }
+    .theatre-photo-label { position: absolute; inset: auto 0 0; padding: 35px 18px 12px; background: linear-gradient(transparent, #000b); color: #f8e9bb; font: 700 10px/1.3 var(--mono); text-transform: uppercase; }
+    .theatre-caption { flex: 1; min-height: 180px; padding: 22px 22px 24px; }
+    .theatre-location { margin-bottom: 9px; color: var(--red); font: 700 11px/1.35 var(--mono); text-transform: uppercase; }
+    .theatre-caption h2 { color: var(--ink); font: 700 27px/1.1 var(--serif); }
+    .theatre-address { margin-top: 7px; color: var(--muted); font: 400 11px/1.4 var(--mono); }
+    .theatre-summary { margin-top: 14px; color: #625a5c; font: 400 13px/1.55 "Overpass", sans-serif; }
+    .theatre-footer { display: flex; justify-content: space-between; gap: 14px; align-items: center; min-height: 48px; padding: 10px 22px; border-top: 1px solid var(--border); background: #faf8f6; font: 400 10px/1.4 var(--mono); color: var(--muted); }
+    .theatre-link { margin-left: auto; color: var(--red); font-weight: 700; white-space: nowrap; }
+    @media (max-width: 650px) { .topic-records[data-topic="szinhazak"] { grid-template-columns: 1fr; gap: 20px; } .theatre-intro { margin-bottom: 26px; } }
+  </style>
+  <link rel="stylesheet" href="temak-kartyak.css">
+  <link rel="stylesheet" href="mobil.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>
+    </symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24">
+      <path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/>
+    </symbol><symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol></svg>
+  <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <form class="search" action="index.html" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+          <a href="index.html#toplistak">Toplisták</a>
+        </nav>
+        <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
+                popovertarget="login-popover" aria-label="Profil / Belépés">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg>
+        </button>
+      </div>
+      <section class="card login-popover" id="login-popover" popover aria-labelledby="login-popover-title">
+        <h2 id="login-popover-title">Bejelentkezés</h2>
+        <form class="account-form" id="login-form" method="post" novalidate>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" name="username" autocomplete="username" autofocus maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" name="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <button type="button" class="password-help" id="password-help" aria-controls="password-help-message">Elfelejtetted a jelszavad?</button>
+          <p class="error" id="password-help-message" role="status" hidden></p>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <button class="btn account-primary" type="submit">Bejelentkezés</button>
+        </form>
+        <div class="login-register">
+          <p>Még nincs fiókod?</p>
+          <a class="btn btn-outline" href="belepes.html">Regisztrálok</a>
+        </div>
+      </section>
+    </header>
+  <main class="wrap topic-page" aria-labelledby="topic-title">
+    <div class="actor-intro" hidden>
+      <nav class="actor-breadcrumb" aria-label="Morzsamenü"><a href="index.html">Főoldal</a> / <span aria-current="page">Színészek &amp; Alkotók</span></nav>
+      <p class="actor-eyebrow">Társulatok csillagai</p>
+      <h1 id="actor-title">Színészek</h1>
+      <p class="actor-description">Kattints bármelyik művész portréjára a részletes adatlap, a díjak és az aktuális szerepek megtekintéséhez.</p>
+    </div>
+    <div class="work-intro" hidden>
+      <div class="work-intro-copy">
+        <p class="work-eyebrow">Repertoár katalógus</p>
+        <h1 id="work-title">Színdarabok &amp; Előadások</h1>
+        <p class="work-description">Böngéssz a színdarabok között, és fedezd fel a hozzájuk kapcsolódó színházi előadásokat.</p>
+      </div>
+      <div class="work-filters" role="group" aria-label="Műfaj szerinti szűrés">
+        <button class="work-filter" type="button" data-filter="all" aria-pressed="true">Összes</button>
+        <button class="work-filter" type="button" data-filter="musical" aria-pressed="false">Musical</button>
+        <button class="work-filter" type="button" data-filter="dráma" aria-pressed="false">Dráma</button>
+        <button class="work-filter" type="button" data-filter="vígjáték" aria-pressed="false">Vígjáték</button>
+      </div>
+    </div>
+    <div class="theatre-intro" hidden>
+      <nav class="theatre-breadcrumb" aria-label="Morzsamenü"><a href="index.html">Főoldal</a> / <span aria-current="page">Színházak &amp; Teátrumok</span></nav>
+      <p class="theatre-eyebrow">Játszóhelyek</p>
+      <h1 id="theatre-title">Színházak &amp; Teátrumok</h1>
+      <p class="theatre-description">Ismerd meg a színházakat és műhelyeiket, és fedezd fel a hozzájuk kapcsolódó előadásokat.</p>
+    </div>
+    <h1 id="topic-title">Színházi témák</h1>
+    <div class="topic-records"></div>
+    <p class="work-empty" hidden>Nincs találat ebben a műfajban.</p>
+  </main>
+  <template id="topic-record">
+    <a class="card topic-record">
+      <div class="topic-photo" aria-hidden="true"></div>
+      <div class="topic-caption">
+        <h2></h2>
+        <p></p>
+      </div>
+    </a>
+  </template>
+  <script src="profil.js"></script>
+  <script src="belepes.js"></script>
+  <script src="katalogus.js"></script>
+  <script src="kozos-fejlec.js"></script>
+  <script>
+    const topic = new URLSearchParams(location.search).get('tema');
+    const topics = new Map([
+      ['szineszek', { title: 'Színészek', entries: artistRecords }],
+      ['szinhazak', { title: 'Színházak', entries: theatreRecords }],
+      ['szindarabok', { title: 'Színdarabok', entries: workRecords }],
+      ['eloadasok', { title: 'Előadások', entries: [...productions, ...premieres] }],
+    ]);
+    const selected = topics.get(topic);
+    if (selected) {
+      document.title = selected.title + ' · TapsPont';
+      document.querySelector('#topic-title').textContent = selected.title;
+      if (topic === 'szineszek') {
+        const page = document.querySelector('.topic-page');
+        page.classList.add('actor-page');
+        page.setAttribute('aria-labelledby', 'actor-title');
+        document.querySelector('.actor-intro').hidden = false;
+        document.querySelector('#topic-title').hidden = true;
+      }
+      if (topic === 'szindarabok') {
+        const page = document.querySelector('.topic-page');
+        page.classList.add('work-page');
+        page.setAttribute('aria-labelledby', 'work-title');
+        document.querySelector('.work-intro').hidden = false;
+        document.querySelector('#topic-title').hidden = true;
+      }
+      if (topic === 'szinhazak') {
+        const page = document.querySelector('.topic-page');
+        page.classList.add('theatre-page');
+        page.setAttribute('aria-labelledby', 'theatre-title');
+        document.querySelector('.theatre-intro').hidden = false;
+        document.querySelector('#topic-title').hidden = true;
+      }
+      document.querySelector('.site-nav a[href="temak.html?tema=' + topic + '"]')?.setAttribute('aria-current', 'page');
+      const grid = document.querySelector('.topic-records');
+      grid.dataset.topic = topic;
+      const template = document.querySelector('#topic-record');
+      for (const entry of selected.entries) {
+        if (topic === 'szinhazak') {
+          const related = productions.filter(item => theatreForVenue(item.venue)?.id === entry.id);
+          const venue = venues.find(item => item.title === entry.title) || venues.find(item => item.title.startsWith(entry.title + ' · '));
+          const card = document.createElement('a');
+          card.className = 'theatre-record'; card.href = entry.detail;
+          const photo = document.createElement('div'); photo.className = 'theatre-photo';
+          const imageUrl = entry.image || entry.logo || venue?.image || venue?.logo;
+          if (imageUrl) {
+            const image = document.createElement('img');
+            image.src = imageUrl; image.alt = ''; image.loading = 'lazy';
+            image.classList.toggle('theatre-logo', imageUrl === entry.logo || imageUrl === venue?.logo);
+            image.addEventListener('error', () => image.remove(), { once: true });
+            photo.append(image);
+          }
+          const address = entry.meta || venue?.meta || '';
+          const cityMatch = address.match(/\b\d{4}\s+([^,]+)/);
+          const city = cityMatch ? cityMatch[1].trim() : '';
+          if (city) {
+            const label = document.createElement('span'); label.className = 'theatre-city-cutout';
+            label.textContent = city; photo.append(label);
+          }
+          const caption = document.createElement('div'); caption.className = 'theatre-caption';
+          const title = document.createElement('h2'); title.textContent = entry.title; caption.append(title);
+          if (address) {
+            const addressLine = document.createElement('p'); addressLine.className = 'theatre-address'; addressLine.textContent = address; caption.append(addressLine);
+          }
+          const footer = document.createElement('div'); footer.className = 'theatre-footer';
+          const count = document.createElement('span'); count.textContent = related.length + ' produkció az adatbázisban';
+          const link = document.createElement('span'); link.className = 'theatre-link'; link.textContent = 'TOVÁBB';
+          footer.append(count, link); card.append(photo, caption, footer); grid.append(card);
+          continue;
+        }
+        if (topic === 'szindarabok') {
+          const production = productions.find(item => item.id === entry.id);
+          const card = document.createElement('article');
+          card.className = 'work-record';
+          card.dataset.genre = (production?.kind || entry.kind || '').toLocaleLowerCase('hu');
+          const photo = document.createElement('div');
+          photo.className = 'work-photo';
+          if (entry.image) {
+            const image = document.createElement('img');
+            image.src = entry.image; image.alt = ''; image.loading = 'lazy';
+            image.addEventListener('error', () => image.remove(), { once: true });
+            photo.append(image);
+          }
+          const kind = document.createElement('span');
+          kind.className = 'work-kind'; kind.textContent = production?.kind || entry.kind;
+          photo.append(kind);
+          const save = document.createElement('button');
+          save.type = 'button'; save.className = 'work-save';
+          save.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12v15l-6-4-6 4z"/></svg>';
+          const bookmarkKey = 'tapspont-detail-bookmark:mu:' + entry.id;
+          const updateSave = saved => { save.setAttribute('aria-pressed', String(saved)); save.setAttribute('aria-label', entry.title + (saved ? ' – mentés eltávolítása' : ' – mentés')); save.title = saved ? 'Mentés eltávolítása' : 'Mentés'; };
+          try { updateSave(localStorage.getItem(bookmarkKey) === '1'); } catch { updateSave(false); }
+          save.addEventListener('click', () => {
+            const saved = save.getAttribute('aria-pressed') === 'true';
+            if (!profileSession.get()) { const message = document.getElementById('login-error'); message.textContent = 'A mentéshez jelentkezz be.'; message.hidden = false; document.getElementById('login-popover').showPopover(); document.getElementById('login-username').focus(); return; }
+            try { if (saved) localStorage.removeItem(bookmarkKey); else localStorage.setItem(bookmarkKey, '1'); updateSave(!saved); }
+            catch { save.title = 'A mentés nem sikerült ebben a böngészőben.'; }
+          });
+          const caption = document.createElement('div');
+          caption.className = 'work-caption';
+          const venue = document.createElement('p');
+          venue.className = 'work-venue'; venue.textContent = production?.venue || '';
+          const title = document.createElement('h2'); title.textContent = entry.title;
+          const author = document.createElement('p');
+          author.className = 'work-author'; author.textContent = entry.author;
+          const summary = document.createElement('p');
+          const summaries = {
+            pal: 'A grundot védő pesti fiúk története barátságról, bátorságról és összetartozásról szól.',
+            dzsungel: 'Maugli a dzsungel lakói között nő fel, és keresi helyét az állatok és az emberek világában.',
+            mamma: 'Sophie három férfit hív meg esküvőjére, hogy megtudja, ki az apja, az ABBA dalainak kíséretében.',
+            csardas: 'Szilvia és Edvin szerelmét a századelő társadalmi elvárásai és a családi rangkülönbség teszik próbára.',
+            bank: 'Bánk nagyúrnak a királyné udvara körül kialakult konfliktusban a családja és az ország sorsa között kell döntenie.',
+            dio: 'Karácsonyi balett, amelyben egy játék diótörő vezeti a történet hősét a kalandokkal teli mese világába.',
+            fair: 'Higgins professzor fogadást köt, hogy a virágárus Elizát az előkelő londoni társaság tagjaként mutatja be.',
+            macska: 'Orbánné és nővére történetében az öregedés, a szerelem és a testvéri ragaszkodás kerül színpadra.',
+            gep: 'Alex útját követjük az erőszaktól a kényszerű átnevelésig egy audiovizuális színpadi adaptációban.',
+            tyuk: 'Ismert magyar versekből összeállított színházi est elevenedik meg az Örkény társulatának előadásában.',
+            tiszta: 'Egy baráti vacsora terve felborul, amikor a házigazda volt partnere váratlanul bejelentkezik.'
+          };
+          summary.className = 'work-summary'; summary.textContent = summaries[entry.id] || production?.description || '';
+          caption.append(venue, title, author, summary);
+          const footer = document.createElement('div'); footer.className = 'work-footer';
+          if (production?.director) {
+            const director = document.createElement('span'); director.textContent = 'Rendező: ';
+            const name = document.createElement('strong'); name.textContent = production.director;
+            director.append(name); footer.append(director);
+          }
+          const link = document.createElement('a'); link.className = 'work-link'; link.href = entry.detail; link.setAttribute('aria-label', entry.title + ' – részletek'); link.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 6 7-6 7"/></svg>';
+          footer.append(link); card.append(photo, save, caption, footer); grid.append(card);
+          continue;
+        }
+        const card = template.content.firstElementChild.cloneNode(true);
+        card.href = entry.detail || entry.url;
+        card.querySelector('h2').textContent = entry.title;
+        const caption = card.querySelector('p');
+        const actorMeta = topic === 'szineszek' ? (entry.meta || '').split(' · ') : [];
+        caption.textContent = topic === 'szineszek' ? '' : (entry.venue || entry.meta || '');
+        caption.hidden = !caption.textContent;
+        if (entry.image || entry.logo) {
+          const image = document.createElement('img');
+          image.alt = '';
+          image.loading = 'lazy';
+          image.src = entry.image || entry.logo;
+          image.classList.toggle('topic-logo', !entry.image);
+          image.addEventListener('error', () => image.remove(), { once: true });
+          card.querySelector('.topic-photo').append(image);
+        }
+        if (topic === 'szineszek') {
+          const theatre = document.createElement('p');
+          theatre.className = 'actor-theatre';
+          theatre.textContent = actorMeta[0];
+          card.querySelector('.topic-caption').prepend(theatre);
+          const footer = document.createElement('div');
+          footer.className = 'actor-footer';
+          const arrow = document.createElement('span');
+          arrow.className = 'actor-detail-arrow';
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.innerHTML = '<svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>';
+          footer.append(arrow);
+          card.setAttribute('aria-label', entry.title + ' – adatlap, ' + actorMeta[0]);
+          card.append(footer);
+        }
+        grid.append(card);
+      }
+      if (topic === 'szindarabok') {
+        document.querySelectorAll('.work-filter').forEach(button => button.addEventListener('click', () => {
+          document.querySelectorAll('.work-filter').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+          let count = 0;
+          grid.querySelectorAll('.work-record').forEach(card => {
+            card.hidden = button.dataset.filter !== 'all' && card.dataset.genre !== button.dataset.filter;
+            if (!card.hidden) count++;
+          });
+          document.querySelector('.work-empty').hidden = count > 0;
+        }));
+      }
+    }
+  </script>
+  <script src="csillagok.js"></script>
+</body>
+</html>
+

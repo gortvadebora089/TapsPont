@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adatlap · TapsPont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&amp;family=Overpass:wght@300;400;600&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:wght@700&amp;display=swap">
+  <link rel="stylesheet" href="tapspont.css">
+  <link rel="stylesheet" href="kozos-fejlec.css">
+  <link rel="stylesheet" href="adatlap.css">
+  <link rel="stylesheet" href="mobil.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>
+    </symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24">
+      <path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/>
+    </symbol>
+    <symbol id="icon-prev" viewBox="0 0 24 24"><path d="m14.5 5-6 7 6 7"/></symbol>
+    <symbol id="icon-next" viewBox="0 0 24 24"><path d="m9.5 5 6 7-6 7"/></symbol>
+    <symbol id="icon-down" viewBox="0 0 24 24"><path d="m5 9 7 6 7-6"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol>
+    <symbol id="icon-ticket" viewBox="0 0 24 24"><path d="M3 6h18v3a3 3 0 0 0 0 6v3H3v-3a3 3 0 0 0 0-6zM15 8v1m0 2.5v1m0 2.5v1M8 12h4"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 6v15m0-15C9 4 6 3 2 4v15c4-1 7 0 10 2 3-2 6-3 10-2V4c-4-1-7 0-10 2Z"/></symbol>
+    <symbol id="detail-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-4-6 4V4Z"/></symbol>
+    <symbol id="detail-share-icon" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m7.3 10.8 8.4-4.6m-8.4 7 8.4 4.6"/></symbol>
+  <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol></svg>
+  <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <form class="search" action="index.html" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+          <a href="index.html#toplistak">Toplisták</a>
+        </nav>
+        <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
+                popovertarget="login-popover" aria-label="Profil / Belépés">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg>
+        </button>
+      </div>
+      <section class="card login-popover" id="login-popover" popover aria-labelledby="login-popover-title">
+        <h2 id="login-popover-title">Bejelentkezés</h2>
+        <form class="account-form" id="login-form" method="post" novalidate>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" name="username" autocomplete="username" autofocus maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" name="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <button type="button" class="password-help" id="password-help" aria-controls="password-help-message">Elfelejtetted a jelszavad?</button>
+          <p class="error" id="password-help-message" role="status" hidden></p>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <button class="btn account-primary" type="submit">Bejelentkezés</button>
+        </form>
+        <div class="login-register">
+          <p>Még nincs fiókod?</p>
+          <a class="btn btn-outline" href="belepes.html">Regisztrálok</a>
+        </div>
+      </section>
+    </header>
+  <main class="wrap detail-main" id="adatlap">
+    <nav class="detail-crumbs" aria-label="Morzsamenü">
+      <a href="index.html">Főoldal</a><span aria-hidden="true">/</span>
+      <a id="detail-category" href="temak.html?tema=eloadasok">Adatlapok</a>
+    </nav>
+    <article id="detail-content" hidden>
+      <div class="detail-grid">
+        <div class="detail-media">
+          <figure>
+            <div id="detail-image" class="detail-image"></div>
+            <figcaption id="detail-credit" hidden></figcaption>
+          </figure>
+          <div class="detail-actions">
+            <button class="btn btn-outline" type="button" id="detail-save" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#detail-bookmark"/></svg><span>Mentés</span></button>
+            <button class="btn btn-outline" type="button" id="detail-share" title="Megosztás"><svg class="icon" aria-hidden="true"><use href="#detail-share-icon"/></svg><span>Megosztás</span></button>
+          </div>
+          <p id="detail-feedback" class="detail-feedback" role="status"></p>
+        </div>
+        <div class="detail-intro">
+          <p class="detail-kicker" id="detail-kicker"></p>
+          <h1 id="detail-title"></h1>
+          <p class="detail-subtitle" id="detail-subtitle"></p>
+          <p class="detail-description" id="detail-description"></p>
+          <dl class="detail-facts" id="detail-facts"></dl>
+        </div>
+        <aside class="detail-panel" aria-labelledby="detail-panel-title">
+          <h2 id="detail-panel-title"></h2>
+          <div id="detail-panel-body"></div>
+        </aside>
+      </div>
+      <section class="detail-related" aria-labelledby="detail-related-title">
+        <div class="detail-section-head"><h2 id="detail-related-title"></h2><span id="detail-related-count"></span></div>
+        <div id="detail-related-list" class="detail-related-list"></div>
+      </section>
+      <section id="nezoi-velemenyek" class="detail-related detail-reviews" aria-labelledby="detail-reviews-title" hidden>
+        <div class="detail-section-head"><h2 id="detail-reviews-title">Nézői vélemények a produkciókról</h2></div>
+        <div id="detail-review-list"></div>
+      </section>
+      <section id="detail-sources" class="detail-sources" aria-labelledby="detail-sources-title">
+        <h2 id="detail-sources-title">Források</h2>
+        <ul id="detail-source-list"></ul>
+      </section>
+    </article>
+    <section id="detail-missing" class="detail-missing" hidden>
+      <h1>Az adatlap nem található.</h1>
+      <p>A főoldal keresőjében színészre, színházra vagy műre is kereshetsz.</p>
+      <a class="btn btn-outline" href="index.html">Vissza a főoldalra</a>
+    </section>
+    <noscript><p>Az adatlap megnyitásához engedélyezd a JavaScriptet a böngésződben.</p></noscript>
+  </main>
+  <dialog id="share-dialog" class="detail-panel detail-share-dialog" aria-labelledby="share-title">
+    <form method="dialog">
+      <h2 id="share-title">Adatlap megosztása</h2>
+      <label for="share-link">Az adatlap hivatkozása</label>
+      <input id="share-link" readonly>
+      <button type="submit" class="btn btn-outline">Bezárás</button>
+    </form>
+  </dialog>
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-nav" aria-label="Lábléc">
+        <a class="brand" href="index.html#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <div><strong>TapsPont</strong><a href="index.html?info=rolunk">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="index.html?info=ertekeles">Hogyan működik az értékelés?</a><a href="index.html?info=kapcsolat">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="index.html?info=felhasznalas">Felhasználási feltételek</a><a href="index.html?info=adatkezeles">Adatkezelési tájékoztató</a></div>
+      </nav>
+      <p class="copyright">© TapsPont</p>
+    </div>
+  </footer>
+  <script src="profil.js"></script>
+  <script src="belepes.js"></script>
+  
+  <script src="katalogus.js"></script>
+  <script src="kozos-fejlec.js"></script>
+  <script src="adatlap.js"></script>
+  <script src="csillagok.js"></script>
+</body>
+</html>

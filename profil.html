@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saját TapsPontom · TapsPont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:wght@700&amp;display=swap">
+  <link rel="stylesheet" href="tapspont.css">
+  <link rel="stylesheet" href="kozos-fejlec.css">
+  <link rel="stylesheet" href="profil-oldal.css">
+  <link rel="stylesheet" href="mobil.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24"><path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/></symbol>
+    <symbol id="icon-next" viewBox="0 0 24 24"><path d="m9.5 5 6 7-6 7"/></symbol>
+    <symbol id="icon-down" viewBox="0 0 24 24"><path d="m5 9 7 6 7-6"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 6v15m0-15C9 4 6 3 2 4v15c4-1 7 0 10 2 3-2 6-3 10-2V4c-4-1-7 0-10 2Z"/></symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3-5.7-3-5.7 3 1.1-6.3-4.6-4.5 6.4-.9L12 3Z"/></symbol>
+    <symbol id="icon-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-4-6 4V4Z"/></symbol>
+    <symbol id="icon-note" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></symbol>
+  <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol></svg>
+  <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <form class="search" action="index.html" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+          <a href="index.html#toplistak">Toplisták</a>
+        </nav>
+        <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
+                popovertarget="login-popover" aria-label="Profil / Belépés">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg>
+        </button>
+      </div>
+      <section class="card login-popover" id="login-popover" popover aria-labelledby="login-popover-title">
+        <h2 id="login-popover-title">Bejelentkezés</h2>
+        <form class="account-form" id="login-form" method="post" novalidate>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" name="username" autocomplete="username" autofocus maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" name="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <button type="button" class="password-help" id="password-help" aria-controls="password-help-message">Elfelejtetted a jelszavad?</button>
+          <p class="error" id="password-help-message" role="status" hidden></p>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <button class="btn account-primary" type="submit">Bejelentkezés</button>
+        </form>
+        <div class="login-register">
+          <p>Még nincs fiókod?</p>
+          <a class="btn btn-outline" href="belepes.html">Regisztrálok</a>
+        </div>
+      </section>
+    </header>
+
+  <main class="wrap profile-main" id="profile-content" hidden>
+    <div class="profile-heading">
+      <p class="profile-breadcrumb"><a href="index.html">Főoldal</a><span aria-hidden="true">/</span><span>Személyes profil</span><span class="sr-only" id="profile-crumb">Áttekintés</span></p>
+      <h1 id="profile-title" tabindex="-1">Áttekintés</h1>
+      <p class="muted" id="profile-description">A saját színházi élményeid egy helyen.</p>
+    </div>
+
+    <section class="profile-summary" aria-label="Profil összefoglaló">
+      <div class="profile-summary-person">
+        <div class="icon-button profile profile-summary-avatar" data-profile-avatar aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg></div>
+        <div class="profile-summary-copy"><span class="profile-badge"><span class="star-gold">★</span> TapsPont Törzskritikus</span> <span class="profile-badge profile-badge-theatre">▰ Vígszínház törzsnéző</span><h2><a id="summary-name" href="#attekintes" aria-label="Vissza a profil áttekintéséhez"></a></h2><p id="summary-username"></p><p class="profile-bio">A pesti kamaradarabok, a kortárs drámák és a nagyzenekari musicalek rajongója.<br>Minden hónapban legalább két új előadás a nézőtérről.</p><p class="profile-social"><strong>148</strong> követő &nbsp; <strong>92</strong> követés &nbsp; <strong>2</strong> nyilvános lista</p><span class="sample-label">Mintaadatok</span></div><div class="summary-actions"><a class="btn account-primary" href="#naplo" id="new-evening">＋ Új színházi este</a><a class="btn btn-outline" href="#beallitasok">✎ Profil szerkesztése</a><button class="btn btn-outline profile-logout-nav" id="profile-logout" type="button">Kijelentkezés</button></div>
+      </div>
+      <div class="profile-stats">
+        <a href="#naplo"><span>Megnézett előadás</span><strong id="stat-seen">0</strong><small>Összesen rögzítve</small></a>
+        <a href="#naplo"><span>2026-os évad</span><strong id="stat-year">0</strong><small>Színházi este idén</small></a>
+        <a href="#ertekelesek"><span>Saját átlagpont</span><strong id="stat-average">–</strong><small>10-es skálán</small></a>
+        <a href="#ertekelesek"><span>Írt kritikák</span><strong id="stat-reviews">0</strong><small>Közösségi vélemény</small></a>
+        <span id="stat-saved" hidden>0</span>
+      </div>
+    </section>
+    <div class="profile-layout">
+      <aside class="card profile-sidebar">
+        <p class="profile-sidebar-title">Saját TapsPontom</p>
+        <nav aria-label="Profilmenü">
+          <a href="#naplo" data-profile-section="naplo">Színházi napló <span>(0)</span></a>
+          <a href="#mentettek" data-profile-section="mentettek">Bakancslista <span>(0)</span></a>
+          <a href="#jegyzetek" data-profile-section="jegyzetek">Saját listák <span>(0)</span></a>
+          <a href="#ertekelesek" data-profile-section="ertekelesek">Értékeléseim <span>(0)</span></a>
+        </nav>
+      </aside>
+
+      <div class="profile-body">
+        <section id="profile-overview" aria-labelledby="profile-title">
+          <div class="dashboard-grid">
+            <div class="dashboard-main">
+              <section class="dashboard-panel"><div class="dashboard-heading"><div><h2>Kedvenc 4 előadás &amp; 3 színész</h2><p>Legkedvesebb színházi élményeim, szívből kiválasztva</p></div><a class="dashboard-outline" href="#mentettek">✎ Kedvencek szerkesztése</a></div><div id="dashboard-favorites" class="dashboard-favorites"></div><p id="dashboard-favorites-empty" class="dashboard-empty">Még nincs mentett előadásod.</p><div id="sample-actors" class="sample-actors" hidden><span><i>W</i><b>Wunderlich József<small>Vígszínház</small></b></span><span><i>T</i><b>Trill Zsolt<small>Nemzeti Színház társulata</small></b></span><span><i>M</i><b>Mácsai Pál<small>Örkény Színház társulata</small></b></span></div></section>
+              <section class="dashboard-panel"><div class="dashboard-heading"><h2>Legutóbbi színházi esték</h2><a href="#naplo">Teljes napló</a></div><ul class="profile-list" id="profile-activity"></ul><p class="dashboard-empty" id="activity-empty">A naplózott előadásaid itt jelennek meg.</p></section>
+            </div>
+            <div class="dashboard-side"><section class="dashboard-panel"><div class="dashboard-heading"><h2>2026-os színházi kihívás</h2><span class="challenge-badge">75% teljesítve</span></div><div class="challenge-box"><div><p class="dashboard-year"><strong id="dashboard-year">0</strong> / 24 előadás</p><span>Még 6 este van hátra</span></div><div class="challenge-progress"><span></span></div><div class="challenge-controls"><span>Teljesítve: <b>−</b> <b>＋</b></span><span>Éves cél: <b>−</b> <b>＋</b></span></div></div></section>
+              <section class="dashboard-panel"><div class="dashboard-heading"><h2>Ízlésprofil &amp; ponteloszlás</h2></div><p class="dashboard-empty">Saját értékeléseid eloszlása (10-es skálán)</p><div class="rating-chart" id="rating-chart" aria-label="Értékelések eloszlása"></div><p class="dashboard-empty" id="rating-empty">Még nincs értékelésed.</p><div id="sample-genres" class="sample-genres" hidden><p>Kedvenc műfajok aránya</p><div><span>Zenés és prózai játék</span><span>44% (8 este)</span></div><div><span>Kortárs és klasszikus dráma</span><span>28% (5 este)</span></div><div><span>Klasszikus vígjáték</span><span>17% (3 este)</span></div><div><span>Történelmi tragédia</span><span>11% (2 este)</span></div></div></section></div>
+          </div>
+        </section>
+
+        <section id="profile-entries" aria-labelledby="profile-title" hidden>
+          <div class="profile-actions"><button class="btn account-primary" id="add-entry" type="button"></button></div>
+          <ul class="profile-list" id="entry-list"></ul>
+          <p class="profile-empty muted" id="entry-empty"></p>
+        </section>
+
+        <section class="card profile-settings" id="profile-settings" aria-labelledby="profile-title" hidden>
+          <h2 class="profile-settings-title">Beállítások</h2>
+          <div class="profile-identity">
+            <div class="icon-button profile" data-profile-avatar aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg></div>
+            <div><p class="muted">Felhasználónév</p><h2 id="profile-name"></h2></div>
+          </div>
+          <div class="profile-actions">
+            <label class="picture-picker">
+              <input class="sr-only" type="file" id="profile-picture" accept="image/png,image/jpeg,image/webp">
+              <span class="btn btn-outline">Profilkép kiválasztása</span>
+            </label>
+          </div>
+          <p class="muted" id="picture-status" role="status" hidden></p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <dialog class="card profile-dialog" id="entry-dialog" aria-labelledby="entry-title">
+    <h2 id="entry-title"></h2>
+    <form class="account-form" id="entry-form">
+      <div class="field">
+        <label for="entry-name" id="entry-name-label"></label>
+        <input id="entry-name" required maxlength="160">
+      </div>
+      <div class="field" id="entry-date-field" hidden>
+        <label for="entry-date">Megtekintés dátuma</label>
+        <input id="entry-date" type="date">
+      </div>
+      <div class="field" id="entry-rating-field" hidden>
+        <label for="entry-rating">Értékelés 1-től 10-ig</label>
+        <input id="entry-rating" type="number" min="1" max="10" step="1">
+      </div>
+      <div class="field" id="entry-text-field" hidden>
+        <label for="entry-text" id="entry-text-label"></label>
+        <textarea id="entry-text" rows="4" maxlength="2000"></textarea>
+      </div>
+      <p class="error" id="entry-error" role="alert" hidden></p>
+      <div class="profile-actions">
+        <button class="btn btn-outline" type="button" id="cancel-entry">Mégse</button>
+        <button class="btn account-primary" type="submit">Mentés</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="card" id="profile-info" aria-labelledby="info-title">
+    <h2 id="info-title"></h2>
+    <p>Az oldal tartalma készül.</p>
+    <form method="dialog"><button class="btn btn-outline">Bezárás</button></form>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-nav" aria-label="Lábléc">
+        <a class="brand" href="index.html#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <div><strong>TapsPont</strong><a href="#rolunk" data-info="Rólunk">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
+      </nav>
+      <p class="copyright">© TapsPont</p>
+    </div>
+  </footer>
+  <script src="profil.js"></script>
+  <script src="belepes.js"></script>
+  <script src="katalogus.js"></script>
+  <script src="kozos-fejlec.js"></script>
+  <script src="profil-oldal.js"></script>
+  <script src="csillagok.js"></script>
+</body>
+</html>

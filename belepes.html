@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-client-id" content="">
+  <title>Regisztráció · TapsPont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:wght@700&amp;display=swap">
+  <link rel="stylesheet" href="tapspont.css">
+  <link rel="stylesheet" href="kozos-fejlec.css">
+  <style>
+    [hidden] { display: none !important; }
+    .account-page { display: flex; flex-direction: column; min-height: 100svh; }
+    .account-main { max-width: 492px; padding-block: clamp(28px, 4vw, 44px) clamp(52px, 7vw, 96px); }
+    .account-intro { display: grid; justify-items: center; gap: 10px; margin-bottom: 20px; text-align: center; }
+    .account-heading { font-size: clamp(34px, 5vw, 46px); }
+    .account-avatar { width: 60px; height: 60px; color: var(--red); background: transparent; }
+    .account-avatar .icon { width: 29px; height: 29px; }
+    .account-heading:focus { outline-offset: 6px; }
+    .account-page .site-footer { margin-top: auto; }
+
+    .account-card { padding: clamp(18px, 4vw, 26px); background: var(--white); }
+    .actions, .legal { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+    .legal, .help, .demo-note { font-size: 13px; }
+    .legal, .demo-note { color: var(--muted); }
+    .legal a { text-decoration: underline; text-underline-offset: .2em; }
+    .demo-note { margin-top: 14px; }
+    .account-success { text-align: center; overflow-wrap: anywhere; }
+    .account-success-actions { margin-top: 16px; }
+    .account-divider { display: flex; gap: 12px; align-items: center; margin-block: 18px 12px; color: var(--muted); font-size: 13px; }
+    .account-divider::before, .account-divider::after { content: ""; flex: 1; border-top: 1px solid var(--border); }
+    .google-button { display: flex; width: 100%; min-height: 44px; gap: 10px; align-items: center; justify-content: center; padding: 8px 12px; border: 1px solid #747775; border-radius: 999px; background: #fff; color: #1f1f1f; font: 500 14px/1.4 "Google Sans", Arial, sans-serif; }
+    .google-button:hover { background: #f7f8f8; }
+    .google-button:disabled { cursor: wait; }
+    #google-error { margin-top: 10px; }
+  </style>
+  <link rel="stylesheet" href="mobil.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>
+    </symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24">
+      <path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/>
+    </symbol>
+  </svg>
+  <div class="account-page">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <form class="search" action="index.html" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+          <a href="index.html#toplistak">Toplisták</a>
+        </nav>
+        <a href="profil.html" class="icon-button profile" data-profile-avatar aria-label="Profil"><svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg></a>
+      </div>
+    </header>
+
+    <main class="wrap account-main">
+      <div class="account-intro">
+        <div class="icon-button account-avatar" data-profile-avatar aria-hidden="true">
+          <svg class="icon"><use href="#icon-user"/></svg>
+        </div>
+        <h1 class="account-heading" id="account-heading" tabindex="-1">Regisztráció</h1>
+      </div>
+
+      <div class="card account-card">
+        <form class="account-form" id="login-form" method="post" novalidate hidden>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" autocomplete="username" maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <div class="actions account-submit">
+            <button class="btn account-primary" type="submit">Bejelentkezés</button>
+            <button class="btn btn-outline" type="button" data-view="register" aria-controls="register-form">Regisztráció</button>
+          </div>
+        </form>
+
+        <form class="account-form" id="register-form" method="post" novalidate>
+          <div class="field">
+            <label for="register-username">Felhasználónév</label>
+            <input id="register-username" type="text" autocomplete="username" maxlength="40" required aria-describedby="register-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="register-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="register-email">E-mail-cím</label>
+            <input id="register-email" type="email" autocomplete="email" maxlength="254" required aria-describedby="register-email-error">
+            <p class="error" id="register-email-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="register-password">Jelszó</label>
+            <div class="password-control">
+              <input id="register-password" type="password" autocomplete="new-password" maxlength="128" required aria-describedby="register-password-error register-password-hint">
+              <button type="button" class="icon-button password-toggle" aria-controls="register-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="help muted" id="register-password-hint">Legalább 8 karakter.</p>
+            <p class="error" id="register-password-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="confirm-password">Jelszó megerősítése</label>
+            <div class="password-control">
+              <input id="confirm-password" type="password" autocomplete="new-password" maxlength="128" required aria-describedby="confirm-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="confirm-password" aria-label="Jelszó megerősítése megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="confirm-password-error" hidden></p>
+          </div>
+          <label class="checkbox"><input id="register-remember" type="checkbox">Emlékezz rám</label>
+          <div class="field">
+            <label class="checkbox"><input id="age" type="checkbox" required aria-describedby="age-error">Megerősítem, hogy elmúltam 18 éves.</label>
+            <p class="error" id="age-error" hidden></p>
+          </div>
+          <div class="legal">
+            <a href="index.html#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a>
+            <a href="index.html#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a>
+          </div>
+          <p class="error" id="register-error" role="alert" hidden></p>
+          <div class="actions account-submit">
+            <button class="btn account-primary" type="submit">Regisztráció</button>
+            <button class="btn btn-outline" type="button" data-view="login" aria-controls="login-form">Bejelentkezés</button>
+          </div>
+        </form>
+
+        <div id="google-option">
+          <p class="account-divider">vagy</p>
+          <button type="button" class="google-button" id="google-button">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="18" height="18">
+            Regisztráció Google-fiókkal
+          </button>
+          <p class="error" id="google-error" role="alert" hidden></p>
+        </div>
+
+        <section class="account-success" id="registration-success" aria-labelledby="account-heading" hidden>
+          <p id="registration-message"></p>
+          <div class="account-submit account-success-actions">
+            <a class="btn btn-outline" href="profil.html">Profilom</a>
+            <a class="btn btn-outline" href="index.html#felfedezes">Vissza a főoldalra</a>
+            <button class="btn btn-outline" id="registration-logout" type="button">Kijelentkezés</button>
+          </div>
+        </section>
+      </div>
+
+      <p class="demo-note">Helyi előnézet. Használj próbaadatokat. A jelszavas próbafiók az aktuális böngészőfülön használható.</p>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <nav class="footer-nav" aria-label="Lábléc">
+          <a class="brand" href="index.html#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+          <div><strong>TapsPont</strong><a href="index.html#rolunk" data-info="Rólunk">Rólunk</a></div>
+          <div><strong>Segítség</strong><a href="index.html#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="index.html#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
+          <div><strong>Jogi információk</strong><a href="index.html#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="index.html#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
+        </nav>
+        <p class="copyright">© TapsPont</p>
+      </div>
+    </footer>
+  </div>
+
+  <dialog class="card" aria-labelledby="info-title">
+    <h2 id="info-title"></h2>
+    <p>Az oldal tartalma készül.</p>
+    <form method="dialog" class="actions"><button class="btn btn-outline">Bezárás</button></form>
+  </dialog>
+  <script src="profil.js"></script>
+  <script src="belepes.js"></script>
+  <script src="katalogus.js"></script>
+  <script src="kozos-fejlec.js"></script>
+  <script src="csillagok.js"></script>
+</body>
+</html>

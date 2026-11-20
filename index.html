@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TapsPont</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="tapspont.css">
+  <style>
+    .frame { background: var(--placeholder); border: 1px solid var(--border); border-radius: 21px; }
+    .frame:has(img) { overflow: hidden; }
+    .frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .rank-picture img, .hero-media .frame img { position: absolute; inset: 0; }
+    .logo-frame { background: #fff; }
+    .logo-frame img { object-fit: contain; padding: 12%; }
+    .hero { width: min(1300px, calc(100% - 64px)); padding: clamp(28px, 4.6vw, 66px) 0 clamp(44px, 5vw, 68px); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(380px, 1fr); gap: clamp(54px, 7vw, 98px); align-items: start; }
+    @media (min-width: 1260px) {
+      .hero-grid { padding-right: 72px; }
+    }
+    .hero-media { position: relative; }
+    .hero-media .frame { position: relative; aspect-ratio: 1.74; background: #e1d8cf; border: 0; border-radius: 24px; }
+    .hero-controls { position: absolute; z-index: 1; right: 0; bottom: -28px; transform: translateX(50%); display: grid; width: clamp(54px, 6vw, 86px); border-radius: 999px; overflow: hidden; background: var(--red); }
+    .hero-controls button { display: grid; place-items: center; min-height: clamp(44px, 6vw, 73px); padding: 0; border: 0; background: transparent; color: white; }
+    .hero-controls button:is(:hover, :focus-visible) { background: #0002; }
+    .hero-controls button:focus-visible { outline-offset: -5px; outline-color: white; }
+    .feature { display: flex; align-items: flex-start; flex-direction: column; text-align: left; }
+    .feature-copy-stack { display: grid; width: 100%; }
+    .feature-copy { grid-area: 1 / 1; visibility: hidden; }
+    .feature-copy[data-active] { visibility: visible; }
+    .feature-label { color: var(--red); font-size: 15px; font-weight: 400; text-transform: uppercase; }
+    .feature h1 { margin: 10px 0 16px; font: 700 80px/.98 var(--serif); overflow-wrap: anywhere; }
+    .feature h1 span { display: block; color: var(--red); }
+    .feature-date { margin-top: 4px; font-size: 21px; }
+    .feature-author { margin: 18px 0 12px; font-size: 17px; }
+    .feature .btn { margin-top: 22px; }
+    main > .block { border-top: 2px solid var(--rule); padding-top: 66px; margin-top: 126px; }
+    main > .block:first-child { margin-top: 0; padding-top: 34px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+    .section-head h2 { color: var(--red); font: 700 30px/1.15 var(--mono); }
+    .rankings .section-head { margin-bottom: 8px; }
+    .ranking-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
+    .ranking-note { font: 300 15px/1.4 "Overpass", sans-serif; }
+    .rank-controls { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .rank-controls .btn { min-height: 38px; padding-inline: 18px; color: #30262B; background: transparent; font-size: 15px; }
+    .rank-controls .btn:hover { background: #f9dce1; }
+    .rank-controls .btn[aria-pressed="true"] { background: var(--red); color: #fff; }
+    .rank-carousel, .premiere-carousel { --visible-slides: 4; --slide-gap: 24px; --slide-size: calc((100cqi - 3 * var(--slide-gap)) / 4); }
+    .rank-list { list-style: none; padding: 0; }
+    .listing-card { flex: 0 0 var(--slide-size); display: flex; flex-direction: column; min-width: 0; min-height: calc(var(--slide-size) * 4 / 3 + 230px); border-radius: var(--card-radius); background: var(--white); overflow: hidden; overflow-wrap: anywhere; }
+    .rank-cover { position: relative; width: 100%; aspect-ratio: 3 / 4; }
+    .rank-picture { position: absolute; inset: 0; overflow: hidden; border: 0; border-radius: var(--card-radius); }
+    .rank-picture.logo-frame img { bottom: auto; height: 72%; padding: 12%; }
+    .rank-card .order { position: absolute; bottom: 0; left: 0; display: grid; align-items: end; min-width: 92px; height: 90px; padding-inline: 12px; border-radius: 0 var(--card-radius) 0 0; background: var(--white); color: var(--red); font: 300 90px/1 var(--mono); }
+    .rank-card .order-value { text-box: trim-both cap alphabetic; }
+    @supports not (text-box: trim-both cap alphabetic) {
+      .rank-card .order-value { transform: translateY(.22em); }
+    }
+    .listing-data { display: flex; flex-direction: column; flex: 1; gap: 4px; padding: 12px 17px 20px; }
+    .listing-title { margin: 0 0 10px; font: 700 25px/1.12 var(--serif); }
+    .listing-primary { color: var(--red); font: 700 15px/1.35 var(--mono); }
+    .listing-secondary { color: var(--muted); font: 500 14px/1.4 var(--mono); }
+    .listing-category { margin-top: auto; padding-top: 19px; color: var(--muted); font: 700 12px/1.3 var(--mono); text-transform: uppercase; }
+    .review strong { font-size: 17px; line-height: 1.2; display: block; }
+    .rank-card { min-height: 0; }
+    .rank-card .rank-cover { aspect-ratio: 1; }
+    .rank-card .listing-data { flex: none; padding-bottom: 16px; }
+    .rank-card .listing-category { margin-top: 4px; padding-top: 0; }
+    .rank-card .listing-secondary:empty { display: none; }
+    .rank-carousel, .premiere-carousel { position: relative; }
+    .side-navigation button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; border: 0; background: transparent; color: var(--red); }
+    .side-navigation .icon { width: 32px; height: 32px; }
+    .side-navigation button:hover { color: var(--ink); }
+    .side-navigation [data-slide="-1"] { right: calc(100% + 12px); }
+    .side-navigation [data-slide="1"] { left: calc(100% + 12px); }
+    @media (max-width: 1340px) {
+      .rank-carousel, .premiere-carousel { padding-inline: 48px; }
+      .side-navigation [data-slide="-1"] { left: 0; right: auto; }
+      .side-navigation [data-slide="1"] { right: 0; left: auto; }
+      .side-navigation button { width: 36px; height: 36px; }
+    }
+    .review-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .review { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 20px; min-height: 128px; padding: 20px; }
+    .review-avatar { width: clamp(42px, 5vw, 68px); aspect-ratio: 1; border-radius: 50%; }
+    .review blockquote { margin: 0 0 16px; color: var(--ink); font: 700 25px/1.25 var(--serif); }
+    .review strong { margin-bottom: 4px; }
+    .review .text-link { display: inline-block; margin-top: 8px; }
+    .review-more { display: flex; justify-content: center; margin-top: 20px; }
+    .review-more[hidden] { display: none; }
+
+    .premiere .listing-title { margin: 0 0 2px; font: 700 21px/1.2 var(--serif); }
+    .topic-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 264px)); justify-content: center; gap: clamp(12px, 2vw, 28px); }
+    .topic-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; aspect-ratio: 1; padding: clamp(16px, 2.1vw, 28px) clamp(16px, 2.4vw, 32px); border-radius: 22px; background: var(--white); }
+    .topic-tile:is(:hover, :focus-visible) { border-color: var(--red); text-decoration: none; }
+    .topic-tile .topic-icon { flex: 0 0 auto; width: clamp(66px, 8vw, 110px); aspect-ratio: 1; object-fit: contain; filter: url(#topic-icon-red); }
+    .topic-tile-label { text-align: center; font: 700 clamp(18px, 2vw, 24px)/1.2 var(--serif); }
+    .topic-tile-description { align-self: stretch; color: var(--muted); font: 400 clamp(12px, 1.25vw, 14px)/1.4 var(--mono); }
+    .topic-tile .topic-arrow { position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; color: var(--red); }
+    .filter-menu { position: fixed; inset: 0; margin: auto; width: min(490px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--paper); color: var(--ink); box-shadow: 0 10px 36px #30262b33; }
+    .filter-menu::backdrop { background: #30262b45; }
+    .filter-menu h2 { margin-bottom: 16px; color: var(--red); font: 700 23px/1.2 var(--mono); }
+    .filter-menu fieldset { margin: 0 0 15px; padding: 0; border: 0; }
+    .filter-menu legend { padding: 0; margin-bottom: 8px; font-weight: 700; }
+    .filter-options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-options label { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+    .filter-menu input[type="radio"] { accent-color: var(--red); }
+    .filter-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .filter-fields label { display: grid; gap: 5px; font-size: 13px; }
+    .filter-fields :is(select, input) { min-width: 0; width: 100%; padding: 8px; font: inherit; border: 1px solid var(--border); border-radius: 8px; background: var(--white); }
+    .filter-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+    .slide-viewport { container-type: inline-size; overflow: hidden; }
+    .slide-track { display: flex; gap: var(--slide-gap); }
+    .premiere { min-height: 0; }
+    .premiere .frame { width: 100%; aspect-ratio: 4 / 5; border: 0; border-radius: 0; }
+    .premiere .listing-data { gap: 0; padding: 13px; }
+    .premiere :is(.listing-primary, .listing-secondary, .listing-category) { font: 400 14px/1.4 var(--mono); }
+    .premiere .listing-category { margin-top: 0; padding-top: 0; text-transform: none; }
+    .entry-list { list-style: none; margin: 0; padding: 0; }
+    .entry-list li { display: grid; grid-template-columns: 68px minmax(0, 1fr); align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+    .entry-list .frame { height: 56px; border-radius: 10px; }
+    .entry-list .muted { display: block; }
+    @media (max-width: 960px) {
+      .rank-carousel, .premiere-carousel { --visible-slides: 2; --slide-gap: 16px; --slide-size: calc((100cqi - var(--slide-gap)) / 2); }
+      .rank-carousel { padding-inline: 0; }
+      .rank-carousel .side-navigation { display: none; }
+      .rank-carousel .slide-viewport { overflow-x: auto; scroll-snap-type: x mandatory; }
+      .rank-card { scroll-snap-align: start; }
+    }
+    @media (max-width: 800px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+      .hero-controls { right: 16px; transform: none; }
+    }
+    @media (max-width: 540px) {
+      .hero { padding-top: 22px; }
+      .section-head { flex-wrap: wrap; }
+      .rank-carousel, .premiere-carousel { --visible-slides: 1; --slide-size: 100cqi; }
+      .rank-controls .btn { padding-inline: 11px; }
+      .review-grid { grid-template-columns: 1fr; gap: 14px; }
+      .premiere-carousel { padding-inline: 38px; }
+      .premiere-carousel .side-navigation button { width: 32px; height: 32px; }
+    }
+    @media (max-width: 660px) {
+      .topic-tiles { grid-template-columns: repeat(2, minmax(0, 264px)); }
+    }
+    @media (max-width: 440px) {
+      .topic-tiles { grid-template-columns: minmax(0, 264px); }
+    }
+  </style>
+  <link rel="stylesheet" href="fooldal-finomitas.css">
+  <link rel="stylesheet" href="mobil.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <filter id="topic-icon-red" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.224 -.752 -.076 0 1" result="ink-mask"/>
+      <feComposite in="ink-mask" in2="SourceAlpha" operator="in" result="clipped-ink"/>
+      <feFlood flood-color="var(--red)" result="brand-color"/>
+      <feComposite in="brand-color" in2="clipped-ink" operator="in"/>
+    </filter>
+    <filter id="topic-icon-white" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -.224 -.752 -.076 0 1" result="ink-mask"/>
+      <feComposite in="ink-mask" in2="SourceAlpha" operator="in" result="clipped-ink"/>
+      <feFlood flood-color="var(--white)" result="brand-color"/>
+      <feComposite in="brand-color" in2="clipped-ink" operator="in"/>
+    </filter>
+    <symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>
+    </symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24">
+      <path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/>
+    </symbol>
+    <symbol id="icon-prev" viewBox="0 0 24 24"><path d="m14.5 5-6 7 6 7"/></symbol>
+    <symbol id="icon-next" viewBox="0 0 24 24"><path d="m9.5 5 6 7-6 7"/></symbol>
+    <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol>
+  </svg>
+  <div class="top" id="felfedezes">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <form class="search" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+          <a href="#toplistak">Toplisták</a>
+        </nav>
+        <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
+                popovertarget="login-popover" aria-label="Profil / Belépés">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg>
+        </button>
+      </div>
+      <section class="card login-popover" id="login-popover" popover aria-labelledby="login-popover-title">
+        <h2 id="login-popover-title">Bejelentkezés</h2>
+        <form class="account-form" id="login-form" method="post" novalidate>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" name="username" autocomplete="username" maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" name="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <button type="button" class="password-help" id="password-help" aria-controls="password-help-message">Elfelejtetted a jelszavad?</button>
+          <p class="error" id="password-help-message" role="status" hidden></p>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <button class="btn account-primary" type="submit">Bejelentkezés</button>
+        </form>
+        <div class="login-register">
+          <p>Még nincs fiókod?</p>
+          <a class="btn btn-outline" href="belepes.html">Regisztrálok</a>
+        </div>
+      </section>
+    </header>
+
+    <section class="hero wrap" aria-label="Új előadások">
+      <div class="hero-grid">
+        <div class="hero-media">
+          <div class="frame" id="featured-image">
+            <span class="hero-venue" id="featured-venue"><span class="hero-venue-name"></span></span>
+            <div class="hero-date"><span>Következő előadás</span><p id="featured-date"></p></div>
+          </div>
+          <div class="hero-controls" role="group" aria-label="Új előadások lapozása">
+            <button type="button" id="next" aria-label="Következő új előadás"><svg class="icon" aria-hidden="true"><use href="#icon-next"/></svg></button>
+            <button type="button" id="previous" aria-label="Előző új előadás"><svg class="icon" aria-hidden="true"><use href="#icon-prev"/></svg></button>
+          </div>
+        </div>
+        <article class="feature">
+          <div class="feature-copy-stack"></div>
+          <div class="feature-actions">
+            <a class="btn btn-outline" id="featured-detail">Részletek</a>
+            <a class="btn rating-pill" id="featured-rating"><span aria-hidden="true">★</span> <span class="rating-value">—</span> <span class="rating-count">Értékelések</span></a>
+          </div>
+        </article>
+      </div>
+      <output class="sr-only" id="slide-position" aria-label="Új előadás sorszáma">01 / 03</output>
+    </section>
+  </div>
+
+  <main class="wrap">
+    <section class="block rankings" id="toplistak">
+        <div class="ranking-meta"><p class="section-subtitle">Nézői sorrend alapján</p></div>
+        <div class="section-head ranking-heading"><h2>Népszerű</h2>
+        <div class="ranking-tools">
+          <div class="rank-controls" role="group" aria-label="Toplista kategóriája">
+          <button type="button" class="btn" aria-pressed="true">Színdarabok</button>
+          <button type="button" class="btn" aria-pressed="false">Színházak</button>
+          </div>
+        </div>
+        </div>
+        <div class="rank-carousel" data-carousel="manual" role="group" aria-label="Népszerű találatok">
+          <div class="slide-viewport"><ol class="rank-list slide-track"></ol></div>
+          <div class="side-navigation">
+            <button type="button" class="icon-button arrow" data-slide="-1" aria-label="Előző helyezett"><svg class="icon" aria-hidden="true"><use href="#icon-prev"/></svg></button>
+            <button type="button" class="icon-button arrow" data-slide="1" aria-label="Következő helyezett"><svg class="icon" aria-hidden="true"><use href="#icon-next"/></svg></button>
+          </div>
+        </div>
+    </section>
+
+    <nav class="block topic-tiles" aria-label="Színházi témák">
+      <div class="topic-heading"><p class="section-subtitle">Válassz kategóriát</p><h2>Teljes katalógus böngészése</h2></div>
+      <a class="card topic-tile" href="temak.html?tema=szineszek">
+        <span class="topic-icon-wrap"><img class="topic-icon" src="topic-icons/actors.png" alt=""></span>
+        <span class="topic-tile-label">Színészek</span>
+        <span class="topic-tile-description">Ismerd meg a színpad arcait, emlékezetes alakításaikat és az előadásokat, amelyekben találkozhatsz velük.</span>
+        <svg class="icon topic-arrow" aria-hidden="true"><use href="#icon-next"/></svg>
+      </a>
+      <a class="card topic-tile" href="temak.html?tema=szinhazak">
+        <span class="topic-icon-wrap"><img class="topic-icon" src="topic-icons/theatres.png" alt=""></span>
+        <span class="topic-tile-label">Színházak</span>
+        <span class="topic-tile-description">Fedezd fel a színházakat és játszóhelyeiket. Böngéssz a műsoron lévő előadások között, és találd meg a következő színházi estéd helyszínét.</span>
+        <svg class="icon topic-arrow" aria-hidden="true"><use href="#icon-next"/></svg>
+      </a>
+      <a class="card topic-tile" href="temak.html?tema=szindarabok">
+        <span class="topic-icon-wrap"><img class="topic-icon" src="topic-icons/plays.png" alt=""></span>
+        <span class="topic-tile-label">Színdarabok</span>
+        <span class="topic-tile-description">Klasszikus történetek és új felfedezések: ismerd meg a műveket, alkotóikat és különböző színpadi feldolgozásaikat.</span>
+        <svg class="icon topic-arrow" aria-hidden="true"><use href="#icon-next"/></svg>
+      </a>
+    </nav>
+
+    <section class="block" id="bemutatok">
+      <div class="premiere-heading"><p class="section-subtitle">Új bemutatók az évadban</p><div class="section-head"><h2>Hamarosan érkezik</h2><a class="btn btn-outline" href="#bemutatok" data-list="Bemutatók">Összes bemutató</a></div></div>
+      <div class="premiere-carousel" data-carousel role="group" aria-label="Bemutatók lapozása">
+        <div class="slide-viewport"><div class="premiere-grid slide-track"></div></div>
+        <div class="side-navigation">
+          <button type="button" class="icon-button arrow" data-slide="-1" aria-label="Előző bemutató"><svg class="icon" aria-hidden="true"><use href="#icon-prev"/></svg></button>
+          <button type="button" class="icon-button arrow" data-slide="1" aria-label="Következő bemutató"><svg class="icon" aria-hidden="true"><use href="#icon-next"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="velemenyek">
+      <p class="section-subtitle">Legfrissebb vélemények</p><div class="section-head"><h2>Önök mondták</h2></div>
+      <div class="review-grid" id="recent-review-list"></div>
+      <div class="review-more">
+        <button type="button" class="btn btn-outline" aria-controls="recent-review-list">További vélemények</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-nav" aria-label="Lábléc">
+        <a class="brand" href="#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <div><strong>TapsPont</strong><a href="#rolunk" data-info="Rólunk">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
+      </nav>
+      <p class="copyright">© TapsPont</p>
+    </div>
+  </footer>
+
+  <dialog class="card" aria-labelledby="panel-title">
+    <h2 id="panel-title"></h2>
+    <div id="panel-content"></div>
+    <form method="dialog"><button class="btn">Bezárás</button></form>
+  </dialog>
+
+  <template id="review-template">
+    <article class="card review">
+      <header class="review-head">
+        <div><p class="review-venue"></p><h3 class="review-title"></h3><p class="muted review-kind"></p></div>
+        <span class="review-score" aria-label="Még nincs pontszám">—</span>
+      </header>
+      <blockquote></blockquote>
+      <footer class="review-foot"><span class="review-byline"><span class="review-source muted">Nézői vélemény</span><time class="review-date muted"></time></span><a class="text-link">TOVÁBB</a></footer>
+    </article>
+  </template>
+  <template id="feature-copy-template">
+    <div class="feature-copy">
+      <p class="feature-label"><span aria-hidden="true">★</span> Új előadások</p>
+      <h1></h1>
+      <p class="muted feature-meta"></p>
+      <p class="feature-author"></p>
+      <p class="muted feature-director"></p>
+    </div>
+  </template>
+  <template id="rank-template">
+    <li class="rank-card listing-card">
+      <div class="rank-cover"><div class="frame rank-picture"></div><span class="order"><span class="order-value"></span></span><span class="rank-rating" aria-label="Még nincs összesített értékelés"><span aria-hidden="true">★</span> <span class="rating-value">—</span></span></div>
+      <div class="listing-data">
+        <h3 class="listing-title"><a></a></h3>
+        <div class="listing-address"><p class="listing-primary"></p><p class="listing-secondary"></p></div>
+        <div class="listing-foot"><p class="listing-category"></p><a class="listing-detail text-link">RÉSZLETEK</a></div>
+      </div>
+    </li>
+  </template>
+  <template id="premiere-template">
+    <article class="premiere listing-card">
+      <div class="premiere-cover"><div class="frame" aria-hidden="true"></div><time class="premiere-date"></time></div>
+      <div class="listing-data">
+        <p class="listing-primary"></p>
+        <h3 class="listing-title"><a></a></h3>
+        <p class="listing-secondary"></p>
+        <div class="listing-foot"><p class="premiere-director"></p></div>
+      </div>
+    </article>
+  </template>
+
+  <script src="profil.js"></script>
+  <script src="belepes.js"></script>
+  <script src="kereso.js"></script>
+  <script src="katalogus.js"></script>
+  <script>
+    const categories = {
+      Előadások: productions.map(entry => ({ ...entry, meta: entry.venue + ' · ' + entry.kind })),
+      Színdarabok: workRecords,
+      Színházak: theatreRecords,
+      Színészek: artistRecords,
+      Bemutatók: premieres,
+    };
+    const localDateTime = new Intl.DateTimeFormat('hu-HU', {
+      dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Budapest'
+    });
+    const localDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Budapest' });
+    const searchCategories = {
+      works: workRecords,
+      productions: [...categories.Előadások, ...premieres],
+      theatres: theatreRecords,
+      artists: artistRecords,
+      venues: venues.map(entry =>
+        entry.title.endsWith(' · Kamra') ? { ...entry, title: 'Kamra', meta: entry.title + ' · ' + entry.meta } : entry
+      ),
+      sessions: [
+        ...productions.filter(entry => entry.next).map(entry => {
+          const date = new Date(entry.next);
+          return { ...entry, meta: entry.venue, date: localDate.format(date), displayDate: localDateTime.format(date) };
+        }),
+        ...premieres,
+      ],
+    };
+    const dialog = document.querySelector('dialog');
+    const panelContent = document.querySelector('#panel-content');
+    const rankButtons = Array.from(document.querySelectorAll('.rank-controls button'));
+    const rankingCount = 10;
+    const featured = ['pal', 'mamma', 'fair'].map(id => productions.find(entry => entry.id === id));
+    const featuredCounts = Object.fromEntries(featured.map(entry => [entry.id, Math.floor(Math.random() * 700) + 100]));
+    const rankTrack = document.querySelector('.rank-list');
+    const rankings = Object.fromEntries(rankButtons.map(({ textContent: category }) => {
+      const entries = [...categories[category]];
+      for (let index = entries.length - 1; index > 0; index--) {
+        const other = Math.floor(Math.random() * (index + 1));
+        [entries[index], entries[other]] = [entries[other], entries[index]];
+      }
+      return [category, entries.slice(0, rankingCount)];
+    }));
+    let activeRank = rankButtons[0].textContent;
+    const compactRanking = window.matchMedia('(max-width: 960px)');
+    let slide = 0;
+
+    function openPanel(title, ...content) {
+      document.querySelector('#panel-title').textContent = title;
+      panelContent.replaceChildren(...content);
+      dialog.showModal();
+    }
+
+    function setImage(frame, entry, { alt = '', featuredImage = false } = {}) {
+      frame.querySelector(':scope > img')?.remove();
+      const photo = featuredImage && entry.hero ? entry.hero : entry.image;
+      const source = photo || entry.logo;
+      frame.classList.toggle('logo-frame', !photo && Boolean(entry.logo));
+      if (!source) return;
+      const image = document.createElement('img');
+      image.alt = alt;
+      image.loading = featuredImage ? 'eager' : 'lazy';
+      image.decoding = 'async';
+      if (entry.credit) image.title = 'Fotó · ' + entry.credit;
+      image.addEventListener('error', () => image.remove(), { once: true });
+      image.src = source;
+      frame.prepend(image);
+    }
+
+    function setLink(link, entry) {
+      link.textContent = entry.title;
+      link.href = entry.detail || entry.url;
+    }
+
+    function fillListing(card, entry, { primary, secondary, category }) {
+      setLink(card.querySelector('.listing-title a'), entry);
+      card.querySelector('.listing-primary').textContent = primary;
+      card.querySelector('.listing-secondary').textContent = secondary;
+      card.querySelector('.listing-category').textContent = category;
+    }
+
+    function syncSlideLinks(track) {
+      const count = Number(getComputedStyle(track).getPropertyValue('--visible-slides').trim() || 3);
+      const scrollableRank = track === rankTrack && compactRanking.matches;
+      for (const [index, card] of Array.from(track.children).entries()) card.inert = !scrollableRank && index >= count;
+    }
+
+    function renderRankings(category) {
+      activeRank = category;
+      for (const button of rankButtons) {
+        const selected = button.textContent === category;
+        button.setAttribute('aria-pressed', selected);
+      }
+      const template = document.querySelector('#rank-template');
+      rankTrack.replaceChildren(...rankings[category].map((entry, index) => {
+        const card = template.content.cloneNode(true);
+        card.querySelector('li').value = index + 1;
+        card.querySelector('li').classList.toggle('is-theatre', category === 'Színházak');
+        card.querySelector('.order-value').textContent = index + 1;
+        setImage(card.querySelector('.rank-picture'), entry, { alt: entry.imageAlt });
+        if (category === 'Színházak') {
+          const [city, ...street] = entry.meta.split(', ');
+          fillListing(card, entry, { primary: city, secondary: street.join(', '), category: 'Színház' });
+        } else {
+          fillListing(card, entry, { primary: entry.id === 'mamma' ? 'Benny Andersson, Björn Ulvaeus…' : entry.author, secondary: '', category: entry.kind });
+        }
+        card.querySelector('.listing-detail').href = entry.detail || entry.url;
+        card.querySelector('.listing-detail').setAttribute('aria-label', entry.title + ' – részletek');
+        const sampleScore = (8 + (index % 17) / 10).toFixed(1).replace('.', ',');
+        const badge = card.querySelector('.rank-rating');
+        badge.querySelector('.rating-value').textContent = sampleScore;
+        badge.setAttribute('aria-label', 'Mintapontszám: ' + sampleScore);
+        badge.title = 'Mintapontszám: ' + sampleScore;
+        return card;
+      }));
+      rankTrack.parentElement.scrollLeft = 0;
+      syncSlideLinks(rankTrack);
+    }
+
+    const featureTemplate = document.querySelector('#feature-copy-template');
+    const featureStack = document.querySelector('.feature-copy-stack');
+    // Overlapping copies reserve the tallest slide's space at the current width.
+    const featureCopies = featured.map(entry => {
+      const copy = featureTemplate.content.firstElementChild.cloneNode(true);
+      const title = copy.querySelector('h1');
+      const split = entry.title.lastIndexOf(' ') + 1;
+      const accent = document.createElement('span');
+      accent.textContent = entry.title.slice(split);
+      title.replaceChildren(entry.title.slice(0, split), accent);
+      copy.querySelector('.feature-meta').textContent = entry.kind;
+      copy.querySelector('.feature-author').textContent = entry.author;
+      copy.querySelector('.feature-director').textContent = 'Rendező: ' + entry.director;
+      return copy;
+    });
+    featureStack.append(...featureCopies);
+
+    function selectSlide(index) {
+      featureCopies[slide].removeAttribute('data-active');
+      slide = (index + featured.length) % featured.length;
+      featureCopies[slide].setAttribute('data-active', '');
+      const format = number => String(number).padStart(2, '0');
+      document.querySelector('#slide-position').value = format(slide + 1) + ' / ' + format(featured.length);
+      const entry = featured[slide];
+      setImage(document.querySelector('#featured-image'), entry, { alt: entry.title + ' · ' + entry.venue, featuredImage: true });
+      document.querySelector('.hero-venue-name').textContent = entry.venue;
+      const next = entry.next && new Date(entry.next);
+      document.querySelector('#featured-date').textContent = next && next >= new Date()
+        ? localDateTime.format(next).replace(',', '') : 'Időpontok a színház műsorában';
+      const rating = document.querySelector('#featured-rating');
+      rating.href = detailUrl('mu', entry.id) + '#nezoi-velemenyek';
+      showRating(rating, entry);
+      rating.querySelector('.rating-count').textContent = featuredCounts[entry.id] + ' Értékelés';
+      rating.querySelector('.rating-value').hidden = true;
+      rating.setAttribute('aria-label', featuredCounts[entry.id] + ' értékelés, mintaadat');
+      rating.title = 'Értékelések száma: ' + featuredCounts[entry.id] + ' (mintaadat)';
+      document.querySelector('#featured-detail').href = entry.url;
+    }
+
+    function showRating(element, entry) {
+      const hasRating = Number.isFinite(entry.rating);
+      element.querySelector('.rating-value').textContent = hasRating ? entry.rating.toFixed(1) : '—';
+      const description = hasRating ? 'Értékelés: ' + entry.rating + ' / 5' : 'Még nincs összesített értékelés';
+      element.setAttribute('aria-label', description);
+      element.title = description;
+    }
+
+    function showEntries(title, entries) {
+      if (!entries.length) {
+        openPanel(title, 'Nincs találat. Próbálj más keresőkifejezést vagy kategóriát.');
+        return;
+      }
+      const list = document.createElement('ul');
+      list.className = 'entry-list';
+      for (const entry of entries) {
+        const item = document.createElement('li');
+        const frame = document.createElement('div');
+        frame.className = 'frame';
+        frame.setAttribute('aria-hidden', 'true');
+        setImage(frame, entry);
+        const data = document.createElement('div');
+        const link = document.createElement('a');
+        const meta = document.createElement('span');
+        setLink(link, entry);
+        link.className = 'text-link';
+        meta.className = 'muted';
+        meta.textContent = [entry.meta, entry.displayDate].filter(Boolean).join(' · ');
+        data.append(link, meta);
+        item.append(frame, data);
+        list.append(item);
+      }
+      openPanel(title, list);
+    }
+
+    selectSlide(0);
+    renderRankings(activeRank);
+
+    const reviewList = document.querySelector('#recent-review-list');
+    const reviewTemplate = document.querySelector('#review-template');
+    const reviewMore = document.querySelector('.review-more');
+    // A hosszabb, a felhasználó kérésére írt szövegek kizárólag főoldali designminták.
+    const homepageReviewSamples = {
+      fair: '„A szereposztás kiváló, a szereplők közötti játék pedig végig eleven és szerethető. Különösen tetszett, ahogy a finom humor és a csendesebb pillanatok váltották egymást, miközben az ismerős dallamok újra magukkal ragadtak. A díszlet és a jelmezek szépen kísérték Eliza átalakulását, és a történet a végére igazán közel került hozzám. Szívesen megnézném még egyszer, mert biztosan maradtak olyan apró részletek, amelyek csak másodszorra tűnnének fel.”',
+      tiszta: '„Lendületes este volt, sok apró, pontosan eltalált színészi gesztussal és remek ritmusú párbeszédekkel. A félreértések egyre váratlanabb helyzeteket teremtettek, a szereplők pedig úgy adták egymásnak a végszót, hogy a figyelmem egy pillanatra sem kalandozott el. A könnyed felszín mögött a kapcsolatok bizonytalansága is megjelent, ettől a humor még emberibb lett. Az előadás után hazafelé is több jelenetet felidéztünk, és újra elnevettük magunkat.”'
+    };
+    const reviewSource = audienceReviews.flatMap(review => {
+      const production = productions.find(entry => entry.id === review.productionId);
+      const sample = homepageReviewSamples[review.productionId];
+      return production ? [{ ...review, production, quote: sample || review.quote, isSample: Boolean(sample) }] : [];
+    });
+    function appendReviews() {
+      const start = reviewList.children.length;
+      for (const { quote, production, rating, author, date, isSample } of reviewSource.slice(start, start + 2)) {
+        const card = reviewTemplate.content.firstElementChild.cloneNode(true);
+        card.querySelector('blockquote').textContent = isSample ? (production.id === 'fair' ? '„A szereposztás kiváló, a szereplők közötti játék pedig végig eleven és szerethető. Különösen tetszett, ahogy…”' : '„Lendületes este volt, sok apró, pontosan eltalált színészi gesztussal és remek ritmusú párbeszédekkel.”') : reviewExcerpt(quote);
+        card.querySelector('.review-title').textContent = production.title;
+        card.querySelector('.review-venue').textContent = production.venue.split(' · ')[0];
+        card.querySelector('.review-kind').textContent = production.kind;
+        card.querySelector('.review-source').textContent = isSample ? (production.id === 'fair' ? 'Kata' : 'Laura') : author || 'Nézői vélemény';
+        const dateEl = card.querySelector('.review-date');
+        if (date) { dateEl.dateTime = date; dateEl.textContent = new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' }).format(new Date(date + 'T00:00:00Z')); if (isSample) dateEl.title = 'Minta dátum'; }
+        else dateEl.hidden = true;
+        if (isSample) { const score = card.querySelector('.review-score'); score.textContent = production.id === 'fair' ? '9,4' : '8,9'; score.setAttribute('aria-label', 'Mintapontszám: ' + score.textContent); }
+        if (Number.isFinite(rating)) {
+          card.querySelector('.review-score').textContent = rating.toFixed(1);
+          card.querySelector('.review-score').setAttribute('aria-label', 'Pontszám: ' + rating + ' / 5');
+        }
+        const link = card.querySelector('a');
+        link.href = detailUrl('mu', production.id) + '#nezoi-velemenyek';
+        link.setAttribute('aria-label', production.title + ' – értékelések az adatlapon');
+        if (isSample) {
+          link.setAttribute('aria-label', production.title + ' – teljes mintavélemény');
+          link.setAttribute('aria-haspopup', 'dialog');
+          link.addEventListener('click', event => {
+            event.preventDefault();
+            const text = document.createElement('p');
+            text.textContent = quote;
+            openPanel(production.title + ' · Mintavélemény', text);
+          });
+        }
+        reviewList.append(card);
+      }
+      
+      return reviewList.children[start];
+    }
+    function reviewExcerpt(text) {
+      const sentences = Array.from(new Intl.Segmenter('hu', { granularity: 'sentence' }).segment(text), part => part.segment);
+      return sentences.slice(0, 3).join('').trimEnd().replace(sentences.length > 3 ? /[.]$/ : /$^/, '') + (sentences.length > 3 ? '…' : '');
+    }
+    appendReviews();
+    reviewMore.querySelector('button').addEventListener('click', () => {
+      const next = appendReviews();
+      if (next) next.querySelector('a').focus();
+      else { const message = document.createElement('p'); message.textContent = 'Jelenleg nincs több megjeleníthető vélemény.'; openPanel('További vélemények', message); }
+    });
+    const premiereGrid = document.querySelector('.premiere-grid');
+    const premiereTemplate = document.querySelector('#premiere-template');
+    for (const entry of premieres) {
+      const card = premiereTemplate.content.cloneNode(true);
+      setImage(card.querySelector('.frame'), entry);
+      setLink(card.querySelector('.listing-title a'), entry);
+      card.querySelector('.listing-primary').textContent = entry.meta;
+      card.querySelector('.listing-secondary').textContent = entry.author;
+      card.querySelector('.premiere-director').textContent = 'Rendező: ' + entry.director;
+      const time = card.querySelector('time');
+      time.dateTime = entry.date;
+      time.textContent = new Intl.DateTimeFormat('hu-HU', { month: 'short', day: 'numeric', timeZone: 'Europe/Budapest' }).format(new Date(entry.date + 'T12:00:00+01:00'));
+      time.title = entry.displayDate;
+      premiereGrid.append(card);
+    }
+    const topicPhotos = [{ image: '01.jpg' }, { image: '02.jpg' }, { image: '05.jpg' }];
+    document.querySelectorAll('.topic-tile').forEach((tile, index) => {
+      const image = document.createElement('img');
+      image.className = 'topic-photo';
+      image.alt = '';
+      image.loading = 'lazy';
+      image.src = topicPhotos[index].image;
+      image.addEventListener('error', () => image.remove(), { once: true });
+      tile.prepend(image);
+    });
+
+    new ResizeObserver(entries => document.documentElement.style.setProperty('--home-header-height', entries[0].borderBoxSize[0].blockSize + 'px')).observe(document.querySelector('.site-header'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const topicObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add('is-revealed');
+        topicObserver.unobserve(entry.target);
+      }
+    }, { threshold: .15 });
+    document.querySelectorAll('.topic-tile').forEach(tile => topicObserver.observe(tile));
+    function setupCarousel(carousel) {
+      const track = carousel.querySelector('.slide-track');
+      const viewport = carousel.querySelector('.slide-viewport');
+      const manual = carousel.dataset.carousel === 'manual';
+      let visible = false;
+
+      function move(direction) {
+        if (track.children.length < 2 || track.getAnimations().length) return;
+        const forward = direction > 0;
+        const card = forward ? track.firstElementChild : track.lastElementChild;
+        const rotate = () => {
+          if (forward) track.append(card);
+          else track.prepend(card);
+          syncSlideLinks(track);
+        };
+        if (manual || reduceMotion.matches) {
+          rotate();
+          return;
+        }
+
+        const distance = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+        const copy = card.cloneNode(true);
+        copy.inert = true;
+        if (forward) track.append(copy);
+        else track.prepend(copy);
+        const start = forward ? 0 : -distance;
+        const end = forward ? -distance : 0;
+        const animation = track.animate(
+          [{ transform: 'translateX(' + start + 'px)' }, { transform: 'translateX(' + end + 'px)' }],
+          { duration: 450, easing: 'ease-in-out', fill: 'forwards' }
+        );
+        animation.oncancel = () => copy.remove();
+        animation.onfinish = () => {
+          copy.remove();
+          rotate();
+          animation.cancel();
+        };
+      }
+
+      for (const button of carousel.querySelectorAll('[data-slide]')) {
+        button.addEventListener('click', () => move(Number(button.dataset.slide)));
+      }
+      syncSlideLinks(track);
+      new ResizeObserver(() => syncSlideLinks(track)).observe(viewport);
+      if (manual) return;
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+      }, { threshold: .3 }).observe(viewport);
+      window.setInterval(() => {
+        if (!reduceMotion.matches && visible && !document.hidden && !carousel.closest('section').matches(':hover, :focus-within')) {
+          move(1);
+        }
+      }, 6000);
+    }
+
+    for (const carousel of document.querySelectorAll('[data-carousel]')) setupCarousel(carousel);
+
+    for (const button of rankButtons) {
+      button.addEventListener('click', () => renderRankings(button.textContent));
+    }
+    document.querySelector('#previous').addEventListener('click', () => selectSlide(slide - 1));
+    document.querySelector('#next').addEventListener('click', () => selectSlide(slide + 1));
+    const searchable = text => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('hu')
+      .replace(/[^\p{Letter}\p{Number}]+/gu, ' ').trim();
+    const searchFilters = document.querySelector('#search-filters');
+    const filterToggle = document.querySelector('#filter-toggle');
+    const { category: typeFilter, theatre: theatreFilter, genre: genreFilter, from: fromFilter, until: untilFilter } = searchForm.elements;
+    const allSearchEntries = Object.values(searchCategories).flat();
+    const collator = new Intl.Collator('hu');
+    const filterFields = [theatreFilter, genreFilter, fromFilter, untilFilter];
+    const genreKey = kind => (kind || '').toLocaleLowerCase('hu');
+
+    for (const name of theatreRecords.map(entry => entry.title).sort(collator.compare)) {
+      theatreFilter.add(new Option(name, name));
+    }
+    const genres = new Map(allSearchEntries.filter(entry => entry.kind).map(entry => [genreKey(entry.kind), entry.kind]));
+    for (const [key, name] of [...genres].sort((a, b) => collator.compare(a[1], b[1]))) {
+      genreFilter.add(new Option(name, key));
+    }
+
+    function syncFilters() {
+      untilFilter.min = fromFilter.value;
+      const hasFilters = Boolean(typeFilter.value || filterFields.some(field => field.value));
+      filterToggle.toggleAttribute('data-filtered', hasFilters);
+      filterToggle.setAttribute('aria-label', hasFilters ? 'Keresési szűrők · aktív' : 'Keresési szűrők');
+    }
+
+    searchFilters.addEventListener('change', syncFilters);
+    document.querySelector('#clear-filters').addEventListener('click', () => {
+      typeFilter.value = '';
+      for (const field of filterFields) field.value = '';
+      syncFilters();
+    });
+
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const query = searchable(searchForm.elements.query.value);
+      const terms = query ? query.split(' ') : [];
+      const selected = typeFilter.value;
+      const entries = selected ? searchCategories[selected] : allSearchEntries;
+      const selection = selected ? searchForm.querySelector('[name="category"]:checked').labels[0].textContent : '';
+      searchFilters.hidePopover();
+      const matches = entries.filter(entry => {
+        const production = workRecords.includes(entry) ? productions.find(item => item.id === entry.id) : entry;
+        const title = production.venue || entry.meta?.split(' · ', 1)[0];
+        const theatre = (theatreForVenue(title) || theatreForVenue(entry.title))?.title || title;
+        const allowedTheatre = theatreFilter.value;
+        if (allowedTheatre && entry.title !== allowedTheatre && theatre !== allowedTheatre) return false;
+        if (genreFilter.value && genreKey(entry.kind) !== genreFilter.value) return false;
+        const date = entry.date || production.next?.slice(0, 10);
+        if (fromFilter.value && (!date || date < fromFilter.value)) return false;
+        if (untilFilter.value && (!date || date > untilFilter.value)) return false;
+        const text = searchable([entry.title, entry.meta, entry.author, entry.kind, entry.director, entry.date, entry.displayDate].filter(Boolean).join(' '));
+        return terms.every(term => text.includes(term));
+      });
+      const results = selected ? matches : matches.filter((entry, index) =>
+        matches.findIndex(other => other.title === entry.title && (other.detail || other.url) === (entry.detail || entry.url)) === index
+      );
+      showEntries(selection ? 'Keresési találatok · ' + selection : 'Keresési találatok', results);
+    });
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.has('query')) {
+      searchForm.elements.query.value = searchParams.get('query');
+      const category = searchParams.get('category') || '';
+      if (Array.from(typeFilter).some(input => input.value === category)) typeFilter.value = category;
+      for (const [key, field] of [['theatre', theatreFilter], ['genre', genreFilter], ['from', fromFilter], ['until', untilFilter]]) {
+        field.value = searchParams.get(key) || '';
+      }
+      syncFilters();
+      searchForm.requestSubmit();
+    }
+    for (const link of document.querySelectorAll('[data-list]')) {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const title = link.dataset.list;
+        showEntries(title, title === 'Toplisták' ? rankings[activeRank] : categories[title]);
+      });
+    }
+    for (const control of document.querySelectorAll('[data-info]')) {
+      control.addEventListener('click', event => {
+        event.preventDefault();
+        const title = control.dataset.info;
+        openPanel(title, 'Ez a nézet a főoldal előnézetében még nem érhető el.');
+      });
+      if (control.hash.slice(1) === searchParams.get('info') && !dialog.open) control.click();
+    }
+  </script>
+  <script src="csillagok.js"></script>
+</body>
+</html>

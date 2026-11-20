@@ -1,0 +1,434 @@
+.detail-main { padding-block-start: clamp(24px, 4vw, 60px); }
+.detail-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 24px; color: var(--muted); font-size: 13px; }
+.detail-crumbs a { text-decoration: underline; text-underline-offset: .23em; }
+.detail-grid { display: grid; grid-template-columns: minmax(190px, 248px) minmax(0, 1fr) minmax(220px, 264px); grid-template-areas: "media intro panel"; align-items: start; gap: clamp(24px, 3.4vw, 48px); }
+.detail-media { grid-area: media; min-width: 0; }
+.detail-intro { grid-area: intro; min-width: 0; padding-block-start: 4px; }
+.detail-grid > .detail-panel { grid-area: panel; min-width: 0; }
+.detail-media figure { margin: 0; }
+.detail-image {
+  position: relative; display: grid; place-items: center; isolation: isolate; overflow: hidden;
+  background: var(--placeholder); border: 1px solid var(--border); border-radius: var(--card-radius);
+  aspect-ratio: 3 / 4;
+}
+.detail-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 34%; }
+.detail-image.logo img { object-fit: contain; padding: 14%; }
+.detail-image.theatre img { object-position: center; }
+.detail-image .detail-monogram { color: var(--ink); font: 700 68px/1 var(--serif); opacity: .64; }
+.detail-media figcaption { margin: 7px 2px 0; color: var(--muted); font-size: 11px; }
+.detail-cover {
+  place-self: stretch; display: flex; flex-direction: column; justify-content: space-between; align-items: start;
+  position: relative; padding: 21px; border: 8px solid var(--placeholder); border-radius: inherit;
+  background: var(--ink); color: var(--paper); isolation: isolate; overflow: hidden;
+}
+.detail-cover::before, .detail-cover::after {
+  content: ''; position: absolute; z-index: -1; width: 96%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+}
+.detail-cover::before { background: var(--red); right: -42%; bottom: -22%; }
+.detail-cover::after { border: 1px solid #ffffff68; right: -32%; bottom: -12%; }
+.detail-cover span { font-size: 11px; }
+.detail-cover strong { display: block; max-width: 12ch; margin-top: 12px; font: 700 clamp(25px, 3vw, 35px)/.99 var(--serif); overflow-wrap: anywhere; }
+.detail-actions { display: grid; gap: 9px; margin-top: 15px; }
+.detail-actions .btn { gap: 8px; min-height: 42px; padding-inline: 8px; }
+.detail-actions .icon { width: 16px; height: 16px; }
+.detail-actions button[aria-pressed="true"] { background: var(--red); color: var(--white); }
+.detail-feedback { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+.detail-feedback:empty { display: none; }
+.detail-kicker { display: inline-block; border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; color: var(--ink); background: var(--placeholder); font: 700 12px/1.25 var(--mono); }
+.detail-intro h1 { margin: 9px 0 4px; font-size: clamp(38px, 5vw, 72px); letter-spacing: -.035em; line-height: .99; text-wrap: pretty; overflow-wrap: anywhere; }
+.detail-subtitle { font: 700 clamp(14px, 1.45vw, 17px)/1.5 var(--mono); margin-top: 13px; }
+.detail-subtitle a, .detail-facts a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: .22em; }
+.detail-description { max-width: 55ch; margin: 18px 0 20px; font: 300 17px/1.55 "Overpass", Arial, sans-serif; }
+.detail-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 22px; padding-top: 19px; margin: 0; border-top: 1px solid var(--border); }
+.detail-facts dt { margin-bottom: 4px; color: var(--muted); font-size: 12px; }
+.detail-facts dd { margin: 0; font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+.detail-panel { padding: 20px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--white); }
+.detail-panel h2 { margin: 0 0 12px; color: var(--red); font: 700 16px/1.2 var(--mono); }
+.detail-panel p { margin-bottom: 13px; font-size: 13px; }
+.detail-panel p:last-child { margin-bottom: 0; }
+.detail-panel .btn { width: 100%; margin-top: 16px; }
+.detail-panel-rule { padding-top: 13px; border-top: 1px solid var(--rule); }
+.detail-panel .detail-stars { color: var(--muted); font: 24px/1 var(--serif); letter-spacing: .13em; }
+.detail-panel ul, .detail-sources ul { list-style: none; margin: 0; padding: 0; }
+.detail-panel li + li, .detail-sources li + li { margin-top: 7px; }
+.detail-panel li { font-size: 13px; }
+.detail-related { margin-top: clamp(40px, 6vw, 84px); }
+.detail-reviews article { padding-block: 14px; border-top: 1px solid var(--border); }
+.detail-reviews blockquote { margin: 0 0 8px; font: 700 22px/1.3 var(--serif); }
+.detail-reviews .text-link { display: inline-block; margin-top: 7px; }
+.detail-section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 3px 12px; margin-bottom: 15px; }
+.detail-section-head h2 { color: var(--red); font: 700 clamp(23px, 3vw, 30px)/1.2 var(--mono); }
+#detail-related-count { color: var(--muted); font-size: 12px; }
+.detail-related-list { border-top: 1px solid var(--border); }
+.detail-related-list > p { padding-block: 14px; }
+.detail-row { display: grid; grid-template-columns: 86px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--border); }
+.detail-row-image { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; background: var(--placeholder); color: var(--muted); overflow: hidden; border-radius: 10px; }
+.detail-row-image img { position: absolute; width: 100%; height: 100%; inset: 0; object-fit: cover; }
+.detail-row-image .icon { width: 20px; height: 20px; }
+.detail-row h3 { font-size: 25px; margin-bottom: 2px; }
+.detail-row p { font-size: 13px; color: var(--muted); }
+.detail-row p a { text-decoration: underline; text-underline-offset: .2em; }
+.detail-sources { margin-top: 36px; }
+.detail-sources h2 { font: 700 15px/1.3 var(--mono); margin-bottom: 8px; }
+.detail-sources a { font-size: 13px; text-decoration: underline; text-underline-offset: .22em; }
+.detail-share-dialog { width: min(460px, calc(100% - 32px)); padding: 24px; color: var(--ink); }
+.detail-share-dialog::backdrop { background: #30262b70; }
+.detail-share-dialog input { width: 100%; margin-top: 6px; padding: 10px; border: 1px solid var(--border); border-radius: 10px; }
+.detail-missing p { margin: 12px 0 20px; }
+.detail-main + .site-footer, body:has(.detail-main) .site-footer { margin-top: clamp(56px, 8vw, 110px); }
+
+@media (max-width: 900px) {
+  .detail-grid { grid-template-columns: minmax(160px, 31%) minmax(0, 1fr); grid-template-areas: "media intro" "media panel"; }
+}
+@media (max-width: 540px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "media" "panel"; gap: 22px; }
+  .detail-media { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 13px; }
+  .detail-actions { margin-top: 0; }
+  .detail-feedback { grid-column: 1 / -1; margin: 0; }
+  .detail-cover { padding: 10px; border-width: 5px; }
+  .detail-cover strong { font-size: clamp(20px, 5vw, 26px); }
+  .detail-cover span { font-size: 10px; }
+  .detail-row { grid-template-columns: 64px minmax(0, 1fr); gap: 9px 12px; }
+  .detail-row > .btn { grid-column: 2; justify-self: start; min-height: 36px; }
+}
+
+.detail-no-description { display: none; }
+.detail-no-description + .detail-facts { margin-top: 20px; }
+.detail-facts:empty { display: none; }
+.detail-related-link { text-decoration: underline; text-underline-offset: .2em; }
+
+.production-filters { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 16px; background: var(--white); }
+.production-filters input, .production-filters select { min-height: 42px; min-width: 0; padding: 9px 12px; border: 1px solid var(--border); border-radius: 9px; background: var(--paper); font: 400 13px/1.3 var(--mono); }
+.production-filters input { flex: 1 1 240px; }
+.production-filters select { flex: 1 1 190px; max-width: 300px; }
+.detail-related-list:has(.production-group) { border: 0; }
+.production-group { overflow: hidden; border: 1px solid var(--border); border-radius: 18px; background: var(--white); }
+.production-group-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 17px 20px; background: var(--paper); border-bottom: 1px solid var(--border); }
+.production-group-heading h3 { font: 700 16px/1.3 var(--mono); }
+.production-group-heading span { padding: 3px 9px; border: 1px solid var(--border); border-radius: 999px; font-size: 12px; color: var(--muted); }
+.production-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 19px 20px; }
+.production-row + .production-row { border-top: 1px solid var(--rule); }
+.production-row-content { min-width: 0; }
+.production-row h3 { font: 700 23px/1.2 var(--serif); }
+.production-row h3 span { font: 400 12px/1.4 var(--mono); color: var(--muted); }
+.production-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; margin-top: 9px; color: var(--muted); font-size: 12px; }
+.production-meta a { text-decoration: underline; text-underline-offset: .2em; }
+.production-role { padding: 5px 9px; border-radius: 7px; background: var(--placeholder); color: var(--ink); }
+.production-empty { padding: 18px; color: var(--muted); }
+@media (max-width: 540px) { .production-filters select { max-width: none; } .production-row { align-items: flex-start; flex-direction: column; } }
+
+/* A művész adatlapján a szerepek a bemutatkozás részeként jelennek meg. */
+.detail-crumbs [aria-current="page"] { color: var(--red); }
+.artist-detail .detail-grid { grid-template-columns: minmax(190px, 31%) minmax(0, 1fr); grid-template-areas: "media intro"; align-items: center; gap: clamp(24px, 3vw, 40px); padding: clamp(24px, 3.4vw, 40px); border: 1px solid var(--border); border-radius: 22px; background: var(--white); }
+.artist-detail .detail-grid > .detail-panel[hidden] { display: none; }
+.artist-detail .detail-image { aspect-ratio: 4 / 5; border-radius: 14px; box-shadow: 0 5px 12px #30262b24; }
+.artist-detail .detail-kicker { display: inline-block; padding: 0; border: 0; background: transparent; color: var(--red); font: 700 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.artist-detail .detail-kicker a { color: inherit; }
+.artist-detail .detail-intro h1 { margin: 8px 0 20px; font-size: clamp(40px, 5vw, 64px); letter-spacing: -.025em; }
+.artist-detail .detail-subtitle { margin: 0; color: #999195; font: 700 11px/1.5 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.artist-detail .detail-description { max-width: none; margin: 18px 0; font: 300 16px/1.55 "Overpass", Arial, sans-serif; }
+.artist-detail .detail-related { margin: 22px 0 0; padding-top: 20px; border-top: 1px solid var(--border); }
+.artist-detail .detail-section-head { margin-bottom: 14px; }
+.artist-detail .detail-section-head h2 { color: var(--ink); font: 700 23px/1.2 var(--serif); }
+.artist-detail #detail-related-count { display: none; }
+.artist-detail .detail-related-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; border: 0; }
+.artist-role-card { position: relative; display: flex; min-height: 92px; flex-direction: column; justify-content: center; gap: 3px; padding: 14px 35px 14px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--paper); }
+.artist-role-card:hover { border-color: var(--red); text-decoration: none; }
+.artist-role-name { color: var(--red); font: 700 10px/1.3 var(--mono); text-transform: uppercase; }
+.artist-role-title { color: var(--ink); font: 700 17px/1.2 var(--serif); }
+.artist-role-venue { color: var(--muted); font: 400 11px/1.3 "Overpass", Arial, sans-serif; }
+.artist-role-arrow { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--red); }
+.artist-detail .artist-facts { margin-top: 30px; }
+.artist-detail .detail-actions { display: flex; gap: 10px; }
+.artist-detail .detail-actions .btn { width: 44px; min-height: 44px; padding: 0; border-radius: 50%; }
+.artist-detail .detail-actions .icon { width: 20px; height: 20px; }
+.artist-detail .detail-actions .btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 700px) {
+  .artist-detail .detail-grid { grid-template-columns: 1fr; grid-template-areas: "media" "intro"; align-items: start; }
+  .artist-detail .detail-media { display: block; max-width: 360px; }
+  .artist-detail .detail-actions { margin-top: 15px; }
+}
+@media (max-width: 420px) { .artist-detail .detail-related-list { grid-template-columns: 1fr; } }
+
+.theatre-detail .detail-section-head { display: block; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.theatre-program-label { margin-bottom: 6px; color: var(--red); font: 700 11px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.theatre-detail .detail-section-head h2 { color: var(--ink); font: 700 clamp(25px, 3vw, 32px)/1.15 var(--serif); }
+.theatre-detail #detail-related-count { display: block; margin-top: 5px; }
+.theatre-detail .detail-related-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; border: 0; }
+.theatre-production-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--white); }
+.theatre-production-card:is(:hover, :focus-visible) { border-color: var(--red); text-decoration: none; }
+.theatre-production-image { position: relative; aspect-ratio: 1.6; overflow: hidden; background: var(--placeholder); }
+.theatre-production-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.theatre-production-content { display: flex; flex: 1; flex-direction: column; align-items: start; gap: 8px; min-height: 150px; padding: 20px; }
+.theatre-production-kind { color: var(--red); font: 700 11px/1.3 var(--mono); text-transform: uppercase; }
+.theatre-production-content h3 { font: 700 23px/1.15 var(--serif); }
+.theatre-production-director { color: var(--muted); font: 300 13px/1.4 "Overpass", sans-serif; }
+.theatre-production-date { margin-top: auto; padding-top: 8px; color: var(--muted); font: 400 11px/1.4 var(--mono); }
+@media (max-width: 800px) { .theatre-detail .detail-related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+@media (max-width: 500px) { .theatre-detail .detail-related-list { grid-template-columns: 1fr; } }
+
+
+/* Színdarab: a mű adatai és a színpadi változatok áttekinthetően egymás mellett. */
+.work-detail .detail-grid { grid-template-columns: minmax(210px, 26%) minmax(0, 1fr); grid-template-areas: "media intro"; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.work-detail .detail-image { border-radius: 18px; box-shadow: 0 2px 3px #0004; }
+.work-detail .detail-cover { border: 0; padding: 24px; background: linear-gradient(145deg, #95223c, #30262b 75%); }
+.work-detail .detail-kicker { padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--red); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+.work-detail .detail-intro h1 { margin: 9px 0; font-size: clamp(40px, 4.7vw, 68px); }
+.work-detail .detail-subtitle { margin: 0 0 18px; color: var(--red); font-size: 15px; }
+.work-detail .detail-panel { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding: 15px 18px; border-radius: 18px; box-shadow: 0 2px 3px #0004; }
+.work-detail .detail-panel h2 { width: 100%; margin: 0; font-size: 12px; }
+.work-detail #detail-panel-body { flex: 1 1 240px; display: flex; flex-wrap: wrap; align-items: center; gap: 5px 12px; }
+.work-detail #detail-panel-body p { margin: 0; }
+.work-detail #detail-panel-body .detail-panel-rule { padding: 0; border: 0; }
+.work-detail #detail-panel-body .muted { flex-basis: 100%; font-size: 11px; }
+.work-detail .detail-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.work-detail .detail-actions .btn { min-height: 40px; padding: 0 16px; }
+.work-detail .detail-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin: 16px 0 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--white); }
+.work-detail .detail-description { max-width: 75ch; margin: 18px 0 0; }
+.work-detail .detail-related { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+.work-detail .detail-section-head h2 { font-size: clamp(20px, 2.2vw, 26px); }
+.work-detail .production-group { box-shadow: 0 2px 3px #0002; }
+.work-detail .production-group-heading { display: none; }
+.work-detail .detail-reviews #detail-review-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.work-detail .detail-reviews article { padding: 20px; border: 1px solid var(--border); border-radius: 18px; background: var(--white); box-shadow: 0 2px 3px #0003; }
+.work-detail .detail-reviews blockquote { font-size: 20px; }
+@media (max-width: 700px) {
+  .work-detail .detail-grid { grid-template-columns: minmax(110px, 32%) minmax(0, 1fr); gap: 18px; }
+  .work-detail .detail-media { display: block; }
+  .work-detail .detail-cover { padding: 12px; }
+  .work-detail .detail-intro h1 { font-size: clamp(30px, 6vw, 45px); }
+  .work-detail .detail-facts { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .work-detail .detail-grid { grid-template-columns: 1fr; grid-template-areas: "intro" "media"; }
+  .work-detail .detail-media { max-width: 220px; }
+  .work-detail .detail-panel { padding: 14px; }
+  .work-detail .detail-actions .btn { flex: 1; }
+}
+
+.work-detail .detail-panel .detail-actions .btn { width: auto; margin-top: 0; }
+
+.work-detail .detail-media > .detail-panel { display: flex; flex-direction: column; align-items: stretch; gap: 10px; padding: 18px 0 0; border: 0; background: transparent; box-shadow: none; }
+.work-detail #detail-panel-body { flex: none; display: grid; gap: 8px; }
+.work-detail .detail-panel .detail-actions { display: grid; grid-template-columns: 1fr 1fr; }
+.work-detail .detail-panel .detail-actions .btn { width: 100%; padding: 0 6px; }
+.work-detail .detail-facts { margin-top: 0; }
+.work-detail .detail-description { text-align: left; max-width: 72ch; line-height: 1.65; }
+.work-rate { justify-self: start; min-height: 38px; padding-inline: 18px; background: var(--red); color: white; border-color: var(--red); font-weight: 700; }
+.work-rating-average { font-weight: 700; }
+.work-rating-chart { margin-top: 18px; padding: 16px; border: 1px solid var(--border); border-radius: 16px; background: var(--white); box-shadow: 0 2px 3px #0003; }
+.work-chart-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; font-size: 10px; color: var(--muted); }
+.work-chart-head h2 { color: var(--ink); font: 700 10px/1.4 var(--mono); text-transform: uppercase; }
+.work-chart-bars { display: grid; grid-template-columns: repeat(10,1fr); gap: 5px; margin-top: 12px; }
+.work-chart-column { min-width: 0; text-align: center; font-size: 10px; }
+.work-chart-track { height: 64px; display: flex; align-items: end; overflow: hidden; border-radius: 6px; background: #f2eeea; }
+.work-chart-track span { display: block; width: 100%; background: var(--red); border-radius: 6px; }
+.work-extra h2 { color: var(--red); font: 700 clamp(20px, 2.2vw, 26px)/1.2 var(--mono); margin-bottom: 16px; }
+.work-cast { display: flex; flex-wrap: wrap; gap: 12px; }
+.work-cast-card { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: white; }
+.work-cast-card img { width: 48px; height: 48px; object-fit: cover; border-radius: 50%; }
+.work-cast-card span, .work-cast-card small { display: block; }
+.work-cast-card small { margin-top: 4px; color: var(--muted); }
+.work-date-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: white; }
+.work-date-row p { margin-top: 5px; font-size: 12px; }
+.work-rating-dialog { width: min(420px, calc(100% - 32px)); padding: 24px; }
+.work-rating-dialog::backdrop { background: #30262b80; }
+.work-rating-dialog form, .work-rating-dialog label { display: grid; gap: 12px; }
+.work-rating-dialog select, .work-rating-dialog textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font: inherit; }
+.work-rating-dialog textarea { min-height: 140px; }
+.work-dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+@media (max-width: 480px) { .work-detail .detail-media { max-width: none; } .work-detail .detail-image { max-width: 220px; } .work-date-row { align-items: flex-start; flex-direction: column; } }
+
+/* A mű adatainak és kapcsolódó részeinek elrendezése. */
+.work-detail .detail-facts { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.work-detail .detail-intro > .detail-related { margin-top: 28px; padding-top: 20px; }
+.work-extras-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px; }
+.work-detail .work-extras-grid .detail-related { margin-top: 28px; padding-top: 20px; min-width: 0; }
+.work-rate:is(:hover, :active, :focus-visible) { background: var(--red); border-color: var(--red); color: white; }
+@media (max-width: 700px) { .work-extras-grid { grid-template-columns: 1fr; gap: 0; } }
+
+/* Adatlapkártyák és elválasztóvonalak. */
+.work-detail .detail-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 14px 0; border-block: 1px solid var(--border); }
+.work-detail .detail-facts > div { padding: 0 14px; }
+.work-detail .detail-facts > div:first-child { padding-left: 0; }
+.work-detail .detail-facts > div + div { border-left: 1px solid var(--border); }
+.work-detail .detail-media > .detail-panel { gap: 8px; }
+.work-detail .detail-panel h2 { margin: 0; }
+.work-detail #detail-panel-body { gap: 10px; }
+.work-detail .work-rating-average { padding-bottom: 10px; border-bottom: 1px solid var(--border); font-weight: 400; }
+.work-detail .detail-panel .work-rate { width: 100%; margin: 0; }
+.work-detail #detail-panel-body .muted { text-align: center; line-height: 1.4; }
+.work-detail .work-rating-chart { padding: 14px 0 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: transparent; box-shadow: none; }
+.work-extras-grid { display: block; }
+.work-detail .detail-intro .detail-reviews { margin-top: 28px; padding-top: 20px; }
+.work-detail .production-group { display: grid; gap: 18px; overflow: visible; border: 0; background: transparent; box-shadow: none; }
+.work-detail .production-row { display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow: hidden; padding: 0; border: 1px solid var(--border); border-radius: 16px; background: var(--white); box-shadow: 0 2px 3px #0004; }
+.work-detail .production-row + .production-row { border-top: 1px solid var(--border); }
+.work-production-banner, .work-date-banner { position: relative; overflow: hidden; background: #481928; }
+.work-production-banner { height: clamp(150px, 18vw, 240px); }
+.work-production-banner img, .work-date-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.58); }
+.work-production-banner-label { position: absolute; bottom: 12px; left: 14px; padding: 5px 10px; border-radius: 999px; background: var(--red); color: white; font: 700 10px/1.3 var(--mono); }
+.work-production-body { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px; }
+.work-cast { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.work-cast-card { display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow: hidden; padding: 0; border-radius: 16px; box-shadow: 0 2px 3px #0004; }
+.work-cast-card img { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 0; object-position: center 25%; }
+.work-cast-info { padding: 15px; }
+.work-date-row { display: grid; grid-template-columns: 1fr auto; gap: 0 16px; overflow: hidden; padding: 0 0 16px; box-shadow: 0 2px 3px #0004; }
+.work-date-banner { grid-column: 1 / -1; height: 120px; margin-bottom: 16px; }
+.work-date-content { padding-left: 16px; }
+.work-date-row > .btn { margin-right: 16px; }
+@media (max-width: 540px) { .work-detail .detail-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } .work-detail .detail-facts > div { padding-inline: 8px; } .work-detail .detail-facts > div:first-child { padding-left: 0; } .work-production-body { align-items: flex-start; flex-direction: column; } .work-date-row { grid-template-columns: 1fr; } .work-date-row > .btn { justify-self: start; margin: 12px 16px 0; } }
+
+/* A szereposztás és időpontok párhuzamos elrendezése. */
+.work-extras-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.work-detail .production-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.work-detail .work-production-banner { height: auto; aspect-ratio: 1.6; }
+.work-detail .work-production-body { align-items: flex-start; flex-direction: column; }
+.work-detail .work-cast { grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+.work-detail .work-cast-card { display: flex; flex-direction: column; border: 1px solid #e2dfe0; border-radius: 12px; box-shadow: none; text-align: left; }
+.work-detail .work-cast-card:is(:hover, :focus-visible) { border-color: var(--red); text-decoration: none; }
+.work-cast-photo { display: block; position: relative; aspect-ratio: 225 / 280; overflow: hidden; background: var(--placeholder); }
+.work-detail .work-cast-photo img { display: block; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: center 24%; }
+.work-cast-theatre { position: absolute; inset: auto 0 0; padding: 28px 13px 12px; background: linear-gradient(transparent, #000a); color: #f8e9bb; font: 700 10px/1.3 var(--mono); text-transform: uppercase; }
+.work-detail .work-cast-info { display: block; flex: 1; min-height: 86px; padding: 17px 16px 14px; }
+.work-cast-info strong { display: block; color: var(--ink); font: 700 22px/1.05 'Cormorant Garamond', Georgia, serif; }
+.work-detail .work-cast-info small { margin-top: 4px; color: #756b6d; font: 400 10px/1.35 'Overpass', sans-serif; }
+.work-cast-footer { display: flex; justify-content: flex-end; padding: 10px 16px; border-top: 1px solid #e2dfe0; background: #faf8f6; color: var(--red); font: 600 10px/1.3 'Overpass', sans-serif; }
+@media (max-width: 700px) { .work-extras-grid { grid-template-columns: 1fr; gap: 0; } }
+@media (max-width: 480px) { .work-detail .production-group { grid-template-columns: 1fr; } }
+
+/* Produkció és szereposztás egy sorban, az időpontok alattuk. */
+.work-content-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.work-detail .work-content-columns > .detail-related, .work-detail .detail-intro > .work-extra { min-width: 0; margin-top: 28px; padding-top: 20px; }
+.work-detail .work-content-columns .production-group { grid-template-columns: 1fr; }
+.work-detail .work-cast { grid-template-columns: 1fr; }
+.work-detail .work-date-row { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; }
+.work-detail .work-date-content { padding: 0; }
+.work-detail .work-date-row > .btn { margin: 0; }
+.work-detail .detail-media .detail-reviews { margin-top: 28px; padding-top: 20px; }
+.work-detail .detail-media .detail-section-head { align-items: flex-start; }
+.work-detail .detail-media .detail-section-head h2 { font-size: 20px; }
+.work-detail .detail-media .detail-reviews .btn { min-height: 36px; padding-inline: 12px; }
+@media (max-width: 700px) { .work-content-columns { grid-template-columns: 1fr; gap: 0; } }
+@media (max-width: 480px) { .work-detail .work-date-row { align-items: flex-start; flex-direction: column; } }
+
+.work-detail .work-duration { display: inline-flex; align-items: center; margin: 0 0 18px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--ink); font: 400 12px/1.3 var(--mono); }
+
+.work-date-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.work-date-status { padding: 6px 12px; border-radius: 999px; background: #f9dce1; color: #b51e3c; font: 700 11px/1.3 var(--mono); }
+
+.work-detail .detail-media .detail-reviews .review-add { display: inline-grid; place-items: center; width: 36px; height: 36px; min-height: 36px; padding: 0; border: 1px solid var(--red); border-radius: 50%; background: var(--red); color: white; font: 400 24px/1 var(--mono); }
+
+@media (min-width: 701px) { .work-detail .work-content-columns > .detail-related { padding-top: 10px; } }
+
+/* Színházadatlap: a teljes szélességű bemutatkozást kártyás szekciók követik. */
+.theatre-detail .detail-grid { grid-template-columns: minmax(190px, 26%) minmax(0, 1fr); grid-template-areas: "media intro"; gap: clamp(24px, 4vw, 56px); }
+.theatre-detail .detail-grid > .detail-panel[hidden] { display: none; }
+.theatre-detail .detail-image { aspect-ratio: 1 / 1; }
+.theatre-detail .detail-subtitle { margin-bottom: 16px; font: 400 12px/1.5 var(--mono); }
+.theatre-detail .detail-kicker { color: var(--red); }
+.theatre-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.theatre-tag { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--ink); font: 400 10px/1.3 var(--mono); }
+.theatre-rating { margin: 0 0 18px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--white); color: var(--red); font: 700 14px/1.4 var(--mono); }
+.theatre-detail .detail-description { max-width: 70ch; }
+.theatre-detail .detail-related { margin-top: 42px; }
+.theatre-detail > .detail-related:first-of-type { padding-top: 30px; border-top: 1px solid var(--border); }
+.theatre-detail .detail-section-head { display: flex; justify-content: flex-start; align-items: baseline; gap: 8px; padding: 0; border: 0; }
+.theatre-detail .detail-section-head h2, .theatre-cast-section h2 { color: var(--red); font: 700 16px/1.4 var(--mono); }
+.theatre-detail #detail-related-count { margin: 0; color: var(--red); font: 700 13px/1.4 var(--mono); }
+.theatre-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; margin-top: 16px; }
+.theatre-production-image { aspect-ratio: 1 / 1; background: radial-gradient(circle at 45% 35%, #a9364e, #401421); }
+.theatre-production-image img { filter: brightness(.72); }
+.theatre-production-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
+.theatre-production-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
+.theatre-production-overlay strong { font: 700 20px/1.1 var(--serif); }
+.theatre-production-content { gap: 6px; min-height: 155px; padding: 15px; }
+.theatre-production-content h3 { font-size: 22px; }
+.theatre-cast { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.theatre-cast-card { display: flex; align-items: center; gap: 10px; width: min(100%, 240px); padding: 10px; border: 1px solid var(--border); border-radius: 12px; background: var(--white); }
+.theatre-cast-card:hover { border-color: var(--red); text-decoration: none; }
+.theatre-cast-photo { flex: 0 0 48px; height: 48px; overflow: hidden; border-radius: 50%; background: var(--placeholder); }
+.theatre-cast-photo img { width: 100%; height: 100%; object-fit: cover; }
+.theatre-cast-card strong, .theatre-cast-card small { display: block; }
+.theatre-cast-card strong { font: 700 17px/1.1 var(--serif); }
+.theatre-cast-card small { margin-top: 4px; color: var(--muted); font: 400 10px/1.3 var(--mono); }
+.theatre-detail #detail-review-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 460px)); gap: 16px; margin-top: 16px; }
+.theatre-detail .detail-reviews article { padding: 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--white); }
+.theatre-detail .detail-reviews blockquote { font-size: 18px; }
+@media (max-width: 600px) { .theatre-detail .detail-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "media" "intro"; } .theatre-detail .detail-image { max-width: 320px; } .theatre-detail .detail-related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .theatre-production-content { padding: 12px; } }
+@media (max-width: 380px) { .theatre-detail .detail-related-list { grid-template-columns: 1fr; } }
+
+/* Színészadatlap a portrés, képes szerepkártyás sablon alapján. */
+.artist-detail .detail-grid { grid-template-columns: minmax(190px, 26%) minmax(0, 1fr); grid-template-areas: "media intro"; align-items: start; gap: clamp(24px, 4vw, 56px); padding: 0; border: 0; border-radius: 0; background: transparent; }
+.artist-detail .detail-intro h1 { margin-bottom: 14px; }
+.artist-detail .detail-subtitle { color: var(--red); letter-spacing: 0; text-transform: none; }
+.artist-detail .detail-subtitle a { color: var(--red); }
+.artist-awards { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.artist-award { padding: 6px 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--ink); font: 400 11px/1.3 var(--mono); }
+.artist-rating { margin: 16px 0 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--white); color: var(--red); font: 700 14px/1.4 var(--mono); }
+.artist-detail .detail-description { max-width: 70ch; }
+.artist-detail > .detail-related { margin-top: 42px; }
+.artist-detail > .detail-related:first-of-type { padding-top: 30px; border-top: 1px solid var(--border); }
+.artist-detail .detail-section-head { justify-content: flex-start; align-items: baseline; gap: 8px; }
+.artist-detail .detail-section-head h2, .artist-previous h2 { color: var(--red); font: 700 16px/1.4 var(--mono); }
+.artist-detail #detail-related-count { display: block; color: var(--red); font: 700 13px/1.4 var(--mono); }
+.artist-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; }
+.artist-role-card { display: flex; flex-direction: column; justify-content: flex-start; gap: 0; min-height: 0; overflow: hidden; padding: 0; background: var(--white); }
+.artist-role-picture { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: radial-gradient(circle at 45% 35%, #a9364e, #401421); }
+.artist-role-picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.72); }
+.artist-role-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
+.artist-role-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
+.artist-role-overlay strong { font: 700 20px/1.1 var(--serif); }
+.artist-role-content { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 6px; width: 100%; min-height: 130px; padding: 15px; }
+.artist-role-title { font-size: 22px; }
+.artist-role-name { text-transform: none; }
+.artist-role-more { align-self: flex-end; margin-top: auto; color: var(--red); font: 700 10px/1.3 var(--mono); }
+.artist-previous > p { margin-top: 14px; }
+@media (max-width: 700px) { .artist-detail .detail-grid { grid-template-columns: 1fr; grid-template-areas: "media" "intro"; } .artist-detail .detail-media { max-width: 320px; } }
+@media (max-width: 600px) { .artist-detail .detail-related-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .artist-role-content { padding: 12px; } }
+@media (max-width: 380px) { .artist-detail .detail-related-list { grid-template-columns: 1fr; } }
+/* A színészadatlap a színdarabok kéthasábos elrendezését követi. */
+.artist-work-detail .detail-image { aspect-ratio: 4 / 5; }
+.artist-work-detail .detail-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; }
+.artist-work-detail .detail-actions .btn { width: 100%; padding-inline: 6px; }
+.artist-work-detail .detail-intro > .artist-previous { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.artist-work-detail .artist-previous h2 { color: var(--red); font: 700 clamp(20px, 2.2vw, 26px)/1.2 var(--mono); }
+.artist-work-detail .detail-related-list > .muted { padding-top: 8px; }
+@media (max-width: 480px) { .artist-work-detail .detail-media { max-width: none; } }
+.artist-work-detail .detail-panel[hidden] { display: none; }
+.artist-work-detail .detail-facts { grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); }
+/* Színész: a díjak és a kapcsolódó előadások rendezett megjelenése. */
+.artist-work-detail .artist-awards { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 14px 0 16px; }
+.artist-work-detail .artist-award { display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--ink); font: 400 11px/1.35 var(--mono); }
+.artist-work-detail .artist-award svg { flex: 0 0 25px; width: 25px; height: 25px; fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.artist-work-detail .detail-facts { grid-template-columns: repeat(auto-fit, minmax(100px, max-content)); gap: 0; padding: 8px 0; }
+.artist-work-detail .detail-facts > div { padding-inline: 18px; }
+.artist-work-detail .detail-facts > div:first-child { padding-left: 0; }
+.artist-work-detail .production-group { grid-template-columns: 1fr; }
+.artist-work-detail .production-row { flex-direction: row; align-items: stretch; }
+.artist-work-detail .work-production-banner { flex: 0 0 170px; width: 170px; height: auto; min-height: 125px; aspect-ratio: auto; }
+.artist-work-detail .work-production-body { flex: 1; min-width: 0; flex-direction: row; align-items: center; justify-content: space-between; }
+.artist-work-detail .work-production-body > .btn { flex: none; }
+@media (max-width: 700px) { .artist-work-detail .work-production-banner { flex-basis: 125px; width: 125px; } }
+@media (max-width: 540px) { .artist-work-detail .production-row { flex-direction: row; } .artist-work-detail .work-production-banner { flex-basis: 90px; width: 90px; min-height: 120px; } .artist-work-detail .work-production-body { align-items: flex-start; flex-direction: column; padding: 12px; } .artist-work-detail .detail-facts { grid-template-columns: repeat(auto-fit, minmax(95px, max-content)); } }
+/* Színházadatlap: külön szakasz az előadásoknak és a társulatnak. */
+.theatre-work-detail .detail-subtitle { font-size: 13px; }
+.theatre-work-detail .theatre-sections > .detail-related { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.theatre-work-detail .theatre-sections .detail-section-head h2, .theatre-work-detail .theatre-sections > .work-extra > h2 { font: 700 20px/1.2 var(--mono); }
+.theatre-work-detail .production-group { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.theatre-work-detail .work-cast { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 190px)); gap: 18px; margin-top: 16px; }
+.theatre-artist-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--white); box-shadow: var(--card-shadow); transition: transform 180ms ease, box-shadow 180ms ease; }
+.theatre-artist-card:hover { transform: translateY(-4px); box-shadow: 0 7px 12px #0003; text-decoration: none; }
+.theatre-artist-photo { position: relative; display: block; width: 100%; aspect-ratio: 1; overflow: hidden; background: var(--placeholder); }
+.theatre-artist-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 24%; }
+.theatre-artist-info { display: flex; flex: 1; flex-direction: column; padding: 16px 14px 0; }
+.theatre-artist-venue { min-height: 3em; margin-bottom: 9px; color: var(--red); font: 700 11px/1.4 var(--mono); text-transform: uppercase; }
+.theatre-artist-info strong { margin-bottom: 7px; font: 700 22px/1.12 var(--serif); }
+.theatre-artist-info small { margin-bottom: 8px; color: var(--muted); font: 400 12px/1.4 var(--mono); }
+.theatre-artist-footer { display: flex; justify-content: flex-end; margin: auto 14px 0; padding-bottom: 12px; }
+.theatre-artist-arrow { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--red); color: white; }
+.theatre-artist-arrow svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 540px) { .theatre-work-detail .work-cast { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+@media (prefers-reduced-motion: reduce) { .theatre-artist-card { transition: none; } .theatre-artist-card:hover { transform: none; } }
+.theatre-work-detail #detail-kicker[hidden] { display: none; }
+.theatre-work-detail .detail-intro h1 { margin-bottom: 18px; }
