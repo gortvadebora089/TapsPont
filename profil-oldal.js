@@ -281,7 +281,7 @@
       canvas.width = canvas.height = 128;
       const context = canvas.getContext('2d', { alpha: false });
       const side = Math.min(image.width, image.height);
-      context.fillStyle = '#f8f5f0';
+      context.fillStyle = '#F7F4EA';
       context.fillRect(0, 0, 128, 128);
       context.drawImage(image, (image.width - side) / 2, (image.height - side) / 2, side, side, 0, 0, 128, 128);
       return canvas.toDataURL('image/jpeg', 0.88);

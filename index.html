@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="hu">
 <head>
+  <link rel="icon" href="logo/favicon.ico" sizes="any">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TapsPont</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;700&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:ital,wght@0,400;0,700;1,400&amp;display=swap">
   <link rel="stylesheet" href="tapspont.css">
   <style>
     .frame { background: var(--placeholder); border: 1px solid var(--border); border-radius: 21px; }
@@ -44,7 +45,7 @@
     .ranking-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
     .ranking-note { font: 300 15px/1.4 "Overpass", sans-serif; }
     .rank-controls { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
-    .rank-controls .btn { min-height: 38px; padding-inline: 18px; color: #30262B; background: transparent; font-size: 15px; }
+    .rank-controls .btn { min-height: 38px; padding-inline: 18px; color: #3D3D3D; background: transparent; font-size: 15px; }
     .rank-controls .btn:hover { background: #f9dce1; }
     .rank-controls .btn[aria-pressed="true"] { background: var(--red); color: #fff; }
     .rank-carousel, .premiere-carousel { --visible-slides: 4; --slide-gap: 24px; --slide-size: calc((100cqi - 3 * var(--slide-gap)) / 4); }
@@ -98,8 +99,8 @@
     .topic-tile-label { text-align: center; font: 700 clamp(18px, 2vw, 24px)/1.2 var(--serif); }
     .topic-tile-description { align-self: stretch; color: var(--muted); font: 400 clamp(12px, 1.25vw, 14px)/1.4 var(--mono); }
     .topic-tile .topic-arrow { position: absolute; top: 14px; right: 14px; width: 24px; height: 24px; color: var(--red); }
-    .filter-menu { position: fixed; inset: 0; margin: auto; width: min(490px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--paper); color: var(--ink); box-shadow: 0 10px 36px #30262b33; }
-    .filter-menu::backdrop { background: #30262b45; }
+    .filter-menu { position: fixed; inset: 0; margin: auto; width: min(490px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--paper); color: var(--ink); box-shadow: 0 10px 36px #3D3D3D33; }
+    .filter-menu::backdrop { background: #3D3D3D45; }
     .filter-menu h2 { margin-bottom: 16px; color: var(--red); font: 700 23px/1.2 var(--mono); }
     .filter-menu fieldset { margin: 0 0 15px; padding: 0; border: 0; }
     .filter-menu legend { padding: 0; margin-bottom: 8px; font-weight: 700; }
@@ -150,6 +151,190 @@
   </style>
   <link rel="stylesheet" href="fooldal-finomitas.css">
   <link rel="stylesheet" href="mobil.css">
+  <link rel="stylesheet" href="finomitasok.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="egyseg.css">
+  <style>
+    /* Főoldali gombok: a Figma-minta 109 × 34-es, 10 px-es sarkú vezérlője. */
+    .btn, .rankings .ranking-tools .btn {
+      box-sizing: border-box;
+      min-width: 109px;
+      min-height: 34px;
+      padding: 0 15px;
+      border: 1px solid #E05364;
+      border-radius: 10px !important;
+      background: transparent;
+      color: #E05364;
+      line-height: 1.2;
+    }
+    .btn:is(:hover, :focus-visible), .rankings .ranking-tools .btn:is(:hover, :focus-visible) {
+      background: #E05364;
+      color: #fff;
+      text-decoration: none;
+    }
+    .btn.account-primary, .rankings .ranking-tools .btn[aria-pressed="true"] {
+      background: #E05364;
+      border-color: #E05364;
+      color: #fff;
+    }
+    .btn:focus-visible, .icon-button:focus-visible { outline: 2px solid #a42c3e; outline-offset: 3px; }
+    .icon-button, .tp-top, .tp-close {
+      min-width: 34px !important;
+      border-radius: 10px !important;
+    }
+    /* A Figma szerinti két félből álló, kapszula alakú hero-lapozó. */
+    .hero-controls {
+      width: 82px;
+      height: 146px;
+      grid-template-rows: repeat(2, 1fr);
+      border-radius: 999px !important;
+      background: #DF3550;
+    }
+    .hero-controls button {
+      width: 100%;
+      min-width: 0 !important;
+      min-height: 0;
+      height: 73px;
+      border-radius: 0 !important;
+      background: transparent;
+    }
+    .hero-controls button:is(:hover, :focus-visible) { background: transparent; }
+    .hero-controls button:active { background: #B92C43; }
+    .hero-controls button:active { transform: none; }
+    /* A Figma csillaga; a pontszám a csillag közepén áll. */
+    .rank-rating {
+      width: max-content;
+      min-width: 43px;
+      height: 21px;
+      background: var(--red);
+    }
+    .feature-label { display: flex; align-items: center; }
+    .feature-label .feature-star {
+      display: inline-block;
+      flex: 0 0 29px;
+      width: 29px;
+      height: 28px;
+      margin-right: 8px;
+      background: center / 100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 29 28'%3E%3Cpath d='M14.5 3.4 L17.2 10.1 H24.4 L18.6 14.5 L20.8 21.5 L14.5 17.3 L8.2 21.5 L10.4 14.5 L4.6 10.1 H11.8 Z' fill='%23FECC28' stroke='%23FECC28' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+    .rank-rating {
+      position: absolute;
+      top: 22px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 7px 0 18px;
+      border: 0;
+      border-radius: 0 9px 9px 9px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+      color: #fff;
+      font: 500 18px/1 "Oswald", sans-serif;
+    }
+    .rank-rating::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 50%;
+      width: 32px;
+      height: 32px;
+      transform: translateY(-50%);
+      background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 58'%3E%3Cpath d='M30 4 L37.2 19.4 L54.2 21.6 L41.8 33.4 L44.8 50.4 L30 42.1 L15.2 50.4 L18.2 33.4 L5.8 21.6 L22.8 19.4 Z' fill='%23FEEE3F' stroke='%23FEEE3F' stroke-width='3.5' stroke-linejoin='round'/%3E%3C/svg%3E");
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
+    }
+    .rank-rating > span:first-child { display: none; }
+    .rank-rating .rating-value { position: relative; z-index: 1; }
+    .rank-rating small { position: absolute; top: 100%; right: 0; padding: 1px 3px; border-radius: 3px; background: #fff; font-size: 9px; }
+    .hero-date > span { font-size: 17px; }
+    .hero-date p { font-size: 22px; }
+    .rankings .ranking-tools .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 15px; text-align: center; line-height: 1; }
+    .section-subtitle { font-weight: 600; }
+    .review-source { font-size: 17px; }
+    .review-date { font-size: 15px; }
+    .review-more { margin-top: 32px; }
+    .rank-card .listing-foot, .rank-card.is-theatre .listing-foot {
+      margin: auto -18px -10px;
+      padding: 10px 18px;
+      border: 0;
+      background: #f8f6f4;
+    }
+    .premiere .listing-foot { margin: auto -19px -18px; padding: 10px 19px; border: 0; background: #f8f6f4; }
+    .review-foot { width: auto; align-self: stretch; margin: auto -30px -30px; padding: 18px 30px; border: 0; border-top: 1px solid var(--rule); background: transparent; }
+    .search-field .search-submit { width: 36px; height: 36px; min-width: 36px !important; border-radius: 50% !important; }
+    .profile-trigger { border: 0; }
+    #login-popover .field input:not([type="checkbox"]) { border-radius: 10px; }
+    #login-popover .checkbox { font-size: 14px; }
+    /* A naptár a képernyő közepén jelenik meg, nem a szűrő görgethető részében. */
+    #search-filters .tp-calendar {
+      position: fixed;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: min(320px, calc(100vw - 32px));
+      padding: 12px;
+      z-index: 100;
+    }
+    #search-filters .tp-calendar-head { margin-bottom: 4px; }
+    #search-filters .tp-calendar-grid { gap: 1px; }
+    #search-filters .tp-calendar-grid button { min-height: 0; height: clamp(20px, calc((100dvh - 115px) / 7), 36px); }
+    #search-filters .tp-weekday { padding-block: 3px; }
+    #search-filters .tp-calendar-clear { margin-top: 4px; }
+    main > .block { position: relative; border-top: 0; }
+    main > .block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100dvw;
+      height: 2px;
+      transform: translateX(-50%);
+      background: var(--rule);
+    }
+    /* A korábbi Figma-főoldal 84:531 jelű logója. */
+    .brand.figma-brand { position: relative; display: block; flex-shrink: 0; height: 52px; text-decoration: none; }
+    .site-header .brand.figma-brand { flex-basis: 111px; width: 111px; }
+    .figma-brand::before { content: none; }
+    .figma-brand img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: left center; }
+    .figma-brand span { position: absolute; top: 12px; white-space: nowrap; font: 700 28px/28px Tinos, 'Times New Roman', serif !important; letter-spacing: -1.12px; }
+    .figma-brand .figma-taps { left: 4px; color: #fff; }
+    .figma-brand .figma-pont { left: 52px; color: #30262c; }
+    .footer-nav .figma-brand { height: 60px; }
+    .footer-nav .figma-brand .figma-taps { color: #30262c; }
+    .footer-nav .figma-brand .figma-pont { color: #fff; }
+    .feature h1 { margin: 8px 0 14px; line-height: 1.08; }
+    .feature-author { margin: 16px 0 8px; line-height: 1.4; }
+    .feature-director { line-height: 1.4; }
+    .feature-description { margin-top: 10px; font-family: 'Oswald', sans-serif; font-weight: 400; line-height: 1.5; }
+    .feature .btn { margin-top: 16px; }
+    .rank-rating {
+      top: -2px; right: -2px; min-width: 0; height: auto; min-height: 32px;
+      padding: 8px 16px 5px 31px; gap: 0;
+      border-radius: 0 0 0 18px; background: var(--red); box-shadow: none;
+      color: var(--white); font: 700 13px/1 var(--mono);
+    }
+    .rank-rating::before { left: 9px; width: 19px; height: 19px; filter: none; }
+    .rank-cover { border-radius: var(--card-radius) var(--card-radius) var(--card-radius) 0; }
+    .rank-picture { border-radius: var(--card-radius) 0 var(--card-radius) 0; }
+    .rank-cover { overflow: hidden; }
+    .rank-card .order-value { position: relative; top: -1px; }
+    @media (min-width: 801px) {
+      .hero-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: clamp(54px, 7vw, 98px); align-items: stretch; }
+      .hero-media { min-width: 0; aspect-ratio: 1.74; }
+      .hero-media .frame { position: absolute; inset: 0 72px 28px 0; width: auto; height: auto; aspect-ratio: auto; }
+      .hero-controls { right: 72px; bottom: 0; }
+      .feature-actions { margin-top: auto; }
+    }
+    .topic-tile, .topic-tile:is(:hover, :focus-visible) { border: 0; }
+    .topic-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .rank-carousel.is-revealed .rank-card { animation: topic-arrive 650ms cubic-bezier(.2,.65,.3,1) both; }
+      .rank-carousel.is-revealed .rank-card:nth-child(2) { animation-delay: 60ms; }
+      .rank-carousel.is-revealed .rank-card:nth-child(3) { animation-delay: 120ms; }
+      .rank-carousel.is-revealed .rank-card:nth-child(4) { animation-delay: 180ms; }
+    }
+    .listing-category, .listing-secondary, .premiere-director, .review-foot .muted { color: #625961; }
+    @media (max-width: 800px) { .review-foot { margin-inline: -24px; margin-bottom: -24px; padding-inline: 24px; } }
+    @media (max-width: 540px) { .hero-date > span { font-size: 15px; } .hero-date p { font-size: 19px; } }
+  </style>
 </head>
 <body>
   <svg width="0" height="0" aria-hidden="true" style="position:absolute">
@@ -167,7 +352,7 @@
     </filter>
     <symbol id="brand-wordmark" viewBox="0 0 416 224">
       <circle cx="112" cy="112" r="112" fill="var(--red)"/>
-      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+      <g font-family="Arial, sans-serif" font-weight="700" font-size="102">
         <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
         <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
       </g>
@@ -187,7 +372,7 @@
   <div class="top" id="felfedezes">
     <header class="site-header">
       <div class="header-inner">
-        <a href="#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a href="#felfedezes" class="brand figma-brand" aria-label="TapsPont"><img src="logo/TapsPont_Logo.png" alt=""></a>
         <form class="search" role="search">
           <div class="search-field">
             <div class="search-category">
@@ -228,7 +413,7 @@
           <a href="temak.html?tema=szindarabok">Színdarabok</a>
           <a href="temak.html?tema=szinhazak">Színházak</a>
           <a href="temak.html?tema=szineszek">Színészek</a>
-          <a href="#toplistak">Toplisták</a>
+
         </nav>
         <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
                 popovertarget="login-popover" aria-label="Profil / Belépés">
@@ -282,7 +467,6 @@
           <div class="feature-copy-stack"></div>
           <div class="feature-actions">
             <a class="btn btn-outline" id="featured-detail">Részletek</a>
-            <a class="btn rating-pill" id="featured-rating"><span aria-hidden="true">★</span> <span class="rating-value">—</span> <span class="rating-count">Értékelések</span></a>
           </div>
         </article>
       </div>
@@ -292,16 +476,16 @@
 
   <main class="wrap">
     <section class="block rankings" id="toplistak">
-        <div class="ranking-meta"><p class="section-subtitle">Nézői sorrend alapján</p></div>
+        <div class="ranking-meta"><p class="section-subtitle">Nézői sorrend</p></div>
         <div class="section-head ranking-heading"><h2>Népszerű</h2>
-        <div class="ranking-tools">
+        <div class="ranking-tools"><a class="btn btn-outline" href="toplista.html">Teljes toplista</a>
           <div class="rank-controls" role="group" aria-label="Toplista kategóriája">
           <button type="button" class="btn" aria-pressed="true">Színdarabok</button>
           <button type="button" class="btn" aria-pressed="false">Színházak</button>
           </div>
         </div>
         </div>
-        <div class="rank-carousel" data-carousel="manual" role="group" aria-label="Népszerű találatok">
+        <div class="rank-carousel" data-carousel role="group" aria-label="Népszerű találatok">
           <div class="slide-viewport"><ol class="rank-list slide-track"></ol></div>
           <div class="side-navigation">
             <button type="button" class="icon-button arrow" data-slide="-1" aria-label="Előző helyezett"><svg class="icon" aria-hidden="true"><use href="#icon-prev"/></svg></button>
@@ -344,7 +528,7 @@
     </section>
 
     <section class="block" id="velemenyek">
-      <p class="section-subtitle">Legfrissebb vélemények</p><div class="section-head"><h2>Önök mondták</h2></div>
+      <p class="section-subtitle">Vélemények</p><div class="section-head"><h2>Önök mondták</h2></div>
       <div class="review-grid" id="recent-review-list"></div>
       <div class="review-more">
         <button type="button" class="btn btn-outline" aria-controls="recent-review-list">További vélemények</button>
@@ -355,7 +539,7 @@
   <footer class="site-footer">
     <div class="wrap">
       <nav class="footer-nav" aria-label="Lábléc">
-        <a class="brand" href="#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a class="brand figma-brand" href="#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
         <div><strong>TapsPont</strong><a href="#rolunk" data-info="Rólunk">Rólunk</a></div>
         <div><strong>Segítség</strong><a href="#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
         <div><strong>Jogi információk</strong><a href="#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
@@ -382,11 +566,12 @@
   </template>
   <template id="feature-copy-template">
     <div class="feature-copy">
-      <p class="feature-label"><span aria-hidden="true">★</span> Új előadások</p>
+      <p class="feature-label"><span class="feature-star" aria-hidden="true"></span> Új előadások</p>
       <h1></h1>
       <p class="muted feature-meta"></p>
       <p class="feature-author"></p>
       <p class="muted feature-director"></p>
+      <p class="feature-description"></p>
     </div>
   </template>
   <template id="rank-template">
@@ -448,14 +633,11 @@
     const rankButtons = Array.from(document.querySelectorAll('.rank-controls button'));
     const rankingCount = 10;
     const featured = ['pal', 'mamma', 'fair'].map(id => productions.find(entry => entry.id === id));
-    const featuredCounts = Object.fromEntries(featured.map(entry => [entry.id, Math.floor(Math.random() * 700) + 100]));
     const rankTrack = document.querySelector('.rank-list');
     const rankings = Object.fromEntries(rankButtons.map(({ textContent: category }) => {
       const entries = [...categories[category]];
-      for (let index = entries.length - 1; index > 0; index--) {
-        const other = Math.floor(Math.random() * (index + 1));
-        [entries[index], entries[other]] = [entries[other], entries[index]];
-      }
+      const ratingFor = entry => category === 'Színházak' ? sampleRating(entry) : workRating(entry).value;
+      entries.sort((a, b) => Number(ratingFor(b).replace(',', '.')) - Number(ratingFor(a).replace(',', '.')) || a.title.localeCompare(b.title, 'hu'));
       return [category, entries.slice(0, rankingCount)];
     }));
     let activeRank = rankButtons[0].textContent;
@@ -523,11 +705,12 @@
         }
         card.querySelector('.listing-detail').href = entry.detail || entry.url;
         card.querySelector('.listing-detail').setAttribute('aria-label', entry.title + ' – részletek');
-        const sampleScore = (8 + (index % 17) / 10).toFixed(1).replace('.', ',');
+        const rating = category === 'Színházak' ? { value: sampleRating(entry), sample: true } : workRating(entry);
+        const sampleScore = rating.value;
         const badge = card.querySelector('.rank-rating');
         badge.querySelector('.rating-value').textContent = sampleScore;
-        badge.setAttribute('aria-label', 'Mintapontszám: ' + sampleScore);
-        badge.title = 'Mintapontszám: ' + sampleScore;
+        badge.setAttribute('aria-label', (rating.sample ? 'Mintapontszám: ' : 'Pontszám: ') + sampleScore + (category === 'Színházak' ? ' / 10' : ' / 5'));
+        badge.title = (rating.sample ? 'Mintapontszám: ' : 'Pontszám: ') + sampleScore + (category === 'Színházak' ? ' / 10' : ' / 5');
         return card;
       }));
       rankTrack.parentElement.scrollLeft = 0;
@@ -536,6 +719,11 @@
 
     const featureTemplate = document.querySelector('#feature-copy-template');
     const featureStack = document.querySelector('.feature-copy-stack');
+    const featureDescriptions = {
+      pal: 'Pesti fiúk őrzik a számukra különleges grundot. A történet Molnár Ferenc regénye nyomán elevenedik meg. A Vígszínház zenés színpadi változatát Dés László, Geszti Péter és Grecsó Krisztián készítette...',
+      mamma: 'Sophie az esküvőjére készül. Három férfit hív meg, hogy megtudja, melyikük az apja. Történetüket az ABBA dalai kísérik...',
+      fair: 'Higgins professzor fogadást köt. Azt vállalja, hogy Elizát, a virágárust az előkelő londoni társaság tagjaként mutatja be. A musical a Centrál Színházban látható...'
+    };
     // Overlapping copies reserve the tallest slide's space at the current width.
     const featureCopies = featured.map(entry => {
       const copy = featureTemplate.content.firstElementChild.cloneNode(true);
@@ -545,8 +733,12 @@
       accent.textContent = entry.title.slice(split);
       title.replaceChildren(entry.title.slice(0, split), accent);
       copy.querySelector('.feature-meta').textContent = entry.kind;
-      copy.querySelector('.feature-author').textContent = entry.author;
-      copy.querySelector('.feature-director').textContent = 'Rendező: ' + entry.director;
+      copy.querySelector('.feature-author').textContent = entry.id === 'pal'
+        ? 'Molnár Ferenc regénye, Dés László, Geszti Péter...'
+        : entry.author;
+      const directors = (entry.director || '').split(/\s*,\s*|\s+és\s+/).filter(Boolean);
+      copy.querySelector('.feature-director').textContent = directors.length ? 'Rendező: ' + directors.slice(0, 3).join(', ') + (directors.length > 3 ? '...' : '') : '';
+      copy.querySelector('.feature-description').textContent = featureDescriptions[entry.id] || (entry.description || '').replace(/[.!?…]+$/, '') + '...';
       return copy;
     });
     featureStack.append(...featureCopies);
@@ -563,13 +755,6 @@
       const next = entry.next && new Date(entry.next);
       document.querySelector('#featured-date').textContent = next && next >= new Date()
         ? localDateTime.format(next).replace(',', '') : 'Időpontok a színház műsorában';
-      const rating = document.querySelector('#featured-rating');
-      rating.href = detailUrl('mu', entry.id) + '#nezoi-velemenyek';
-      showRating(rating, entry);
-      rating.querySelector('.rating-count').textContent = featuredCounts[entry.id] + ' Értékelés';
-      rating.querySelector('.rating-value').hidden = true;
-      rating.setAttribute('aria-label', featuredCounts[entry.id] + ' értékelés, mintaadat');
-      rating.title = 'Értékelések száma: ' + featuredCounts[entry.id] + ' (mintaadat)';
       document.querySelector('#featured-detail').href = entry.url;
     }
 
@@ -705,6 +890,7 @@
       }
     }, { threshold: .15 });
     document.querySelectorAll('.topic-tile').forEach(tile => topicObserver.observe(tile));
+    topicObserver.observe(document.querySelector('.rank-carousel'));
     function setupCarousel(carousel) {
       const track = carousel.querySelector('.slide-track');
       const viewport = carousel.querySelector('.slide-viewport');
@@ -765,8 +951,11 @@
     for (const button of rankButtons) {
       button.addEventListener('click', () => renderRankings(button.textContent));
     }
-    document.querySelector('#previous').addEventListener('click', () => selectSlide(slide - 1));
-    document.querySelector('#next').addEventListener('click', () => selectSlide(slide + 1));
+    for (const button of document.querySelectorAll('.hero-controls button')) {
+      button.addEventListener('click', () => {
+        selectSlide(slide + (button.id === 'next' ? 1 : -1));
+      });
+    }
     const searchable = text => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('hu')
       .replace(/[^\p{Letter}\p{Number}]+/gu, ' ').trim();
     const searchFilters = document.querySelector('#search-filters');
@@ -823,7 +1012,11 @@
       const results = selected ? matches : matches.filter((entry, index) =>
         matches.findIndex(other => other.title === entry.title && (other.detail || other.url) === (entry.detail || entry.url)) === index
       );
-      showEntries(selection ? 'Keresési találatok · ' + selection : 'Keresési találatok', results);
+      results.sort((a, b) => {
+        const score = entry => { const title = searchable(entry.title); return title === query ? 0 : title.startsWith(query) ? 1 : title.includes(query) ? 2 : 3; };
+        return score(a) - score(b) || collator.compare(a.title, b.title);
+      });
+      showEntries(selection ? 'Keresési találatok - ' + selection : 'Keresési találatok', results);
     });
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has('query')) {
@@ -853,5 +1046,9 @@
     }
   </script>
   <script src="csillagok.js"></script>
+  <script src="finomitasok.js"></script>
+  <script src="naptar.js"></script>
+  <script src="gorgetes.js"></script>
+  <script src="elvalasztok.js"></script>
 </body>
 </html>

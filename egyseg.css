@@ -1,0 +1,72 @@
+/* A főoldalon jóváhagyott közös TapsPont-vizuális rendszer. */
+:root {
+  --paper: #F7F4EA;
+  --white: #fefefe;
+  --ink: #3D3D3D;
+  --red: #E54B4B;
+  --link: var(--red);
+  --rule: #e8e2db;
+  --card-radius: 22px;
+  --serif: 'Oswald', 'Arial Narrow', sans-serif;
+  --mono: 'Oswald', 'Arial Narrow', sans-serif;
+  --tp-button-red: #E05364;
+  --tp-button-radius: 10px;
+  --tp-card-band: #f8f6f4;
+}
+body, button, input, select, textarea { font-family: 'Oswald', 'Arial Narrow', sans-serif; }
+.brand.tp-image-logo { display: block; width: 111px; height: 52px; line-height: 0; }
+.brand.tp-image-logo img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: left center; }
+.footer-nav .brand.tp-image-logo { width: 112px; height: 60px; }
+.search-field .search-submit { width: 36px; height: 36px; min-width: 36px !important; border-radius: 50% !important; }
+.site-header .profile-trigger { border: 0; }
+.btn, .work-filter, .dashboard-outline {
+  display: inline-flex; align-items: center; justify-content: center;
+  box-sizing: border-box; min-width: 109px; min-height: 34px; padding: 0 15px;
+  border: 1px solid var(--tp-button-red); border-radius: var(--tp-button-radius) !important;
+  background: transparent; color: var(--tp-button-red); text-align: center; line-height: 1.2;
+}
+.btn:is(:hover, :focus-visible), .work-filter:is(:hover, :focus-visible), .dashboard-outline:is(:hover, :focus-visible) { background: var(--tp-button-red); color: #fff; text-decoration: none; }
+.btn.account-primary, .btn[aria-pressed='true'], .work-filter[aria-pressed='true'] { border-color: var(--tp-button-red); background: var(--tp-button-red); color: #fff; }
+.btn:focus-visible, .work-filter:focus-visible, .dashboard-outline:focus-visible { outline: 2px solid #a42c3e; outline-offset: 3px; }
+.site-header .icon-button:not(.search-submit), .tp-top, .tp-close { min-width: 34px !important; border-radius: 10px !important; }
+#login-popover .field input:not([type='checkbox']), .account-main .field input:not([type='checkbox']), .profile-dialog :is(input:not([type='checkbox']), textarea), .detail-share-dialog input { border-radius: 10px; }
+#login-popover .checkbox { font-size: 14px; }
+#search-filters .tp-calendar { position: fixed; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(320px, calc(100vw - 32px)); padding: 12px; z-index: 100; }
+#search-filters .tp-calendar-head { margin-bottom: 4px; }
+#search-filters .tp-calendar-grid { gap: 1px; }
+#search-filters .tp-calendar-grid button { min-height: 0; height: clamp(20px, calc((100dvh - 115px) / 7), 36px); }
+#search-filters .tp-weekday { padding-block: 3px; }
+#search-filters .tp-calendar-clear { margin-top: 4px; }
+/* A katalógus és a részletes oldalak saját tartalma változatlan marad. */
+.topic-records :is(.topic-record, .theatre-record, .work-record), .detail-panel, .profile-entry-card, .dashboard-panel { border-radius: var(--card-radius); }
+.topic-records :is(.actor-footer, .theatre-footer, .work-footer) { border: 0; background: var(--tp-card-band); color: #625961; }
+.topic-records[data-topic='szineszek'] .actor-footer { margin: auto 0 0; padding: 10px 18px; border: 0; background: var(--tp-card-band); }
+.topic-records[data-topic='szineszek'] .topic-caption > p:not(.actor-theatre) { display: block; }
+.topic-records :is(.work-record, .theatre-record, .topic-record):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.topic-records .work-save { min-width: 36px !important; }
+.topic-records .catalog-rating {
+  top: 0; right: 0; gap: 4px; min-height: 30px; padding: 8px 16px 5px;
+  border-radius: 0 0 0 18px; background: var(--red); color: #fff;
+  font: 700 13px/1 var(--mono); box-shadow: none;
+}
+.topic-records .catalog-rating-star { color: #FEEE3F; font-size: 17px; }
+.topic-records .catalog-rating small { color: #fff; font-size: 9px; }
+.detail-panel, .dashboard-panel, .profile-settings { background-color: var(--white); }
+.detail-main :is(.detail-section-head h2, .artist-previous h2, .theatre-cast-section h2) { color: var(--ink); font: 700 clamp(23px, 3vw, 30px)/1.15 var(--mono); }
+.profile-main .dashboard-heading h2 { color: var(--ink); font: 700 22px/1.2 var(--mono); letter-spacing: normal; text-transform: none; }
+/* A teljes toplista soros felépítését megőrizve a főoldali méretek és színek. */
+.tp-ranking-page { width: min(1216px, calc(100% - 48px)); max-width: 1216px; padding-block: 54px 80px; }
+.tp-ranking-page h1 { color: var(--ink); font: 700 30px/1.15 var(--mono); text-transform: none; }
+.tp-ranking-page > p { margin: 8px 0 0; color: var(--muted); font: 400 14px/1.4 var(--mono); text-transform: none; }
+.tp-ranking-tabs { min-height: 0; gap: 8px; margin: 22px 0; padding: 0; border: 0; }
+.tp-ranking-tabs::before { content: none; }
+.tp-ranking-tabs .btn { min-height: 34px; padding: 0 15px; border: 1px solid var(--tp-button-red); border-radius: 10px !important; background: transparent; color: var(--tp-button-red); font: 400 15px/1.2 var(--mono); }
+.tp-ranking-tabs .btn[aria-pressed='true'] { background: var(--tp-button-red); color: #fff; }
+.tp-ranking-list { display: grid; gap: 10px; max-width: none; border: 0; background: none; }
+.tp-ranking-list li, .tp-ranking-list li:nth-child(4n+2) { border: 0; }
+.tp-ranking-list a { display: flex; align-items: center; gap: 18px; min-height: 0; padding: 16px 20px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--white); box-shadow: var(--card-shadow); }
+.tp-ranking-list .tp-rank-number { min-width: 42px; color: var(--red); font: 400 40px/1 var(--mono); }
+.tp-ranking-list .tp-rank-number::after { content: none; }
+.tp-ranking-list strong { color: var(--ink); font: 700 25px/1.12 var(--mono); text-transform: none; }
+.tp-ranking-list :is(.tp-rank-score, .tp-rank-detail) { color: #625961; font: 400 14px/1.4 var(--mono); }
+@media (max-width: 700px) { .tp-ranking-page { width: calc(100% - 32px); padding-top: 32px; } .tp-ranking-tabs { flex-wrap: wrap; } .tp-ranking-list a { padding: 14px; } }

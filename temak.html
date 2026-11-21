@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="hu">
 <head>
+  <link rel="icon" href="logo/favicon.ico" sizes="any">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Színházi témák · TapsPont</title>
@@ -66,7 +67,7 @@
     .work-link { margin-left: auto; display: grid; place-items: center; flex: none; width: 36px; height: 36px; border: 0; color: var(--red); }
     .work-link::before { content: ''; position: absolute; inset: 0; }
     .work-link svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-    .work-save { position: absolute; z-index: 2; top: 14px; left: 14px; display: grid; place-items: center; width: 36px; height: 36px; padding: 8px; border: 0; border-radius: 50%; background: #e7e4e5; color: #30262b; cursor: pointer; }
+    .work-save { position: absolute; z-index: 2; top: 14px; left: 14px; display: grid; place-items: center; width: 36px; height: 36px; padding: 8px; border: 0; border-radius: 50%; background: #e7e4e5; color: #3D3D3D; cursor: pointer; }
     .work-save[aria-pressed="true"] { background: var(--red); color: white; }
     .work-save svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
     @media (prefers-reduced-motion: reduce) { .work-record { transition: none; } }
@@ -98,11 +99,14 @@
   </style>
   <link rel="stylesheet" href="temak-kartyak.css">
   <link rel="stylesheet" href="mobil.css">
+  <link rel="stylesheet" href="finomitasok.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="egyseg.css">
 </head>
 <body>
   <svg width="0" height="0" aria-hidden="true" style="position:absolute"><symbol id="brand-wordmark" viewBox="0 0 416 224">
       <circle cx="112" cy="112" r="112" fill="var(--red)"/>
-      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+      <g font-family="Arial, sans-serif" font-weight="700" font-size="102">
         <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
         <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
       </g>
@@ -116,7 +120,7 @@
     </symbol><symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol></svg>
   <header class="site-header">
       <div class="header-inner">
-        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a href="index.html#felfedezes" class="brand tp-image-logo" aria-label="TapsPont"><img src="logo/TapsPont_Logo.png" alt=""></a>
         <form class="search" action="index.html" role="search">
           <div class="search-field">
             <div class="search-category">
@@ -157,7 +161,7 @@
           <a href="temak.html?tema=szindarabok">Színdarabok</a>
           <a href="temak.html?tema=szinhazak">Színházak</a>
           <a href="temak.html?tema=szineszek">Színészek</a>
-          <a href="index.html#toplistak">Toplisták</a>
+
         </nav>
         <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
                 popovertarget="login-popover" aria-label="Profil / Belépés">
@@ -224,6 +228,17 @@
     <div class="topic-records"></div>
     <p class="work-empty" hidden>Nincs találat ebben a műfajban.</p>
   </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-nav" aria-label="Lábléc">
+        <a class="brand tp-image-logo" href="index.html#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
+        <div><strong>TapsPont</strong><a href="index.html?info=rolunk">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="index.html?info=ertekeles">Hogyan működik az értékelés?</a><a href="index.html?info=kapcsolat">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="index.html?info=felhasznalas">Felhasználási feltételek</a><a href="index.html?info=adatkezeles">Adatkezelési tájékoztató</a></div>
+      </nav>
+      <p class="copyright">© TapsPont</p>
+    </div>
+  </footer>
   <template id="topic-record">
     <a class="card topic-record">
       <div class="topic-photo" aria-hidden="true"></div>
@@ -274,6 +289,17 @@
       const grid = document.querySelector('.topic-records');
       grid.dataset.topic = topic;
       const template = document.querySelector('#topic-record');
+      function ratingBadge(entry, type) {
+        const rating = type === 'mu' ? workRating(entry) : { value: sampleRating(entry), sample: true };
+        const badge = document.createElement('span'); badge.className = 'catalog-rating';
+        badge.setAttribute('aria-label', (rating.sample ? 'Mintapontszám: ' : 'Pontszám: ') + rating.value + (type === 'mu' ? ' / 5' : ' / 10'));
+        badge.title = badge.getAttribute('aria-label');
+        const star = document.createElement('span'); star.className = 'catalog-rating-star'; star.setAttribute('aria-hidden', 'true'); star.textContent = '★';
+        const value = document.createElement('span'); value.textContent = rating.value;
+        badge.append(star, value);
+        if (rating.sample) { const label = document.createElement('small'); label.textContent = 'minta'; badge.append(label); }
+        return badge;
+      }
       for (const entry of selected.entries) {
         if (topic === 'szinhazak') {
           const related = productions.filter(item => theatreForVenue(item.venue)?.id === entry.id);
@@ -289,6 +315,7 @@
             image.addEventListener('error', () => image.remove(), { once: true });
             photo.append(image);
           }
+          photo.append(ratingBadge(entry, 'szinhaz'));
           const address = entry.meta || venue?.meta || '';
           const cityMatch = address.match(/\b\d{4}\s+([^,]+)/);
           const city = cityMatch ? cityMatch[1].trim() : '';
@@ -322,7 +349,7 @@
           }
           const kind = document.createElement('span');
           kind.className = 'work-kind'; kind.textContent = production?.kind || entry.kind;
-          photo.append(kind);
+          photo.append(kind, ratingBadge(entry, 'mu'));
           const save = document.createElement('button');
           save.type = 'button'; save.className = 'work-save';
           save.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12v15l-6-4-6 4z"/></svg>';
@@ -415,6 +442,10 @@
     }
   </script>
   <script src="csillagok.js"></script>
+  <script src="finomitasok.js"></script>
+  <script src="naptar.js"></script>
+  <script src="gorgetes.js"></script>
+  <script src="elvalasztok.js"></script>
 </body>
 </html>
 

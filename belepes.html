@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="hu">
 <head>
+  <link rel="icon" href="logo/favicon.ico" sizes="any">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-client-id" content="">
   <title>Regisztráció · TapsPont</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:wght@700&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;700&amp;family=Overpass+Mono:wght@300;400;500;700&amp;family=Tinos:wght@700&amp;display=swap">
   <link rel="stylesheet" href="tapspont.css">
   <link rel="stylesheet" href="kozos-fejlec.css">
   <style>
@@ -31,18 +32,21 @@
     .account-success-actions { margin-top: 16px; }
     .account-divider { display: flex; gap: 12px; align-items: center; margin-block: 18px 12px; color: var(--muted); font-size: 13px; }
     .account-divider::before, .account-divider::after { content: ""; flex: 1; border-top: 1px solid var(--border); }
-    .google-button { display: flex; width: 100%; min-height: 44px; gap: 10px; align-items: center; justify-content: center; padding: 8px 12px; border: 1px solid #747775; border-radius: 999px; background: #fff; color: #1f1f1f; font: 500 14px/1.4 "Google Sans", Arial, sans-serif; }
+    .google-button { display: flex; width: 100%; min-height: 44px; gap: 10px; align-items: center; justify-content: center; padding: 8px 12px; border: 1px solid #747775; border-radius: 999px; background: #fff; color: #3D3D3D; font: 500 14px/1.4 "Google Sans", Arial, sans-serif; }
     .google-button:hover { background: #f7f8f8; }
     .google-button:disabled { cursor: wait; }
     #google-error { margin-top: 10px; }
   </style>
   <link rel="stylesheet" href="mobil.css">
+  <link rel="stylesheet" href="finomitasok.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="egyseg.css">
 </head>
 <body>
   <svg width="0" height="0" aria-hidden="true" style="position:absolute">
     <symbol id="brand-wordmark" viewBox="0 0 416 224">
       <circle cx="112" cy="112" r="112" fill="var(--red)"/>
-      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+      <g font-family="Arial, sans-serif" font-weight="700" font-size="102">
         <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
         <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
       </g>
@@ -60,7 +64,7 @@
   <div class="account-page">
     <header class="site-header">
       <div class="header-inner">
-        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a href="index.html#felfedezes" class="brand tp-image-logo" aria-label="TapsPont"><img src="logo/TapsPont_Logo.png" alt=""></a>
         <form class="search" action="index.html" role="search">
           <div class="search-field">
             <div class="search-category">
@@ -101,7 +105,7 @@
           <a href="temak.html?tema=szindarabok">Színdarabok</a>
           <a href="temak.html?tema=szinhazak">Színházak</a>
           <a href="temak.html?tema=szineszek">Színészek</a>
-          <a href="index.html#toplistak">Toplisták</a>
+
         </nav>
         <a href="profil.html" class="icon-button profile" data-profile-avatar aria-label="Profil"><svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg></a>
       </div>
@@ -213,7 +217,7 @@
     <footer class="site-footer">
       <div class="wrap">
         <nav class="footer-nav" aria-label="Lábléc">
-          <a class="brand" href="index.html#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+          <a class="brand tp-image-logo" href="index.html#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
           <div><strong>TapsPont</strong><a href="index.html#rolunk" data-info="Rólunk">Rólunk</a></div>
           <div><strong>Segítség</strong><a href="index.html#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="index.html#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
           <div><strong>Jogi információk</strong><a href="index.html#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="index.html#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
@@ -233,5 +237,9 @@
   <script src="katalogus.js"></script>
   <script src="kozos-fejlec.js"></script>
   <script src="csillagok.js"></script>
+  <script src="finomitasok.js"></script>
+  <script src="naptar.js"></script>
+  <script src="gorgetes.js"></script>
+  <script src="elvalasztok.js"></script>
 </body>
 </html>

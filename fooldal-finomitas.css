@@ -114,7 +114,7 @@ main > .block { margin-top: 76px; padding-top: 46px; }
 .topic-tile-label { font-size: clamp(24px, 2.7vw, 34px); }
 .topic-tile-description { min-height: 8.4em; }
 .topic-photo { filter: grayscale(1) sepia(.7); opacity: .64; }
-.topic-tile::before { background: linear-gradient(180deg, #8a293a55, #30262bee 90%); }
+.topic-tile::before { background: linear-gradient(180deg, #8a293a55, #3D3D3Dee 90%); }
 .review { mask-image: none; overflow: hidden; }
 .review::before, .review::after { content: ''; position: absolute; top: 119px; width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; background: var(--paper); z-index: 1; }
 .review::before { left: -13px; }
@@ -128,7 +128,7 @@ main > .block { margin-top: 76px; padding-top: 46px; }
 .premiere-date { background: var(--ink); }
 .premiere .listing-primary { font-weight: 700; min-height: 3em; }
 .topic-photo { filter: grayscale(1); opacity: .83; }
-.topic-tile::before { background: linear-gradient(180deg, #df355052, #30262bba 90%); }
+.topic-tile::before { background: linear-gradient(180deg, #E54B4B52, #3D3D3Dba 90%); }
 .topic-tile::after { display: block; flex: 0 0 3px; background: var(--red); }
 .review::before, .review::after { width: 30px; height: 30px; top: 116px; }
 .review::before { left: -16px; }
@@ -160,13 +160,13 @@ main > .block { margin-top: 60px; padding-top: 36px; }
 .review-score { font-family: var(--mono); }
 .review-source { font-size: 14px; }
 .site-header { border-bottom: 1px solid var(--rule); }
-.topic-tile::before { background: linear-gradient(180deg, #0002 0%, #0003 48%, #30262bc9 100%); }
-.topic-tile .topic-arrow { background: #30262b66; }
+.topic-tile::before { background: linear-gradient(180deg, #0002 0%, #0003 48%, #3D3D3Dc9 100%); }
+.topic-tile .topic-arrow { background: #3D3D3D66; }
 @media (max-width: 540px) { .hero-date p { font-size: 15px; } }
 .section-subtitle { margin-bottom: 4px; }
 .rankings .ranking-meta { margin-bottom: 4px; }
-.topic-tile::before { background: linear-gradient(180deg, #0005 0%, #0006 48%, #30262be0 100%); }
-.topic-tile .topic-arrow { background: #30262baa; }
+.topic-tile::before { background: linear-gradient(180deg, #0005 0%, #0006 48%, #3D3D3De0 100%); }
+.topic-tile .topic-arrow { background: #3D3D3Daa; }
 
 .premiere-date { top: auto; right: auto; bottom: 14px; left: 14px; background: var(--red); }
 .rankings .ranking-heading { margin-bottom: 22px; }

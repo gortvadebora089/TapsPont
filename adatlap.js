@@ -404,16 +404,6 @@
     const theatreIntro = document.querySelector('.theatre-work-detail .detail-intro');
     theatreIntro.insertBefore(columns, theatreIntro.querySelector('.theatre-venues'));
     theatreIntro.insertBefore(dates, theatreIntro.querySelector('.theatre-venues'));
-    const alignTheatreSections = () => {
-      columns.style.paddingTop = '';
-      if (window.matchMedia('(max-width: 700px)').matches) return;
-      const bottom = byId('detail-image').getBoundingClientRect().bottom;
-      const top = relatedSection.getBoundingClientRect().top;
-      if (bottom > top) columns.style.paddingTop = (bottom - top) + 'px';
-    };
-    requestAnimationFrame(alignTheatreSections);
-    window.addEventListener('resize', alignTheatreSections);
-    document.fonts?.ready.then(alignTheatreSections);
     document.querySelector('.theatre-work-detail .detail-media').append(reviewSection);
   }
 
@@ -424,27 +414,65 @@
     const rate = node('button', '★ Értékelem', 'btn work-rate'); rate.type = 'button';
     ratingPanel.append(average, rate, node('p', 'Az értékelések ebben a böngészőben tárolódnak.', 'muted')); 
     const chart = node('section', '', 'work-rating-chart');
-    const chartHead = node('div', '', 'work-chart-head'); chartHead.append(node('h2', 'Ponteloszlás (1–10)'), node('span', '0 szavazat'));
-    const bars = node('div', '', 'work-chart-bars'); chart.append(chartHead, bars); document.querySelector('.detail-media').append(chart);
-    const ratingKey = 'tapspont-work-ratings:' + entry.id;
-    const getRatings = () => { try { const x = JSON.parse(localStorage.getItem(ratingKey) || '{}'); return x && typeof x === 'object' ? x : {}; } catch { return {}; } };
+    const chartHead = node('div', '', 'work-chart-head');
+    const chartAverage = node('div', '', 'work-chart-average');
+    const chartNumber = node('strong', '–', 'work-chart-number');
+    chartAverage.append(chartNumber, node('span', '/ 5', 'work-chart-out-of'));
+    const chartSummary = node('div', '', 'work-chart-summary');
+    const chartStars = node('div', '', 'work-chart-stars');
+    chartStars.setAttribute('aria-hidden', 'true');
+    const chartCount = node('span', '0 értékelés', 'work-chart-count');
+    chartSummary.append(chartStars, chartCount); chartHead.append(chartAverage, chartSummary);
+    const bars = node('div', '', 'work-chart-bars');
+    bars.setAttribute('aria-label', 'Értékelések megoszlása');
+    chart.append(chartHead, bars); document.querySelector('.detail-media').append(chart);
+    const ratingKey = 'tapspont-work-ratings-v2:' + entry.id;
+    const getRatings = () => workRatings(entry);
     function renderRatings() {
-      const votes = Object.values(getRatings()).filter(n => Number.isInteger(n) && n >= 1 && n <= 10);
-      average.textContent = votes.length ? '★ ' + (votes.reduce((a,b) => a+b, 0) / votes.length).toFixed(1).replace('.', ',') + ' / 10 · ' + votes.length + ' szavazat' : '★ — / 10 · Még nincs értékelés.';
-      chartHead.querySelector('span').textContent = votes.length + ' szavazat'; bars.replaceChildren();
-      const counts = Array.from({length: 10}, (_, i) => votes.filter(v => v === i + 1).length); const max = Math.max(1, ...counts);
-      counts.forEach((value, i) => { const col = node('div', '', 'work-chart-column'); const track = node('div', '', 'work-chart-track'); const fill = node('span'); fill.style.height = (100 * value / max) + '%'; track.append(fill); col.append(track, node('span', String(i + 1))); col.setAttribute('aria-label', (i + 1) + ' pont: ' + value + ' szavazat'); bars.append(col); });
+      const votes = Object.values(getRatings()).filter(n => Number.isInteger(n) && n >= 1 && n <= 5);
+      const mean = votes.length ? votes.reduce((a, b) => a + b, 0) / votes.length : 0;
+      const formatted = votes.length ? mean.toFixed(1).replace('.', ',') : '–';
+      average.textContent = votes.length ? '★ ' + formatted + ' / 5 - ' + votes.length + ' szavazat' : '★ — / 5 - Még nincs értékelés.';
+      chartNumber.textContent = formatted;
+      chartCount.textContent = votes.length + ' értékelés';
+      chartStars.replaceChildren();
+      for (let star = 1; star <= 5; star++) { const icon = node('span', '★', star <= Math.round(mean) ? 'work-chart-star is-filled' : 'work-chart-star'); chartStars.append(icon); }
+      bars.replaceChildren();
+      for (let score = 5; score >= 1; score--) {
+        const count = votes.filter(v => v === score).length;
+        const percent = votes.length ? Math.round(count / votes.length * 100) : 0;
+        const row = node('div', '', 'work-chart-column');
+        const label = node('span', String(score), 'work-chart-label');
+        const star = node('span', '★', 'work-chart-row-star'); star.setAttribute('aria-hidden', 'true'); label.append(star);
+        const track = node('span', '', 'work-chart-track'); const fill = node('span', '', 'work-chart-fill'); fill.style.width = percent + '%'; track.append(fill);
+        const value = node('span', percent + '%', 'work-chart-percent');
+        row.append(label, track, value); row.setAttribute('aria-label', score + ' pont: ' + count + ' szavazat, ' + percent + '%'); bars.append(row);
+      }
     }
     const dialog = node('dialog', '', 'detail-panel work-rating-dialog');
-    const form = node('form'); form.method = 'dialog'; const label = node('label', 'Pontszámod (1–10)'); const select = node('select');
-    for (let i = 1; i <= 10; i++) { const option = node('option', String(i)); option.value = i; select.append(option); } select.value = '10'; label.append(select);
+    const form = node('form'); form.method = 'dialog'; const label = node('label', 'Pontszámod (1–5)'); const select = node('select');
+    for (let i = 1; i <= 5; i++) { const option = node('option', String(i)); option.value = i; select.append(option); } select.value = '5'; label.append(select);
     const buttons = node('div', '', 'work-dialog-actions'); const cancel = node('button', 'Mégse', 'btn btn-outline'); cancel.type = 'button'; cancel.addEventListener('click', () => dialog.close()); const submit = node('button', 'Értékelés mentése', 'btn account-primary'); submit.type = 'submit'; buttons.append(cancel, submit); form.append(node('h2', 'Értékelés'), label, buttons); dialog.append(form); document.body.append(dialog);
     rate.addEventListener('click', () => { if (!profileSession.get()) { const message = byId('login-error'); message.textContent = 'Az értékeléshez jelentkezz be.'; message.hidden = false; byId('login-popover').showPopover(); byId('login-username').focus(); return; } dialog.showModal(); });
     form.addEventListener('submit', event => { event.preventDefault(); const profile = profileSession.get(); if (!profile) return; try { const ratings = getRatings(); ratings[profile.id || profile.name] = Number(select.value); localStorage.setItem(ratingKey, JSON.stringify(ratings)); renderRatings(); dialog.close(); } catch { average.textContent = 'Az értékelés mentése nem sikerült.'; } });
     renderRatings();
     const castMap = { pal: [['Wunderlich József', 'Boka János']], fair: [['Balla Eszter', 'Eliza Doolittle']] };
     const cast = node('section', '', 'detail-related work-extra'); cast.append(node('h2', 'Szereposztás')); const castList = node('div', '', 'work-cast');
-    for (const [name, role] of castMap[entry.id] || []) { const artist = artistRecords.find(a => a.title === name); if (!artist) continue; const item = link('', artist.detail, 'work-cast-card'); const photo = node('span', '', 'work-cast-photo'); if (artist.image) { const img = node('img'); img.src = artist.image; img.alt = ''; img.loading = 'lazy'; img.addEventListener('error', () => img.remove(), { once: true }); photo.append(img); } const theatre = (artist.meta || '').split(' · ')[0]; if (theatre) photo.append(node('span', theatre, 'work-cast-theatre')); const text = node('span', '', 'work-cast-info'); text.append(node('strong', name)); if (role) text.append(node('small', role + ' szerepében')); const footer = node('span', 'Portré →', 'work-cast-footer'); item.append(photo, text, footer); castList.append(item); }
+    castList.classList.add('topic-records'); castList.dataset.topic = 'szineszek';
+    for (const [name, role] of castMap[entry.id] || []) {
+      const artist = artistRecords.find(a => a.title === name); if (!artist) continue;
+      const item = link('', artist.detail, 'card topic-record');
+      item.setAttribute('aria-label', name + ' - adatlap' + (role ? ', ' + role + ' szerepében' : ''));
+      const photo = node('div', '', 'topic-photo'); photo.setAttribute('aria-hidden', 'true');
+      if (artist.image) { const img = node('img'); img.src = artist.image; img.alt = ''; img.loading = 'lazy'; img.addEventListener('error', () => img.remove(), { once: true }); photo.append(img); }
+      const text = node('div', '', 'topic-caption');
+      const theatre = (artist.meta || '').split(' · ')[0];
+      if (theatre) text.append(node('p', theatre, 'actor-theatre'));
+      text.append(node('h2', name)); if (role) text.append(node('p', role + ' szerepében'));
+      const footer = node('div', '', 'actor-footer'); const arrow = node('span', '', 'actor-detail-arrow'); arrow.setAttribute('aria-hidden', 'true');
+      arrow.innerHTML = '<svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>';
+      footer.append(arrow); item.append(photo, text, footer); castList.append(item);
+    }
     cast.append(castList.children.length ? castList : node('p', 'A szereposztás adatai még nem állnak rendelkezésre.', 'muted'));
     const dates = node('section', '', 'detail-related work-extra'); dates.append(node('h2', 'Következő előadásidőpontok')); let dateCount = 0;
     for (const item of related) { if (!item.next || new Date(item.next).getTime() < Date.now()) continue; const row = node('div', '', 'work-date-row'); const text = node('div', '', 'work-date-content'); const formatted = new Intl.DateTimeFormat('hu-HU', { timeZone: 'Europe/Budapest', dateStyle: 'full', timeStyle: 'short' }).format(new Date(item.next)); text.append(node('strong', formatted), node('p', item.title + ' · ' + item.venue, 'muted')); const actions = node('div', '', 'work-date-actions'); const status = node('span', 'Teltház · minta', 'work-date-status'); status.title = 'Mintajelzés, a jegyállapot nem ellenőrzött'; status.setAttribute('aria-label', 'Teltház – mintajelzés, a jegyállapot nem ellenőrzött'); actions.append(status, link('Jegyinformáció', item.url, 'btn btn-outline')); row.append(text, actions); dates.append(row); dateCount++; }

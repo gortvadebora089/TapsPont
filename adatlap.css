@@ -72,7 +72,7 @@
 .detail-sources h2 { font: 700 15px/1.3 var(--mono); margin-bottom: 8px; }
 .detail-sources a { font-size: 13px; text-decoration: underline; text-underline-offset: .22em; }
 .detail-share-dialog { width: min(460px, calc(100% - 32px)); padding: 24px; color: var(--ink); }
-.detail-share-dialog::backdrop { background: #30262b70; }
+.detail-share-dialog::backdrop { background: #3D3D3D70; }
 .detail-share-dialog input { width: 100%; margin-top: 6px; padding: 10px; border: 1px solid var(--border); border-radius: 10px; }
 .detail-missing p { margin: 12px 0 20px; }
 .detail-main + .site-footer, body:has(.detail-main) .site-footer { margin-top: clamp(56px, 8vw, 110px); }
@@ -121,7 +121,7 @@
 .detail-crumbs [aria-current="page"] { color: var(--red); }
 .artist-detail .detail-grid { grid-template-columns: minmax(190px, 31%) minmax(0, 1fr); grid-template-areas: "media intro"; align-items: center; gap: clamp(24px, 3vw, 40px); padding: clamp(24px, 3.4vw, 40px); border: 1px solid var(--border); border-radius: 22px; background: var(--white); }
 .artist-detail .detail-grid > .detail-panel[hidden] { display: none; }
-.artist-detail .detail-image { aspect-ratio: 4 / 5; border-radius: 14px; box-shadow: 0 5px 12px #30262b24; }
+.artist-detail .detail-image { aspect-ratio: 4 / 5; border-radius: 14px; box-shadow: 0 5px 12px #3D3D3D24; }
 .artist-detail .detail-kicker { display: inline-block; padding: 0; border: 0; background: transparent; color: var(--red); font: 700 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .artist-detail .detail-kicker a { color: inherit; }
 .artist-detail .detail-intro h1 { margin: 8px 0 20px; font-size: clamp(40px, 5vw, 64px); letter-spacing: -.025em; }
@@ -171,7 +171,7 @@
 /* Színdarab: a mű adatai és a színpadi változatok áttekinthetően egymás mellett. */
 .work-detail .detail-grid { grid-template-columns: minmax(210px, 26%) minmax(0, 1fr); grid-template-areas: "media intro"; gap: clamp(24px, 4vw, 56px); align-items: start; }
 .work-detail .detail-image { border-radius: 18px; box-shadow: 0 2px 3px #0004; }
-.work-detail .detail-cover { border: 0; padding: 24px; background: linear-gradient(145deg, #95223c, #30262b 75%); }
+.work-detail .detail-cover { border: 0; padding: 24px; background: linear-gradient(145deg, #E54B4B, #3D3D3D 75%); }
 .work-detail .detail-kicker { padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--red); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
 .work-detail .detail-intro h1 { margin: 9px 0; font-size: clamp(40px, 4.7vw, 68px); }
 .work-detail .detail-subtitle { margin: 0 0 18px; color: var(--red); font-size: 15px; }
@@ -232,7 +232,7 @@
 .work-date-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: white; }
 .work-date-row p { margin-top: 5px; font-size: 12px; }
 .work-rating-dialog { width: min(420px, calc(100% - 32px)); padding: 24px; }
-.work-rating-dialog::backdrop { background: #30262b80; }
+.work-rating-dialog::backdrop { background: #3D3D3D80; }
 .work-rating-dialog form, .work-rating-dialog label { display: grid; gap: 12px; }
 .work-rating-dialog select, .work-rating-dialog textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font: inherit; }
 .work-rating-dialog textarea { min-height: 140px; }
@@ -315,7 +315,7 @@
 .work-detail .work-duration { display: inline-flex; align-items: center; margin: 0 0 18px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--ink); font: 400 12px/1.3 var(--mono); }
 
 .work-date-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
-.work-date-status { padding: 6px 12px; border-radius: 999px; background: #f9dce1; color: #b51e3c; font: 700 11px/1.3 var(--mono); }
+.work-date-status { padding: 6px 12px; border-radius: 999px; background: #f9dce1; color: #E54B4B; font: 700 11px/1.3 var(--mono); }
 
 .work-detail .detail-media .detail-reviews .review-add { display: inline-grid; place-items: center; width: 36px; height: 36px; min-height: 36px; padding: 0; border: 1px solid var(--red); border-radius: 50%; background: var(--red); color: white; font: 400 24px/1 var(--mono); }
 
@@ -337,7 +337,7 @@
 .theatre-detail .detail-section-head h2, .theatre-cast-section h2 { color: var(--red); font: 700 16px/1.4 var(--mono); }
 .theatre-detail #detail-related-count { margin: 0; color: var(--red); font: 700 13px/1.4 var(--mono); }
 .theatre-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; margin-top: 16px; }
-.theatre-production-image { aspect-ratio: 1 / 1; background: radial-gradient(circle at 45% 35%, #a9364e, #401421); }
+.theatre-production-image { aspect-ratio: 1 / 1; background: radial-gradient(circle at 45% 35%, #E54B4B, #401421); }
 .theatre-production-image img { filter: brightness(.72); }
 .theatre-production-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
 .theatre-production-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
@@ -374,7 +374,7 @@
 .artist-detail #detail-related-count { display: block; color: var(--red); font: 700 13px/1.4 var(--mono); }
 .artist-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; }
 .artist-role-card { display: flex; flex-direction: column; justify-content: flex-start; gap: 0; min-height: 0; overflow: hidden; padding: 0; background: var(--white); }
-.artist-role-picture { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: radial-gradient(circle at 45% 35%, #a9364e, #401421); }
+.artist-role-picture { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: radial-gradient(circle at 45% 35%, #E54B4B, #401421); }
 .artist-role-picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.72); }
 .artist-role-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
 .artist-role-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
@@ -432,3 +432,21 @@
 @media (prefers-reduced-motion: reduce) { .theatre-artist-card { transition: none; } .theatre-artist-card:hover { transform: none; } }
 .theatre-work-detail #detail-kicker[hidden] { display: none; }
 .theatre-work-detail .detail-intro h1 { margin-bottom: 18px; }
+/* Vízszintes, százalékos értékeléseloszlás a színdarabok adatlapján. */
+.work-detail .work-rating-chart { margin-top: 22px; padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--white); box-shadow: 0 2px 3px #0002; }
+.work-rating-chart .work-chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; color: var(--ink); }
+.work-chart-average { display: flex; align-items: baseline; gap: 7px; }
+.work-chart-number { font: 600 42px/1 var(--mono); }
+.work-chart-out-of { color: var(--muted); font-size: 12px; }
+.work-chart-summary { display: grid; justify-items: end; gap: 3px; }
+.work-chart-stars { display: flex; gap: 2px; font-size: 19px; line-height: 1; }
+.work-chart-star, .work-chart-star .star-gold { color: #e3ded9; }
+.work-chart-star.is-filled, .work-chart-star.is-filled .star-gold { color: #e5a900; }
+.work-chart-count { color: var(--muted); font-size: 11px; }
+.work-rating-chart .work-chart-bars { display: grid; grid-template-columns: 1fr; gap: 7px; margin-top: 18px; }
+.work-rating-chart .work-chart-column { display: grid; grid-template-columns: 34px minmax(0,1fr) 34px; align-items: center; gap: 8px; text-align: left; color: var(--muted); font-size: 12px; }
+.work-chart-label { display: flex; align-items: center; gap: 4px; }
+.work-chart-row-star, .work-chart-row-star .star-gold { color: #e5a900; }
+.work-rating-chart .work-chart-track { display: block; height: 5px; overflow: hidden; border-radius: 3px; background: #e9e6e2; }
+.work-rating-chart .work-chart-track .work-chart-fill { display: block; height: 100%; background: var(--ink); border-radius: 3px; }
+.work-chart-percent { text-align: right; color: var(--ink); font-weight: 600; }

@@ -90,3 +90,23 @@ const publicVenueRecords = venues.map(entry => {
   const theatre = theatreRecords.find(theatre => theatre.title === entry.title);
   return theatre ? { ...entry, detail: theatre.detail } : entry;
 });
+
+// A prototípus pontszámai címhez kötött, jelölt mintaadatok.
+function sampleRating(entry) {
+  let hash = 0;
+  for (const char of entry.id || entry.title) hash = (hash * 31 + char.codePointAt(0)) >>> 0;
+  return (7.5 + (hash % 21) / 10).toFixed(1).replace('.', ',');
+}
+function workRatings(entry) {
+  try {
+    const current = localStorage.getItem('tapspont-work-ratings-v2:' + entry.id);
+    const saved = JSON.parse(current || localStorage.getItem('tapspont-work-ratings:' + entry.id) || '{}');
+    if (!saved || typeof saved !== 'object' || Array.isArray(saved)) return {};
+    return Object.fromEntries(Object.entries(saved).filter(([, n]) => Number.isInteger(n) && n >= 1 && n <= (current ? 5 : 10)).map(([name, n]) => [name, current ? n : Math.ceil(n / 2)]));
+  } catch { return {}; }
+}
+function workRating(entry) {
+  const votes = Object.values(workRatings(entry));
+  if (votes.length) return { value: (votes.reduce((a, b) => a + b, 0) / votes.length).toFixed(1).replace('.', ','), sample: false };
+  return { value: (Number(sampleRating(entry).replace(',', '.')) / 2).toFixed(1).replace('.', ','), sample: true };
+}

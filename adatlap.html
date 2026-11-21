@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="hu">
 <head>
+  <link rel="icon" href="logo/favicon.ico" sizes="any">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Adatlap · TapsPont</title>
@@ -11,12 +12,16 @@
   <link rel="stylesheet" href="kozos-fejlec.css">
   <link rel="stylesheet" href="adatlap.css">
   <link rel="stylesheet" href="mobil.css">
+  <link rel="stylesheet" href="temak-kartyak.css">
+  <link rel="stylesheet" href="finomitasok.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="egyseg.css">
 </head>
 <body>
   <svg width="0" height="0" aria-hidden="true" style="position:absolute">
     <symbol id="brand-wordmark" viewBox="0 0 416 224">
       <circle cx="112" cy="112" r="112" fill="var(--red)"/>
-      <g font-family="Tinos, Times New Roman, serif" font-weight="700" font-size="102">
+      <g font-family="Arial, sans-serif" font-weight="700" font-size="102">
         <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
         <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
       </g>
@@ -39,7 +44,7 @@
   <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol></svg>
   <header class="site-header">
       <div class="header-inner">
-        <a href="index.html#felfedezes" class="brand" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a href="index.html#felfedezes" class="brand tp-image-logo" aria-label="TapsPont"><img src="logo/TapsPont_Logo.png" alt=""></a>
         <form class="search" action="index.html" role="search">
           <div class="search-field">
             <div class="search-category">
@@ -80,7 +85,7 @@
           <a href="temak.html?tema=szindarabok">Színdarabok</a>
           <a href="temak.html?tema=szinhazak">Színházak</a>
           <a href="temak.html?tema=szineszek">Színészek</a>
-          <a href="index.html#toplistak">Toplisták</a>
+
         </nav>
         <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
                 popovertarget="login-popover" aria-label="Profil / Belépés">
@@ -178,7 +183,7 @@
   <footer class="site-footer">
     <div class="wrap">
       <nav class="footer-nav" aria-label="Lábléc">
-        <a class="brand" href="index.html#felfedezes" aria-label="TapsPont"><svg class="brand-wordmark" viewBox="0 0 416 224" aria-hidden="true"><use href="#brand-wordmark"/></svg></a>
+        <a class="brand tp-image-logo" href="index.html#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
         <div><strong>TapsPont</strong><a href="index.html?info=rolunk">Rólunk</a></div>
         <div><strong>Segítség</strong><a href="index.html?info=ertekeles">Hogyan működik az értékelés?</a><a href="index.html?info=kapcsolat">Kapcsolat</a></div>
         <div><strong>Jogi információk</strong><a href="index.html?info=felhasznalas">Felhasználási feltételek</a><a href="index.html?info=adatkezeles">Adatkezelési tájékoztató</a></div>
@@ -193,5 +198,9 @@
   <script src="kozos-fejlec.js"></script>
   <script src="adatlap.js"></script>
   <script src="csillagok.js"></script>
+  <script src="finomitasok.js"></script>
+  <script src="naptar.js"></script>
+  <script src="gorgetes.js"></script>
+  <script src="elvalasztok.js"></script>
 </body>
 </html>

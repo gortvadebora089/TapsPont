@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
-  --paper: #f8f5f0;
+  --paper: #F7F4EA;
   --placeholder: #ece6df;
   --border: #e1d9d0;
   --rule: #e8e2db;
   --white: #fefefe;
-  --ink: #30262B;
+  --ink: #3D3D3D;
   --muted: #786e75;
-  --red: #DF3550;
+  --red: #E54B4B;
   --link: var(--red);
   --serif: "Tinos", "Times New Roman", serif;
   --mono: "Overpass Mono", "Courier New", monospace;
@@ -61,7 +61,7 @@ button { cursor: pointer; }
 .category-menu {
   position: fixed; position-anchor: --search-category; inset: auto; top: anchor(bottom); left: anchor(left);
   margin: 10px 0 0; width: min(250px, calc(100vw - 44px)); padding: 8px; border: 1px solid var(--border);
-  border-radius: 22px; background: var(--paper); color: var(--ink); box-shadow: 0 8px 24px #30262b20;
+  border-radius: 22px; background: var(--paper); color: var(--ink); box-shadow: 0 8px 24px #3D3D3D20;
 }
 .category-menu fieldset { margin: 0; padding: 0; border: 0; }
 .category-menu label { display: flex; align-items: center; gap: 9px; padding: 8px 11px; border-radius: 999px; cursor: pointer; font-size: 13px; }
@@ -81,7 +81,7 @@ button { cursor: pointer; }
 .profile { color: var(--red); background: transparent; }
 [data-profile-avatar] { position: relative; overflow: hidden; }
 [data-profile-avatar] > [hidden] { display: none; }
-[data-profile-avatar].has-profile { color: #fff; background: #c42643; font-weight: 700; }
+[data-profile-avatar].has-profile { color: #fff; background: #E54B4B; font-weight: 700; }
 .avatar-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .avatar-initial { font-size: 1.25em; line-height: 1; }
 .arrow { color: white; background: var(--red); }
@@ -97,7 +97,7 @@ button { cursor: pointer; }
 .footer-nav .brand { width: 112px; margin-top: 0; --brand-taps: var(--ink); --brand-pont: #fff; }
 .copyright { border-top: 2px solid #595959; padding-top: 19px; margin-top: 44px; }
 dialog { width: min(520px, calc(100% - 32px)); color: var(--ink); background: var(--paper); padding: 24px; }
-dialog::backdrop { background: #30262c80; }
+dialog::backdrop { background: #3D3D3D80; }
 dialog h2 { margin-bottom: 14px; }
 dialog form { margin-top: 22px; text-align: right; }
 
@@ -140,8 +140,8 @@ dialog form { margin-top: 22px; text-align: right; }
 .checkbox { display: flex; align-items: start; gap: 10px; }
 .checkbox input { flex: none; accent-color: var(--red); width: 18px; height: 18px; margin: 2px 0 0; }
 .account-submit { display: grid; grid-template-columns: minmax(0, 190px); justify-content: center; gap: 8px; }
-.btn.account-primary { min-width: 155px; background: #c42643; border-color: #c42643; color: #fff; font-weight: 700; text-align: center; }
-.btn.account-primary:hover { background: #a91f38; border-color: #a91f38; }
+.btn.account-primary { min-width: 155px; background: #E54B4B; border-color: #E54B4B; color: #fff; font-weight: 700; text-align: center; }
+.btn.account-primary:hover { background: #E54B4B; border-color: #E54B4B; }
 
 .profile-trigger { anchor-name: --profile-trigger; }
 .login-popover {
@@ -149,7 +149,7 @@ dialog form { margin-top: 22px; text-align: right; }
   position-area: block-end span-inline-start; justify-self: end; align-self: start;
   width: min(320px, calc(100vw - 44px)); max-height: calc(100% - 18px);
   padding: 16px; overflow: auto; border-radius: 22px; background: var(--white); color: var(--ink);
-  box-shadow: 0 10px 28px #30262b24;
+  box-shadow: 0 10px 28px #3D3D3D24;
 }
 .login-popover h2 { margin-bottom: 24px; font-size: 26px; }
 .login-popover .field input:focus-visible { outline: 2px solid #8c8179; outline-offset: 2px; }

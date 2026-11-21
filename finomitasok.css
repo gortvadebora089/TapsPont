@@ -1,0 +1,158 @@
+:root { --mono: "Overpass", Arial, sans-serif; }
+.btn, button { text-align: center; }
+button, .btn, .work-record, .theatre-record, .work-date-row, .topic-card, .work-save, .tp-close { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease; }
+button:active, .btn:active { transform: scale(.96); }
+.work-record:hover, .theatre-record:hover, .work-date-row:hover { transform: translateY(-3px); box-shadow: 0 8px 20px #3D3D3D24; }
+.filter-menu { font-family: var(--mono); }
+.filter-menu h2 { padding-right: 36px; }
+.filter-options { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px !important; }
+.filter-options label { display: flex; align-items: center; gap: 8px; }
+.filter-options input { margin: 0; flex: none; }
+.login-register { border-top: 0; }
+.tp-close { position: absolute; right: 16px; top: 14px; z-index: 3; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--ink); font: 28px/1 Arial,sans-serif; }
+.tp-close:hover { background: #f3e5e6; transform: rotate(90deg); }
+dialog { position: fixed; }
+dialog h2 { padding-right: 40px; }
+.tp-top { position: fixed; right: 24px; bottom: 24px; z-index: 20; width: 46px; height: 46px; border: 0; border-radius: 50%; color: white; background: var(--red); box-shadow: 0 3px 12px #3D3D3D40; font-size: 25px; }
+.tp-top[hidden] { display: none; }
+.search-field { position: relative; }
+.tp-clear { flex: none; border: 0; background: transparent; padding: 5px 8px; font-size: 20px; line-height: 1; }
+.search-field input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.tp-suggestions { position: absolute; z-index: 30; top: calc(100% + 7px); left: 0; right: 0; margin: 0; padding: 6px; list-style: none; border: 1px solid var(--border); border-radius: 14px; background: var(--white); box-shadow: 0 8px 22px #3D3D3D22; }
+.tp-suggestions[hidden] { display: none; }
+.tp-suggestions a { display: block; padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+.tp-suggestions a:hover, .tp-suggestions a:focus-visible { background: #f9e9eb; text-decoration: none; }
+.tp-suggestions small { display: block; color: var(--muted); }
+.tp-theatre-wrap { position: relative; min-width: 0; }
+.tp-theatre-wrap .theatre-record { height: 100%; }
+.tp-theatre-wrap .work-save { top: 14px; left: 14px; }
+.theatre-venues h2 { font-size: 20px; }
+.detail-stars, .work-rating-average { font-size: 22px; }
+.detail-sources a { text-decoration: none; color: var(--red); font-weight: 700; }
+.detail-sources a:hover { text-decoration: underline; }
+html { scrollbar-color: #b68f96 #F7F4EA; scrollbar-width: thin; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+#featured-image { box-shadow: var(--card-shadow); }
+.search-field .search-submit { border: 0; }
+.filter-menu input[type="date"] { min-height: 40px; color: var(--ink); background: var(--white); accent-color: var(--red); }
+.filter-menu input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .75; }
+.rank-rating { align-items: center; }
+.rank-rating > span:first-child { font-size: 1.3em; line-height: 1; }
+.rank-rating small, .catalog-rating small { font-size: 9px; color: #786e75; }
+.rank-card .order-value { font-weight: 400; }
+.catalog-rating { position: absolute; z-index: 1; top: 14px; right: 14px; display: inline-flex; align-items: center; gap: 5px; padding: 6px 9px; border-radius: 999px; background: #fff; color: #3D3D3D; font: 600 13px/1 var(--mono); box-shadow: 0 2px 8px #3D3D3D24; }
+.catalog-rating-star { color: #e5a900; font-size: 17px; line-height: 1; }
+.tp-ranking-page { padding-block: 64px; min-height: 65vh; }
+.tp-ranking-page > p { margin-top: 14px; color: var(--muted); }
+.tp-ranking-tabs { display: flex; gap: 10px; margin: 28px 0; }
+.tp-ranking-tabs [aria-pressed="true"] { color: white; background: var(--red); }
+.tp-ranking-list { list-style: none; max-width: 900px; margin: 0; padding: 0; display: grid; gap: 10px; }
+.tp-ranking-list a { display: flex; align-items: center; gap: 18px; padding: 16px 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--white); transition: transform .2s, box-shadow .2s; }
+.tp-ranking-list a:hover { text-decoration: none; transform: translateY(-2px); box-shadow: var(--card-shadow); }
+.tp-ranking-list strong { flex: 1; font-size: 20px; }
+.tp-rank-number { width: 36px; color: var(--red); font-size: 26px; font-weight: 600; }
+.tp-rank-score { white-space: nowrap; color: var(--ink); }
+.tp-native-date { position: absolute; width: 1px !important; height: 1px; padding: 0 !important; overflow: hidden; clip-path: inset(50%); }
+.filter-fields label { position: relative; }
+.tp-date-button { min-height: 40px; text-align: left; border: 1px solid var(--border); border-radius: 8px; background: var(--white); padding: 8px; }
+.tp-date-button::after { content: '▦'; float: right; color: var(--red); }
+.tp-calendar { position: absolute; z-index: 10; top: 100%; left: 0; width: min(290px, 80vw); padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--white); box-shadow: 0 8px 24px #3D3D3D30; }
+.tp-calendar[hidden] { display: none; }
+.tp-calendar-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.tp-calendar-head button, .tp-calendar-grid button { border: 0; border-radius: 8px; background: transparent; min-height: 32px; }
+.tp-calendar-head button { font-size: 24px; padding: 0 8px; }
+.tp-calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 3px; }
+.tp-calendar-grid button:hover, .tp-calendar-grid [aria-current="date"] { background: var(--red); color: white; }
+.tp-calendar-grid button:disabled { opacity: .3; cursor: default; }
+.tp-weekday { color: var(--muted); font-size: 11px; padding-block: 6px; }
+.tp-calendar-clear { display: block; margin: 10px auto 0; border: 0; background: transparent; color: var(--red); }
+@media (hover: hover) and (pointer: fine) {
+  html.tp-custom-scroll { scrollbar-width: none; }
+  html.tp-custom-scroll::-webkit-scrollbar { width: 0; height: 0; }
+  .tp-scroll-track { position: fixed; z-index: 100; right: 0; top: 0; width: 14px; height: 100dvh; opacity: 0; transition: opacity .2s; touch-action: none; }
+  .tp-scroll-track.is-visible, .tp-scroll-track:hover, .tp-scroll-track:focus-within { opacity: 1; }
+  .tp-scroll-thumb { position: absolute; inset: 0 3px auto; min-height: 42px; border-radius: 9px; background: #b68f96; cursor: grab; }
+  .tp-scroll-thumb:active { cursor: grabbing; }
+}
+/* Egységes vezérlők és a bemutatók dátumkivágása. */
+.premiere .premiere-date { top: auto; right: auto; bottom: 0; left: 0; display: flex; align-items: center; min-height: 30px; padding: 8px 16px 5px; border-radius: 0 18px 0 0; background: var(--red); color: var(--white); line-height: 1; }
+.rankings .ranking-tools .btn { display: inline-flex; justify-content: center; align-items: center; min-height: 38px; padding: 0 18px; font: 400 15px/1 var(--mono); text-align: center; }
+.tp-top { display: grid; place-items: center; padding: 0; }
+.tp-top[hidden] { display: none; }
+.tp-top svg, .tp-back svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tp-back { display: inline-grid; place-items: center; width: 36px; height: 36px; margin-bottom: 18px; border: 1px solid var(--red); border-radius: 50%; color: var(--red); transition: background-color .2s, color .2s, transform .2s; }
+.tp-back:hover { background: var(--red); color: white; text-decoration: none; }
+.tp-back:active { transform: scale(.95); }
+@media (max-width: 700px) { .rankings .ranking-tools .btn { padding-inline: 12px; font-size: 13px; } }
+/* A toplista sorainak elrendezése a megadott minta alapján. */
+.tp-ranking-page { max-width: 900px; }
+.tp-ranking-page h1 { color: #777; font: 600 clamp(30px, 3vw, 40px)/1.1 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
+.tp-ranking-page > p { margin-top: 8px; color: #aaa; font-size: 12px; }
+.tp-ranking-tabs { display: flex; align-items: center; gap: 8px; margin: 24px 0 12px; padding-bottom: 12px; border-bottom: 1px solid #e8e8e8; }
+.tp-ranking-tabs::before { content: 'KATEGÓRIA:'; margin-right: 5px; color: #aaa; font: 600 11px/1 'Overpass', sans-serif; }
+.tp-ranking-tabs .btn { min-height: 29px; padding: 0 12px; border: 0; border-radius: 3px; background: #e6e6e6; color: #777; font-size: 11px; font-weight: 600; }
+.tp-ranking-tabs .btn[aria-pressed="true"] { background: #a8a8a8; color: #fff; }
+.tp-ranking-list { max-width: none; gap: 0; border: 1px solid #e4e4e4; background: #fff; }
+.tp-ranking-list li { border-left: 3px solid #E54B4B; }
+.tp-ranking-list li:nth-child(4n+2) { border-left-color: #e58a97; }
+.tp-ranking-list li:nth-child(4n+3) { border-left-color: #e5b66f; }
+.tp-ranking-list li:nth-child(4n) { border-left-color: #80b9d6; }
+.tp-ranking-list li + li { border-top: 1px solid #e4e4e4; }
+.tp-ranking-list a { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; gap: 14px; min-height: 100px; padding: 15px 18px; border: 0; border-radius: 0; background: #fdfdfd; }
+.tp-ranking-list a:hover { transform: none; box-shadow: none; background: #f8f8f8; }
+.tp-rank-number { width: auto; color: #aaa; font: 600 32px/.95 'Oswald', 'Arial Narrow', sans-serif; }
+.tp-rank-number::after { content: 'HELY'; display: block; margin-top: 5px; font: 500 10px/1 'Oswald', 'Arial Narrow', sans-serif; }
+.tp-rank-caption { display: grid; gap: 4px; min-width: 0; }
+.tp-ranking-list strong { color: #555; font: 600 20px/1.1 'Oswald', 'Arial Narrow', sans-serif; text-transform: uppercase; }
+.tp-rank-score, .tp-rank-detail { color: #999; font: 400 12px/1.35 'Overpass', sans-serif; white-space: normal; }
+.tp-rank-score { color: #888; }
+@media (max-width: 540px) { .tp-ranking-list a { grid-template-columns: 44px minmax(0, 1fr); gap: 10px; padding: 14px 11px; } .tp-ranking-list strong { font-size: 17px; } }
+/* A mellékelt lista arányai és részletei. */
+.tp-ranking-page { width: min(100% - 32px, 600px); max-width: 600px; padding-top: 40px; }
+.tp-ranking-page h1 { font-size: 30px; line-height: 1; color: #aaa; }
+.tp-ranking-page > p { margin: 14px 0 0; color: #999; font: italic 400 12px/1.2 'Overpass', sans-serif; text-transform: uppercase; }
+.tp-ranking-tabs { min-height: 35px; justify-content: flex-start; gap: 8px; margin: 7px 0 0; padding: 6px 0; border-top: 1px solid #efefef; border-bottom: 1px solid #e5e5e5; }
+.tp-ranking-tabs::before { content: 'KATEGÓRIA:'; color: #bbb; font-size: 10px; font-weight: 400; }
+.tp-ranking-tabs .btn { min-height: 21px; padding: 0 7px; border-radius: 3px; color: #777; font: 600 10px/1 'Overpass', sans-serif; }
+.tp-ranking-list { border: 1px solid #e6e6e6; border-top: 0; }
+.tp-ranking-list li { border-left-width: 3px; }
+.tp-ranking-list a { grid-template-columns: 80px minmax(0,1fr); min-height: 86px; gap: 10px; padding: 10px 14px; background: #fff; }
+.tp-ranking-list li:nth-child(2) a { background: repeating-linear-gradient(45deg, #fff, #fff 7px, #fff2f3 7px, #fff2f3 14px); }
+.tp-ranking-list a:hover { background: #f8f8f8; }
+.tp-rank-number { font-size: 29px; font-weight: 600; line-height: .95; }
+.tp-rank-number::after { margin-top: 3px; font-size: 10px; }
+.tp-rank-caption { gap: 2px; }
+.tp-ranking-list strong { font-size: 18px; line-height: 1.1; }
+.tp-rank-score, .tp-rank-detail { font-size: 11px; line-height: 1.25; color: #aaa; }
+@media (max-width: 540px) { .tp-ranking-list a { grid-template-columns: 48px minmax(0,1fr); gap: 10px; padding: 9px 10px; } .tp-ranking-list strong { font-size: 16px; } }
+/* Közös betűcsalád minden képernyőn; a méret, vastagság és betűforma változatlan. */
+:root { --serif: "Oswald", "Arial Narrow", sans-serif; --mono: "Oswald", "Arial Narrow", sans-serif; }
+body, body *, body *::before, body *::after { font-family: "Oswald", "Arial Narrow", sans-serif !important; }
+/* Egységes, 22 pixeles saroklekerekítés a gombokon. */
+button, .btn, .tp-back, [role="button"] { border-radius: 22px !important; }
+.icon-button, .category-toggle, .profile-trigger, .work-save, .tp-close, .tp-top, .tp-back { min-width: 52px; }
+.tp-calendar-grid button { min-width: 0; }
+/* Az összes vezérlő közös, téglalap alakú gombformája. */
+button, input[type="button"], input[type="submit"], input[type="reset"], .btn, .icon-button, .tp-back, .work-link, [role="button"] { border-radius: 20px !important; }
+button:not(.tp-calendar-grid button), input[type="button"], input[type="submit"], input[type="reset"], .icon-button, .tp-back, .work-link { min-width: 64px; }
+.tp-calendar { width: min(390px, calc(100vw - 48px)); }
+.tp-calendar-grid button { min-width: 0; width: 100%; min-height: 32px; }
+.hero-controls { min-width: 64px; border-radius: 20px; }
+.actor-detail-arrow { width: 64px; border-radius: 20px; }
+/* A megrendelő által megadott színek és olvashatósági finomítások. */
+:root { --paper: #F7F4EA; --red: #E54B4B; --ink: #3D3D3D; }
+.hero-date > span { font-size: 15px; }
+.hero-date p { font-size: 20px; }
+.review blockquote { color: #929292; }
+@media (max-width: 540px) { .hero-date > span { font-size: 13px; } .hero-date p { font-size: 17px; } }
+/* A logó saját betűtípusa független a felület betűcsaládjától. */
+#brand-wordmark, #brand-wordmark g, #brand-wordmark text { font-family: Arial, sans-serif !important; }
+/* A grafikon háttér nélküli, a gombok a kért visszafogott téglalap formát kapják. */
+.work-detail .work-rating-chart { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 18px 0 0; }
+button, input[type="button"], input[type="submit"], input[type="reset"], .btn, .icon-button, .tp-back, .work-link, [role="button"] { border-radius: 5px !important; text-align: center; }
+button:not(.tp-calendar-grid button), .btn { justify-content: center; align-items: center; }
+/* Az adatlap szereposztása a színészkatalógus kártyáját használja. */
+.work-detail .work-cast.topic-records { display: grid; grid-template-columns: minmax(0, 1fr); }
+.work-detail .work-cast .topic-record { display: flex; flex-direction: column; text-decoration: none; }
+/* A gombok a kártyák közös saroklekerekítését követik. */
+button, input[type="button"], input[type="submit"], input[type="reset"], .btn, .icon-button, .tp-back, .work-link, [role="button"] { border-radius: var(--card-radius) !important; }

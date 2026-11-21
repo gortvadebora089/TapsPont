@@ -2,8 +2,8 @@
 body { padding-top: var(--home-header-height, 84px); }
 .search-field > input:focus-visible { outline: none; }
 .search-field:focus-within { box-shadow: none; }
-.filter-menu { position: fixed; inset: 0; margin: auto; width: min(490px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--paper); color: var(--ink); box-shadow: 0 10px 36px #30262b33; }
-.filter-menu::backdrop { background: #30262b45; }
+.filter-menu { position: fixed; inset: 0; margin: auto; width: min(490px, calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; padding: 22px; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--paper); color: var(--ink); box-shadow: 0 10px 36px #3D3D3D33; }
+.filter-menu::backdrop { background: #3D3D3D45; }
 .filter-menu h2 { margin-bottom: 16px; color: var(--red); font: 700 23px/1.2 var(--mono); }
 .filter-menu fieldset { margin: 0 0 15px; padding: 0; border: 0; }
 .filter-menu legend { padding: 0; margin-bottom: 8px; font-weight: 700; }
