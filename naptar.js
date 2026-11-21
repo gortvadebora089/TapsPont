@@ -24,8 +24,9 @@
         const cell=document.createElement('button');cell.type='button';cell.textContent=day;cell.disabled=Boolean((input.min && value<input.min)||(input.max && value>input.max));cell.setAttribute('aria-label',new Intl.DateTimeFormat('hu-HU',{dateStyle:'full'}).format(new Date(value+'T12:00:00')));if(value===input.value)cell.setAttribute('aria-current','date');
         cell.onclick=()=>{input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}));picker.hidden=true;button.setAttribute('aria-expanded','false');button.focus()};grid.append(cell);
       }
+      for (let i = first + days; i < 42; i++) grid.append(document.createElement('span'));
       picker.append(grid);
-      const clear=document.createElement('button');clear.type='button';clear.className='tp-calendar-clear';clear.textContent='Dátum törlése';clear.onclick=()=>{input.value='';input.dispatchEvent(new Event('change',{bubbles:true}));picker.hidden=true;button.setAttribute('aria-expanded','false');button.focus()};picker.append(clear);
+      const clear=document.createElement('button');clear.type='button';clear.className='tp-calendar-clear btn btn-outline';clear.textContent='Dátum törlése';clear.onclick=()=>{input.value='';input.dispatchEvent(new Event('change',{bubbles:true}));picker.hidden=true;button.setAttribute('aria-expanded','false');button.focus()};picker.append(clear);
     }
     button.addEventListener('click',()=>{ const opening=picker.hidden; filter.querySelectorAll('.tp-calendar').forEach(p=>p.hidden=true); filter.querySelectorAll('.tp-date-button').forEach(b=>b.setAttribute('aria-expanded','false'));if(!opening)return; if(input.value){const [y,m]=input.value.split('-').map(Number);viewed=new Date(y,m-1,1)}render();picker.hidden=false;button.setAttribute('aria-expanded','true') });
     input.addEventListener('change',sync); document.querySelector('#clear-filters')?.addEventListener('click',sync);

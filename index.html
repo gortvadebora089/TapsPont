@@ -58,7 +58,7 @@
     .listing-card .listing-title a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
     .listing-card .listing-detail { position: relative; z-index: 2; }
     .rank-carousel .slide-viewport, .premiere-carousel .slide-viewport { padding: 8px; }
-    .listing-card:focus-within { outline: 2px solid var(--ink); outline-offset: -3px; }
+    .listing-card .listing-title a:focus-visible::after { outline: 2px solid var(--ink); outline-offset: -3px; }
     @media (prefers-reduced-motion: no-preference) {
       .listing-card { transition: transform 180ms ease; }
       .listing-card:focus-within { transform: scale(1.02); }
@@ -330,6 +330,7 @@
     .rank-cover { border-radius: var(--card-radius) var(--card-radius) var(--card-radius) 0; }
     .rank-picture { border-radius: var(--card-radius) 0 var(--card-radius) 0; }
     .rank-cover { overflow: hidden; }
+    .rank-card .rank-picture { border: 0; }
     .rank-card .order-value { position: relative; top: -1px; }
     @media (min-width: 801px) {
       .hero-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: clamp(54px, 7vw, 98px); align-items: stretch; }
@@ -606,7 +607,7 @@
     </div>
   </footer>
 
-  <dialog class="card" aria-labelledby="panel-title">
+  <dialog class="card home-panel" aria-labelledby="panel-title">
     <h2 id="panel-title"></h2>
     <div id="panel-content"></div>
 

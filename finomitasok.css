@@ -174,3 +174,15 @@ dialog::-webkit-scrollbar-track { background: transparent; }
 dialog::-webkit-scrollbar-thumb { background: #b68f96; border-radius: 8px; }
 /* A piros vezérlők hover állapotban is a közös színt használják. */
 .arrow:hover, button.tp-close:hover { filter: none; }
+
+/* A színházkártya árnyéka a könyvjelző fölött is megmarad. */
+.tp-theatre-wrap:is(:hover, :focus-within) .theatre-record { box-shadow: 0 8px 20px #3D3D3D24; }
+/* A keresőablak görgetősávja a lekerekített kereten belül marad. */
+dialog.home-panel { max-height: calc(100dvh - 32px); overflow: hidden; }
+dialog.home-panel > .tp-close { position: absolute; float: none; top: 14px; right: 16px; margin: 0; }
+dialog.home-panel #panel-content { max-height: calc(100dvh - 140px); overflow: auto; scrollbar-width: thin; scrollbar-color: #b68f96 transparent; padding-right: 8px; }
+dialog.home-panel #panel-content::-webkit-scrollbar { width: 8px; }
+dialog.home-panel #panel-content::-webkit-scrollbar-track { background: transparent; margin-block: 4px; }
+dialog.home-panel #panel-content::-webkit-scrollbar-thumb { background: #b68f96; border-radius: 8px; }
+.tp-calendar .tp-calendar-clear { display: flex; width: max-content; min-height: 34px; margin: 10px auto 0; padding: 0 15px; border: 1px solid var(--red); border-radius: 10px; background: transparent; color: var(--red); }
+.tp-calendar .tp-calendar-clear:is(:hover, :focus-visible) { background: var(--red); color: #fff; }
