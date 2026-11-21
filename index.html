@@ -358,6 +358,14 @@
       .feature, .feature-copy-stack, .feature-copy { min-width: 0; }
       .feature h1 { font-size: clamp(48px, 7vw, 68px); }
     }
+    @media (max-width: 1366px) and (pointer: coarse) {
+      .rank-carousel { --visible-slides: 2; --slide-gap: 16px; --slide-size: calc((100cqi - var(--slide-gap)) / 2); padding-inline: 0; }
+      .rank-carousel .side-navigation { display: none; }
+      .rank-carousel .slide-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .rank-carousel .slide-viewport::-webkit-scrollbar { display: none; }
+      .rank-card { scroll-snap-align: start; }
+    }
+    @media (max-width: 600px) and (pointer: coarse) { .rank-carousel { --visible-slides: 1; --slide-size: 84cqi; } }
     .topic-tile, .topic-tile:is(:hover, :focus-visible) { border: 0; }
     .topic-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
     @media (prefers-reduced-motion: no-preference) {
@@ -685,7 +693,7 @@
       return [category, entries.slice(0, rankingCount)];
     }));
     let activeRank = rankButtons[0].textContent;
-    const compactRanking = window.matchMedia('(max-width: 960px)');
+    const compactRanking = window.matchMedia('(max-width: 960px), (max-width: 1366px) and (pointer: coarse)');
     let slide = 0;
 
     function openPanel(title, ...content) {
@@ -940,6 +948,8 @@
       const viewport = carousel.querySelector('.slide-viewport');
       const manual = carousel.dataset.carousel === 'manual';
       let visible = false;
+      let lastInteraction = 0;
+      for (const eventName of ['pointerdown', 'touchstart', 'wheel', 'keydown']) viewport.addEventListener(eventName, () => { lastInteraction = Date.now(); }, { passive: true });
 
       function move(direction) {
         if (track.children.length < 2 || track.getAnimations().length) return;
@@ -984,8 +994,14 @@
         visible = entry.isIntersecting;
       }, { threshold: .3 }).observe(viewport);
       window.setInterval(() => {
-        if (!reduceMotion.matches && visible && !document.hidden && !carousel.closest('section').matches(':hover, :focus-within')) {
-          move(1);
+        if (!reduceMotion.matches && visible && !document.hidden && Date.now() - lastInteraction > 6000 && !carousel.closest('section').matches(':focus-within') && !(matchMedia('(hover: hover)').matches && carousel.closest('section').matches(':hover'))) {
+          if (track === rankTrack && compactRanking.matches) {
+            const distance = track.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+            const end = viewport.scrollWidth - viewport.clientWidth;
+            viewport.scrollTo({ left: viewport.scrollLeft >= end - 2 ? 0 : Math.min(end, viewport.scrollLeft + distance), behavior: 'smooth' });
+          } else {
+            move(1);
+          }
         }
       }, 6000);
     }
