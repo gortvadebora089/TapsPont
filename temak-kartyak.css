@@ -59,7 +59,7 @@
 }
 
 @media (max-width: 600px) {
-  .topic-page .actor-intro { min-height: 0; padding-bottom: 30px; }
+  .topic-page :is(.actor-intro, .theatre-intro) { min-height: 0; padding-bottom: 30px; }
 }
 
 /* A katalógusok feliratai a főoldali szakaszcímeket követik. */

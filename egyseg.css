@@ -9,7 +9,7 @@
   --card-radius: 22px;
   --serif: 'Oswald', 'Arial Narrow', sans-serif;
   --mono: 'Oswald', 'Arial Narrow', sans-serif;
-  --tp-button-red: #E05364;
+  --tp-button-red: #E54B4B;
   --tp-button-radius: 10px;
   --tp-card-band: #f8f6f4;
 }
@@ -27,7 +27,7 @@ body, button, input, select, textarea { font-family: 'Oswald', 'Arial Narrow', s
 }
 .btn:is(:hover, :focus-visible), .work-filter:is(:hover, :focus-visible), .dashboard-outline:is(:hover, :focus-visible) { background: var(--tp-button-red); color: #fff; text-decoration: none; }
 .btn.account-primary, .btn[aria-pressed='true'], .work-filter[aria-pressed='true'] { border-color: var(--tp-button-red); background: var(--tp-button-red); color: #fff; }
-.btn:focus-visible, .work-filter:focus-visible, .dashboard-outline:focus-visible { outline: 2px solid #a42c3e; outline-offset: 3px; }
+.btn:focus-visible, .work-filter:focus-visible, .dashboard-outline:focus-visible { outline: 2px solid #E54B4B; outline-offset: 3px; }
 .site-header .icon-button:not(.search-submit), .tp-top, .tp-close { min-width: 34px !important; border-radius: 10px !important; }
 #login-popover .field input:not([type='checkbox']), .account-main .field input:not([type='checkbox']), .profile-dialog :is(input:not([type='checkbox']), textarea), .detail-share-dialog input { border-radius: 10px; }
 #login-popover .checkbox { font-size: 14px; }

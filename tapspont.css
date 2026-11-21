@@ -136,7 +136,7 @@ dialog form { margin-top: 22px; text-align: right; }
 }
 .password-toggle .icon { width: 20px; height: 20px; }
 .password-toggle:focus-visible { outline-offset: -3px; }
-.error { color: #ab2038; font-size: 13px; }
+.error { color: #E54B4B; font-size: 13px; }
 .checkbox { display: flex; align-items: start; gap: 10px; }
 .checkbox input { flex: none; accent-color: var(--red); width: 18px; height: 18px; margin: 2px 0 0; }
 .account-submit { display: grid; grid-template-columns: minmax(0, 190px); justify-content: center; gap: 8px; }

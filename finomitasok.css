@@ -94,7 +94,7 @@ html { scrollbar-color: #b68f96 #F7F4EA; scrollbar-width: thin; }
 .tp-ranking-tabs .btn[aria-pressed="true"] { background: #a8a8a8; color: #fff; }
 .tp-ranking-list { max-width: none; gap: 0; border: 1px solid #e4e4e4; background: #fff; }
 .tp-ranking-list li { border-left: 3px solid #E54B4B; }
-.tp-ranking-list li:nth-child(4n+2) { border-left-color: #e58a97; }
+.tp-ranking-list li:nth-child(4n+2) { border-left-color: #E54B4B; }
 .tp-ranking-list li:nth-child(4n+3) { border-left-color: #e5b66f; }
 .tp-ranking-list li:nth-child(4n) { border-left-color: #80b9d6; }
 .tp-ranking-list li + li { border-top: 1px solid #e4e4e4; }
@@ -166,9 +166,11 @@ button, input[type="button"], input[type="submit"], input[type="reset"], .btn, .
 /* A felugró ablak bezárója a keresőgomb alakját és színét követi. */
 button.tp-close { width: 36px; height: 36px; min-width: 36px !important; border-radius: 50% !important; background: var(--red); color: white; font: 24px/1 Arial, sans-serif; }
 button.tp-close:hover { background: var(--red); filter: brightness(.94); }
-button.tp-close:focus-visible { outline: 2px solid #a42c3e; outline-offset: 3px; }
+button.tp-close:focus-visible { outline: 2px solid #E54B4B; outline-offset: 3px; }
 dialog > button.tp-close { position: sticky; float: right; top: 0; right: auto; margin: -8px -8px 0 0; }
 dialog { scrollbar-width: thin; scrollbar-color: #b68f96 transparent; }
 dialog::-webkit-scrollbar { width: 8px; }
 dialog::-webkit-scrollbar-track { background: transparent; }
 dialog::-webkit-scrollbar-thumb { background: #b68f96; border-radius: 8px; }
+/* A piros vezérlők hover állapotban is a közös színt használják. */
+.arrow:hover, button.tp-close:hover { filter: none; }

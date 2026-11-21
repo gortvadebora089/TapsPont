@@ -114,7 +114,7 @@ main > .block { margin-top: 76px; padding-top: 46px; }
 .topic-tile-label { font-size: clamp(24px, 2.7vw, 34px); }
 .topic-tile-description { min-height: 8.4em; }
 .topic-photo { filter: grayscale(1) sepia(.7); opacity: .64; }
-.topic-tile::before { background: linear-gradient(180deg, #8a293a55, #3D3D3Dee 90%); }
+.topic-tile::before { background: linear-gradient(180deg, #E54B4B55, #3D3D3Dee 90%); }
 .review { mask-image: none; overflow: hidden; }
 .review::before, .review::after { content: ''; position: absolute; top: 119px; width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; background: var(--paper); z-index: 1; }
 .review::before { left: -13px; }

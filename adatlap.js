@@ -167,7 +167,7 @@
     copy('detail-panel-title', 'A színház értékelései');
     panel.append(node('p', '★ — / 10 · Még nincs összesített értékelés', 'work-rating-average'), node('p', 'A színház értékelései később lesznek elérhetők.', 'muted'));
     ratingPanel.append(document.querySelector('.detail-actions'));
-    document.querySelector('.detail-media').append(ratingPanel, byId('detail-feedback'));
+    byId('detail-title').after(byId('detail-subtitle'), ratingPanel, byId('detail-feedback'));
     relatedTitle = 'Előadások és bemutatók';
     const venueSection = node('section', '', 'detail-related work-extra theatre-venues');
     venueSection.append(node('h2', 'Játszóhelyek'));

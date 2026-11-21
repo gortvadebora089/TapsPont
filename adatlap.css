@@ -264,7 +264,7 @@
 .work-detail .production-group { display: grid; gap: 18px; overflow: visible; border: 0; background: transparent; box-shadow: none; }
 .work-detail .production-row { display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow: hidden; padding: 0; border: 1px solid var(--border); border-radius: 16px; background: var(--white); box-shadow: 0 2px 3px #0004; }
 .work-detail .production-row + .production-row { border-top: 1px solid var(--border); }
-.work-production-banner, .work-date-banner { position: relative; overflow: hidden; background: #481928; }
+.work-production-banner, .work-date-banner { position: relative; overflow: hidden; background: #E54B4B; }
 .work-production-banner { height: clamp(150px, 18vw, 240px); }
 .work-production-banner img, .work-date-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.58); }
 .work-production-banner-label { position: absolute; bottom: 12px; left: 14px; padding: 5px 10px; border-radius: 999px; background: var(--red); color: white; font: 700 10px/1.3 var(--mono); }
@@ -337,7 +337,7 @@
 .theatre-detail .detail-section-head h2, .theatre-cast-section h2 { color: var(--red); font: 700 16px/1.4 var(--mono); }
 .theatre-detail #detail-related-count { margin: 0; color: var(--red); font: 700 13px/1.4 var(--mono); }
 .theatre-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; margin-top: 16px; }
-.theatre-production-image { aspect-ratio: 1 / 1; background: radial-gradient(circle at 45% 35%, #E54B4B, #401421); }
+.theatre-production-image { aspect-ratio: 1 / 1; background: radial-gradient(circle at 45% 35%, #E54B4B, #3D3D3D); }
 .theatre-production-image img { filter: brightness(.72); }
 .theatre-production-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
 .theatre-production-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
@@ -374,7 +374,7 @@
 .artist-detail #detail-related-count { display: block; color: var(--red); font: 700 13px/1.4 var(--mono); }
 .artist-detail .detail-related-list { grid-template-columns: repeat(auto-fill, minmax(190px, 230px)); gap: 20px; }
 .artist-role-card { display: flex; flex-direction: column; justify-content: flex-start; gap: 0; min-height: 0; overflow: hidden; padding: 0; background: var(--white); }
-.artist-role-picture { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: radial-gradient(circle at 45% 35%, #E54B4B, #401421); }
+.artist-role-picture { position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: radial-gradient(circle at 45% 35%, #E54B4B, #3D3D3D); }
 .artist-role-picture img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.72); }
 .artist-role-overlay { position: absolute; inset: auto 0 0; display: grid; padding: 35px 14px 14px; background: linear-gradient(transparent, #1e0910cc); color: white; }
 .artist-role-overlay small { font: 700 9px/1.4 var(--mono); text-transform: uppercase; }
@@ -481,3 +481,9 @@
   .artist-work-detail .detail-facts { grid-column: 2; grid-row: 3; align-self: start; }
   .artist-work-detail .detail-description { grid-column: 1 / -1; margin-top: 4px; }
 }
+
+/* A színház értékelése közvetlenül a név alatt jelenik meg. */
+.theatre-work-detail .detail-intro > .detail-panel { display: flex; flex-direction: column; align-items: stretch; gap: 8px; margin: 0 0 18px; padding: 0; border: 0; background: transparent; box-shadow: none; }
+
+.theatre-work-detail #detail-related-title { color: var(--red); }
+.work-detail:not(.theatre-work-detail):not(.artist-work-detail) #detail-related-title { color: var(--red); }
