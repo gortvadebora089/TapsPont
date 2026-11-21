@@ -88,14 +88,6 @@
   const panel = byId('detail-panel-body');
   const count = (n, noun) => n + ' ' + noun;
   const button = (text, url) => link(text, url, 'btn btn-outline');
-  const categoryLink = byId('detail-category');
-  categoryLink.href = 'temak.html?tema=' + category[1];
-  categoryLink.textContent = category[0];
-  const crumb = node('span', entry.title);
-  crumb.setAttribute('aria-current', 'page');
-  const slash = node('span', '/');
-  slash.setAttribute('aria-hidden', 'true');
-  categoryLink.after(slash, crumb);
   document.title = entry.title + ' · TapsPont';
   copy('detail-kicker', category[2]);
   copy('detail-title', entry.title);

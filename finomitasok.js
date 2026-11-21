@@ -23,15 +23,6 @@
     form.addEventListener('submit', () => { list.hidden = true; });
   }
   const top = document.createElement('button'); top.className = 'tp-top'; top.type = 'button'; top.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7"/></svg>'; top.setAttribute('aria-label','Vissza az oldal tetejére'); top.hidden = true; document.body.append(top);
-  const main = document.querySelector('main');
-  const isHome = /\/(?:index\.html)?$/.test(location.pathname);
-  if (main && !isHome) {
-    const back = document.createElement('a'); back.className = 'tp-back'; back.href = 'index.html'; back.setAttribute('aria-label', 'Vissza az előző oldalra'); back.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg>';
-    back.addEventListener('click', event => {
-      try { const previous = document.referrer && new URL(document.referrer); if (previous && previous.origin === location.origin && previous.href !== location.href && history.length > 1) { event.preventDefault(); history.back(); } } catch {}
-    });
-    main.prepend(back);
-  }
   const updateTop = () => { top.hidden = window.scrollY < 450; };
   window.addEventListener('scroll', updateTop, {passive:true}); updateTop();
   top.addEventListener('click', () => window.scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}));
@@ -42,7 +33,7 @@
       close.addEventListener('click', () => panel.tagName === 'DIALOG' ? panel.close() : panel.hidePopover()); panel.prepend(close);
     });
   }
-  function lock() { document.documentElement.style.overflow = document.querySelector('dialog[open], [popover][role="dialog"]:popover-open, #login-popover:popover-open') ? 'hidden' : ''; }
+  function lock() { document.documentElement.style.overflow = document.querySelector('dialog[open], [popover][data-tp-open]') || (typeof HTMLElement.prototype.showPopover === 'function' && !document.documentElement.classList.contains('tp-popover-fallback') && document.querySelector('[popover][role="dialog"]:popover-open, #login-popover:popover-open')) ? 'hidden' : ''; }
   prepare(document); lock();
   document.addEventListener('toggle', lock, true); document.addEventListener('close', lock, true);
   new MutationObserver(() => { prepare(document); lock(); }).observe(document.body, {childList:true, subtree:true, attributes:true, attributeFilter:['open']});

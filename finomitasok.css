@@ -156,3 +156,20 @@ button:not(.tp-calendar-grid button), .btn { justify-content: center; align-item
 .work-detail .work-cast .topic-record { display: flex; flex-direction: column; text-decoration: none; }
 /* A gombok a kártyák közös saroklekerekítését követik. */
 button, input[type="button"], input[type="submit"], input[type="reset"], .btn, .icon-button, .tp-back, .work-link, [role="button"] { border-radius: var(--card-radius) !important; }
+
+/* A színházkártya és a mentés együtt mozog. */
+.tp-theatre-wrap { transition: transform .2s ease; }
+.tp-theatre-wrap:is(:hover, :focus-within) { transform: translateY(-3px); }
+.tp-theatre-wrap .theatre-record:hover { transform: none; }
+.tp-theatre-wrap .work-save:hover, .tp-theatre-wrap .work-save:focus-visible { transform: scale(1.12); background: #f8dadd; color: var(--red); }
+.tp-theatre-wrap .work-save[aria-pressed="true"], .tp-theatre-wrap .work-save[aria-pressed="true"]:is(:hover, :focus-visible) { background: var(--red); color: white; }
+.login-popover .login-register { margin-top: 9px; padding-top: 0; }
+/* A felugró ablak bezárója a keresőgomb alakját és színét követi. */
+button.tp-close { width: 36px; height: 36px; min-width: 36px !important; border-radius: 50% !important; background: var(--red); color: white; font: 24px/1 Arial, sans-serif; }
+button.tp-close:hover { background: var(--red); filter: brightness(.94); }
+button.tp-close:focus-visible { outline: 2px solid #a42c3e; outline-offset: 3px; }
+dialog > button.tp-close { position: sticky; float: right; top: 0; right: auto; margin: -8px -8px 0 0; }
+dialog { scrollbar-width: thin; scrollbar-color: #b68f96 transparent; }
+dialog::-webkit-scrollbar { width: 8px; }
+dialog::-webkit-scrollbar-track { background: transparent; }
+dialog::-webkit-scrollbar-thumb { background: #b68f96; border-radius: 8px; }

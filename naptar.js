@@ -13,7 +13,7 @@
       const prev=document.createElement('button'), next=document.createElement('button'), title=document.createElement('strong');
       prev.type=next.type='button'; prev.textContent='‹'; next.textContent='›'; prev.setAttribute('aria-label','Előző hónap'); next.setAttribute('aria-label','Következő hónap');
       title.textContent=new Intl.DateTimeFormat('hu-HU',{year:'numeric',month:'long'}).format(viewed);
-      prev.onclick=()=>{viewed=new Date(viewed.getFullYear(),viewed.getMonth()-1,1);render()}; next.onclick=()=>{viewed=new Date(viewed.getFullYear(),viewed.getMonth()+1,1);render()};
+      prev.onclick=()=>{viewed=new Date(viewed.getFullYear(),viewed.getMonth()-1,1);render();picker.querySelector('[aria-label="Előző hónap"]').focus()}; next.onclick=()=>{viewed=new Date(viewed.getFullYear(),viewed.getMonth()+1,1);render();picker.querySelector('[aria-label="Következő hónap"]').focus()};
       head.append(prev,title,next); picker.append(head);
       const grid=document.createElement('div'); grid.className='tp-calendar-grid';
       ['H','K','Sze','Cs','P','Szo','V'].forEach(day=>{let label=document.createElement('span');label.className='tp-weekday';label.textContent=day;grid.append(label)});
@@ -29,7 +29,7 @@
     }
     button.addEventListener('click',()=>{ const opening=picker.hidden; filter.querySelectorAll('.tp-calendar').forEach(p=>p.hidden=true); filter.querySelectorAll('.tp-date-button').forEach(b=>b.setAttribute('aria-expanded','false'));if(!opening)return; if(input.value){const [y,m]=input.value.split('-').map(Number);viewed=new Date(y,m-1,1)}render();picker.hidden=false;button.setAttribute('aria-expanded','true') });
     input.addEventListener('change',sync); document.querySelector('#clear-filters')?.addEventListener('click',sync);
-    document.addEventListener('click',e=>{if(!picker.contains(e.target)&&e.target!==button){picker.hidden=true;button.setAttribute('aria-expanded','false')}});
+    document.addEventListener('click',e=>{if(!e.composedPath().includes(picker)&&e.target!==button){picker.hidden=true;button.setAttribute('aria-expanded','false')}});
     picker.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();picker.hidden=true;button.setAttribute('aria-expanded','false');button.focus()}});
     sync();
   }

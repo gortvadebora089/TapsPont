@@ -168,3 +168,7 @@ dialog form { margin-top: 22px; text-align: right; }
 
 .login-popover .account-form > .account-primary { margin-top: 16px; }
 .star-gold { color: #e5a900; }
+
+/* A natív Popover API nélküli mobilböngészőkben is zárt állapotból indulnak. */
+.tp-popover-fallback [popover] { display: none; }
+.tp-popover-fallback [popover][data-tp-open] { display: block; z-index: 1000; }
