@@ -338,9 +338,9 @@
       .hero-controls { right: 72px; bottom: 0; }
       .feature-actions { margin-top: auto; }
     }
-    /* Tableten a kép és a szöveg külön, rugalmas oszlopot kap. */
-    @media (min-width: 700px) and (max-width: 1366px) {
-      .hero-grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); padding-right: 0; align-items: start; }
+    /* Tableten és nagyobb képernyőn a kép és a szöveg külön, rugalmas oszlopot kap. */
+    @media (min-width: 700px) {
+      .hero-grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(24px, 3vw, 40px); padding-right: 0; align-items: start; }
       .hero-media { width: 100%; min-width: 0; aspect-ratio: auto; }
       .hero-media .frame { position: relative; inset: auto; width: 100%; height: 0; padding-top: 57.47%; aspect-ratio: auto; overflow: hidden; }
       .hero-media .frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -348,7 +348,7 @@
       .hero-controls button { height: 50px; }
       .feature, .feature-copy-stack, .feature-copy { min-width: 0; }
       .feature-copy-stack { grid-template-columns: minmax(0, 1fr); }
-      .feature h1 { font-size: clamp(36px, 4.8vw, 62px); }
+      .feature h1 { font-size: clamp(36px, 4.8vw, 62px); overflow-wrap: normal; word-break: normal; }
     }
     @media (max-width: 1366px) and (pointer: coarse) {
       .rank-carousel { --visible-slides: 2; --slide-gap: 16px; --slide-size: calc((100cqi - var(--slide-gap)) / 2); padding-inline: 0; }
