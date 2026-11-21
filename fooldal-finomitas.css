@@ -195,3 +195,11 @@ main .section-head, main .rankings .ranking-heading { margin-bottom: clamp(12px,
 .review-date { font-size: 14px; }
 .premiere .listing-primary { min-height: 0; margin-bottom: 8px; }
 .rank-rating > span.star-gold, .feature-label .star-gold { color: #e5a900; }
+
+/* Tableten a kártyák tartalma ne szorítsa ki a felső ikont. */
+@media (min-width: 801px) and (max-width: 1100px) {
+  .topic-tiles .topic-tile { min-height: 350px; aspect-ratio: auto; justify-content: flex-start; padding: 22px; }
+  .topic-tiles .topic-icon-wrap { flex: 0 0 auto; width: 72px; margin: 0 auto 12px; }
+  .topic-tiles .topic-tile-description { min-height: 0; }
+  .topic-tiles .topic-tile::after { margin-top: auto; }
+}
