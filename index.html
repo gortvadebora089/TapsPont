@@ -348,6 +348,16 @@
       .feature, .feature-copy-stack, .feature-copy { min-width: 0; }
       .feature h1 { font-size: clamp(48px, 7vw, 68px); }
     }
+    /* A nagyobb, fekvő tabletek is kényelmes, egymás alatti heroelrendezést kapnak. */
+    @media (min-width: 601px) and (max-width: 1366px) and (pointer: coarse) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; padding-right: 0; align-items: start; }
+      .hero-media { width: 100%; min-width: 0; aspect-ratio: auto; }
+      .hero-media .frame { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1.74; overflow: hidden; }
+      .hero-controls { right: 0; bottom: -18px; transform: none; width: 64px; min-width: 64px; height: 112px; }
+      .hero-controls button { height: 56px; }
+      .feature, .feature-copy-stack, .feature-copy { min-width: 0; }
+      .feature h1 { font-size: clamp(48px, 7vw, 68px); }
+    }
     .topic-tile, .topic-tile:is(:hover, :focus-visible) { border: 0; }
     .topic-tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
     @media (prefers-reduced-motion: no-preference) {
