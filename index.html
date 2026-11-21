@@ -347,6 +347,10 @@
       .rank-carousel.is-revealed .rank-card:nth-child(4) { animation-delay: 180ms; }
     }
     .listing-category, .listing-secondary, .premiere-director, .review-foot .muted { color: #625961; }
+    @media (max-width: 600px) {
+      .hero-controls { width: 56px; min-width: 56px; height: 100px; right: 0; bottom: -18px; transform: none; }
+      .hero-controls button { height: 50px; }
+    }
     @media (max-width: 960px) {
       .rank-carousel .slide-viewport { scrollbar-width: none; -ms-overflow-style: none; }
       .rank-carousel .slide-viewport::-webkit-scrollbar { display: none; }
@@ -586,7 +590,7 @@
   </template>
   <template id="feature-copy-template">
     <div class="feature-copy">
-      <p class="feature-label"><span class="feature-star" aria-hidden="true"></span> Új előadások</p>
+      <p class="feature-label section-subtitle"><span class="feature-star" aria-hidden="true"></span> Új előadások</p>
       <h1></h1>
       <p class="muted feature-meta"></p>
       <p class="feature-author"></p>

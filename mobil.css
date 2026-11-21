@@ -60,3 +60,20 @@
   .detail-media { grid-template-columns: 1fr; }
   .detail-media figure { max-width: 240px; }
 }
+
+@media (max-width: 600px) {
+  .header-inner > .site-nav { justify-content: safe center; }
+}
+
+@media (max-width: 600px) {
+  .rankings .ranking-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 10px 12px; }
+  .ranking-heading .ranking-tools { display: contents; }
+  .ranking-heading .ranking-tools > a { grid-column: 2; grid-row: 1; }
+  .ranking-heading .rank-controls { grid-column: 2; grid-row: 2; flex-direction: column; align-items: stretch; }
+}
+
+@media (max-width: 600px) {
+  .rankings .ranking-heading { position: relative; display: block; min-height: 112px; }
+  .ranking-heading .ranking-tools { position: absolute; top: -22px; right: 0; display: flex; width: auto; flex-direction: column; align-items: stretch; gap: 8px; }
+  .ranking-heading .rank-controls { flex-direction: column; align-items: stretch; }
+}

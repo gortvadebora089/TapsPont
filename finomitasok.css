@@ -117,7 +117,6 @@ html { scrollbar-color: #b68f96 #F7F4EA; scrollbar-width: thin; }
 .tp-ranking-list { border: 1px solid #e6e6e6; border-top: 0; }
 .tp-ranking-list li { border-left-width: 3px; }
 .tp-ranking-list a { grid-template-columns: 80px minmax(0,1fr); min-height: 86px; gap: 10px; padding: 10px 14px; background: #fff; }
-.tp-ranking-list li:nth-child(2) a { background: repeating-linear-gradient(45deg, #fff, #fff 7px, #fff2f3 7px, #fff2f3 14px); }
 .tp-ranking-list a:hover { background: #f8f8f8; }
 .tp-rank-number { font-size: 29px; font-weight: 600; line-height: .95; }
 .tp-rank-number::after { margin-top: 3px; font-size: 10px; }

@@ -41,3 +41,31 @@
 .topic-records[data-topic="szineszek"] .topic-caption { flex: 0 0 auto; }
 .topic-records[data-topic="szineszek"] .actor-footer { margin-top: 0; }
 .work-summary { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; min-height: 4.5em; }
+
+/* A három katalógus egységes kezdete és kártyamérete. */
+.topic-page:is(.actor-page, .theatre-page, .work-page) { padding-top: 26px; }
+.topic-page :is(.actor-intro, .theatre-intro, .work-intro) { box-sizing: border-box; min-height: 190px; margin: 0 0 30px; padding: 0 0 26px; border-bottom: 1px solid var(--border); }
+.topic-page .work-intro { align-items: flex-start; }
+.topic-records[data-topic] :is(.topic-record, .work-record, .theatre-record) { height: 100%; }
+.topic-records[data-topic] :is(.topic-caption, .work-caption, .theatre-caption) { flex: 1 0 auto; min-height: 150px; }
+.topic-records[data-topic] :is(.actor-footer, .work-footer, .theatre-footer) { min-height: 46px; margin-top: auto; }
+.topic-records[data-topic] .work-save:is(:hover, :focus-visible) { transform: scale(1.12); background: #f8dadd; color: var(--red); }
+.topic-records[data-topic] .work-save[aria-pressed="true"]:is(:hover, :focus-visible) { background: var(--red); color: white; }
+@media (max-width: 900px) {
+  .topic-page :is(.actor-intro, .theatre-intro, .work-intro) { min-height: 240px; }
+}
+@media (max-width: 600px) {
+  .topic-page :is(.actor-intro, .theatre-intro, .work-intro) { min-height: 260px; margin-bottom: 24px; }
+}
+
+@media (max-width: 600px) {
+  .topic-page .actor-intro { min-height: 0; padding-bottom: 30px; }
+}
+
+/* A katalógusok feliratai a főoldali szakaszcímeket követik. */
+.topic-page :is(.actor-eyebrow, .work-eyebrow, .theatre-eyebrow) { margin-bottom: 4px; color: var(--red); font: 600 14px/1.4 var(--mono); letter-spacing: normal; text-transform: uppercase; }
+
+@media (max-width: 600px) {
+  .topic-records[data-topic="szineszek"] .topic-caption { flex: 0 0 auto; min-height: 0; padding: 16px 18px 8px; }
+  .topic-records[data-topic="szineszek"] .actor-footer { min-height: 40px; margin-top: 0; }
+}
