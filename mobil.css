@@ -107,6 +107,7 @@
   .rankings .rank-card .rank-cover { overflow: visible; }
   .rankings .rank-card .order { height: 54px; min-width: 58px; align-items: center; padding: 0 10px; font-size: 48px; line-height: 1; box-shadow: 0 2px 0 var(--white); }
   .rankings .rank-card .order-value { position: static; display: block; text-box: normal; transform: none; }
+  .rankings .rank-card .listing-foot, .rankings .rank-card.is-theatre .listing-foot { margin-right: -16px; margin-bottom: -16px; margin-left: -16px; padding-inline: 16px; }
   .topic-records[data-topic="szinhazak"] .theatre-caption { flex: 0 0 auto; min-height: 110px; }
   .theatre-work-detail .detail-intro > .detail-panel { display: block; height: auto; }
   .theatre-work-detail #detail-panel-body { display: grid; height: auto; }
