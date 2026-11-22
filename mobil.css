@@ -104,7 +104,8 @@
 
 /* Mobilos kártyaszámok és színházi felületek. */
 @media (max-width: 600px) {
-  .rankings .rank-card .order { height: 54px; min-width: 58px; align-items: center; padding: 0 10px; font-size: 48px; line-height: 1; }
+  .rankings .rank-card .rank-cover { overflow: visible; }
+  .rankings .rank-card .order { height: 54px; min-width: 58px; align-items: center; padding: 0 10px; font-size: 48px; line-height: 1; box-shadow: 0 2px 0 var(--white); }
   .rankings .rank-card .order-value { position: static; display: block; text-box: normal; transform: none; }
   .topic-records[data-topic="szinhazak"] .theatre-caption { flex: 0 0 auto; min-height: 110px; }
   .theatre-work-detail .detail-intro > .detail-panel { display: block; height: auto; }
