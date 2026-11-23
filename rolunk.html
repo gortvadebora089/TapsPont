@@ -1,0 +1,123 @@
+<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rólunk – TapsPont</title><link rel="icon" href="logo/favicon.ico"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"><link rel="stylesheet" href="tapspont.css"><link rel="stylesheet" href="kozos-fejlec.css"><link rel="stylesheet" href="mobil.css"><link rel="stylesheet" href="finomitasok.css"><link rel="stylesheet" href="egyseg.css"><link rel="stylesheet" href="informacios-oldalak.css"><script src="popover-fallback.js"></script></head><body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><symbol id="brand-wordmark" viewBox="0 0 416 224">
+      <circle cx="112" cy="112" r="112" fill="var(--red)"/>
+      <g font-family="Arial, sans-serif" font-weight="700" font-size="102">
+        <text x="26" y="154" fill="var(--brand-taps)" textLength="196" lengthAdjust="spacingAndGlyphs">Taps</text>
+        <text x="221" y="154" fill="var(--brand-pont)" textLength="194" lengthAdjust="spacingAndGlyphs">Pont</text>
+      </g>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="icon-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/>
+    </symbol>
+    <symbol id="icon-eye-off" viewBox="0 0 24 24">
+      <path d="m3 3 18 18M10 6.2c.6-.1 1.3-.2 2-.2 6.4 0 10 6 10 6a15 15 0 0 1-2.4 2.8M6.3 7.6A17 17 0 0 0 2 12s3.6 6 10 6c1.6 0 3.1-.4 4.4-1"/>
+    </symbol><symbol id="icon-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></symbol></svg>
+  <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html#felfedezes" class="brand tp-image-logo" aria-label="TapsPont"><img src="logo/TapsPont_Logo.png" alt=""></a>
+        <form class="search" action="index.html" role="search">
+          <div class="search-field">
+            <div class="search-category">
+              <button type="button" class="category-toggle" id="filter-toggle" popovertarget="search-filters" aria-label="Keresési szűrők" title="Keresési szűrők">
+                <svg class="icon" aria-hidden="true"><use href="#icon-filter"/></svg>
+              </button>
+              <div class="filter-menu" id="search-filters" popover role="dialog" aria-labelledby="filter-title">
+                <h2 id="filter-title">Keresési szűrők</h2>
+                <fieldset>
+                  <legend>Találat típusa</legend>
+                  <div class="filter-options">
+                  <label><input type="radio" name="category" value="" checked>Mind</label>
+                  <label><input type="radio" name="category" value="works">Mű</label>
+                  <label><input type="radio" name="category" value="productions">Produkció</label>
+                  <label><input type="radio" name="category" value="theatres">Színház</label>
+                  <label><input type="radio" name="category" value="artists">Művész</label>
+                  <label><input type="radio" name="category" value="venues">Játszóhely</label>
+                  <label><input type="radio" name="category" value="sessions">Előadásalkalom</label>
+                  </div>
+                </fieldset>
+                <div class="filter-fields">
+                  <label>Színház<select name="theatre"><option value="">Bármelyik</option></select></label>
+                  <label>Műfaj<select name="genre"><option value="">Bármelyik</option></select></label>
+                  <label>Első dátum<input name="from" type="date"></label>
+                  <label>Utolsó dátum<input name="until" type="date"></label>
+                </div>
+                <div class="filter-actions">
+                  <button type="button" class="btn btn-outline" id="clear-filters">Szűrők törlése</button>
+                  <button type="submit" class="btn btn-outline">Találatok mutatása</button>
+                </div>
+              </div>
+            </div>
+            <input type="search" name="query" aria-label="Keresés" placeholder="Keresés">
+            <button type="submit" class="icon-button arrow search-submit" aria-label="Keresés"><svg class="icon" aria-hidden="true"><use href="#icon-search"/></svg></button>
+          </div>
+        </form>
+        <nav class="site-nav" aria-label="Főmenü">
+          <a href="temak.html?tema=szindarabok">Színdarabok</a>
+          <a href="temak.html?tema=szinhazak">Színházak</a>
+          <a href="temak.html?tema=szineszek">Színészek</a>
+
+        </nav>
+        <button type="button" class="icon-button profile profile-trigger" data-profile-avatar
+                popovertarget="login-popover" aria-label="Profil / Belépés">
+          <svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg>
+        </button>
+      </div>
+      <section class="card login-popover" id="login-popover" popover aria-labelledby="login-popover-title">
+        <h2 id="login-popover-title">Bejelentkezés</h2>
+        <form class="account-form" id="login-form" method="post" novalidate>
+          <div class="field">
+            <label for="login-username">Felhasználónév</label>
+            <input id="login-username" type="text" name="username" autocomplete="username" autofocus maxlength="40" required aria-describedby="login-username-error" autocapitalize="none" spellcheck="false">
+            <p class="error" id="login-username-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Jelszó</label>
+            <div class="password-control">
+              <input id="login-password" type="password" name="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-password-error">
+              <button type="button" class="icon-button password-toggle" aria-controls="login-password" aria-label="Jelszó megjelenítése">
+                <svg class="icon" aria-hidden="true"><use href="#icon-eye-off"/></svg>
+              </button>
+            </div>
+            <p class="error" id="login-password-error" hidden></p>
+          </div>
+          <button type="button" class="password-help" id="password-help" aria-controls="password-help-message">Elfelejtetted a jelszavad?</button>
+          <p class="error" id="password-help-message" role="status" hidden></p>
+          <label class="checkbox"><input id="login-remember" type="checkbox">Emlékezz rám</label>
+          <p class="error" id="login-error" role="alert" hidden></p>
+          <button class="btn account-primary" type="submit">Bejelentkezés</button>
+        </form>
+        <div class="login-register">
+          <p>Még nincs fiókod?</p>
+          <a class="btn btn-outline" href="belepes.html">Regisztrálok</a>
+        </div>
+      </section>
+    </header>
+<main class="info-page">
+  <div class="info-intro"><h1>Rólunk</h1><p>A színházi élmények találkozóhelye.</p></div>
+  <div class="info-grid">
+    <article class="info-card">
+      <h2>A színház világa egy helyen</h2>
+      <p>A TapsPont azért készül, hogy könnyebben eligazodj a színház világában. Akár egy régi kedvencedet keresed, akár új élményre vágysz, itt színdarabok, színházak és színészek között indulhatsz felfedezőútra.</p>
+      <p>Hiszünk abban, hogy minden előadás mögött történetek és alkotók állnak. Szeretnénk közelebb hozni őket hozzád, és segíteni abban, hogy megtaláld a következő számodra érdekes színházi estét.</p>
+      <h2>Fedezz fel új történeteket</h2>
+      <p>Böngéssz a <a href="temak.html?tema=szindarabok">színdarabok</a> között, ismerj meg <a href="temak.html?tema=szinhazak">színházakat</a> és <a href="temak.html?tema=szineszek">színészeket</a>, vagy nézd meg, mely előadások és helyszínek szerepelnek a <a href="toplista.html">toplistákon</a>. A kereső és a szűrők segítenek, ha már tudod, mit keresel.</p>
+      <h2>Az élmény a taps után is folytatódik</h2>
+      <p>Egy előadás mindenkinek mást jelenthet. A nézői értékelések és vélemények segíthetnek felidézni a látottakat, és ötletet adhatnak másoknak a következő színházlátogatáshoz.</p>
+      <p>Gyűjts ötleteket, fedezz fel új kedvenceket, és találd meg a saját utadat a színház világában.</p>
+      <a class="btn btn-outline" href="index.html#felfedezes">Fedezd fel a TapsPontot</a>
+    </article>
+    <aside class="info-card info-aside"><h2>Van egy ötleted?</h2><p>Örömmel fogadjuk a kérdéseidet és észrevételeidet.</p><a href="kapcsolat.html">Írj nekünk</a></aside>
+  </div>
+</main>  <footer class="site-footer">
+    <div class="wrap">
+      <nav class="footer-nav" aria-label="Lábléc">
+        <a class="brand tp-image-logo" href="index.html#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
+        <div><strong>TapsPont</strong><a href="rolunk.html">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="index.html?info=ertekeles">Hogyan működik az értékelés?</a><a href="kapcsolat.html">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="felhasznalasi-feltetelek.html">Felhasználási feltételek</a><a href="adatkezeles.html">Adatkezelési tájékoztató</a></div>
+      </nav>
+      <p class="copyright">© TapsPont</p>
+    </div>
+  </footer>
+<script src="profil.js"></script><script src="belepes.js"></script><script src="kozos-fejlec.js"></script><script src="naptar.js"></script><script src="gorgetes.js"></script><script src="informacios-oldalak.js"></script></body></html>
