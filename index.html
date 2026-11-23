@@ -616,9 +616,9 @@
     <div class="wrap">
       <nav class="footer-nav" aria-label="Lábléc">
         <a class="brand figma-brand" href="#felfedezes" aria-label="TapsPont"><img src="logo/TapsPont_Logo_invers.png" alt=""></a>
-        <div><strong>TapsPont</strong><a href="#rolunk" data-info="Rólunk">Rólunk</a></div>
-        <div><strong>Segítség</strong><a href="#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="#kapcsolat" data-info="Kapcsolat">Kapcsolat</a></div>
-        <div><strong>Jogi információk</strong><a href="#felhasznalas" data-info="Felhasználási feltételek">Felhasználási feltételek</a><a href="#adatkezeles" data-info="Adatkezelési tájékoztató">Adatkezelési tájékoztató</a></div>
+        <div><strong>TapsPont</strong><a href="rolunk.html">Rólunk</a></div>
+        <div><strong>Segítség</strong><a href="#ertekeles" data-info="Hogyan működik az értékelés?">Hogyan működik az értékelés?</a><a href="kapcsolat.html">Kapcsolat</a></div>
+        <div><strong>Jogi információk</strong><a href="felhasznalasi-feltetelek.html">Felhasználási feltételek</a><a href="adatkezeles.html">Adatkezelési tájékoztató</a></div>
       </nav>
       <p class="copyright">© TapsPont</p>
     </div>
@@ -1124,7 +1124,14 @@
       control.addEventListener('click', event => {
         event.preventDefault();
         const title = control.dataset.info;
-        openPanel(title, 'Ez a nézet a főoldal előnézetében még nem érhető el.');
+        const paragraphs = [
+          'Az értékelések segítenek megosztani a színházi élményeidet, és ötletet adhatnak másoknak a felfedezéshez.',
+          'Egy színdarab adatlapján az „Értékelem” gombra kattintva adhatsz 1 és 5 közötti pontszámot. Az értékeléshez jelentkezz be, válaszd ki a pontszámot, majd mentsd el. Ugyanitt később módosíthatod az értékelésedet.',
+          'Az adatlapon a pontszámok átlaga, az értékelések száma és azok megoszlása is látható. A mű és a színpadi produkciók értékelése külön jelenik meg.',
+          'A véleményedet szövegesen is megfogalmazhatod az adatlap nézői vélemények részén. Írj tisztelettel másokról, és gondolj azokra is, akik még nem látták az előadást.',
+          'A jelenlegi bemutatóban az értékelések és vélemények a saját böngésződben tárolódnak, ezért más látogatók nem látják őket. Egyes megjelenített pontszámok és vélemények mintaadatok; a színházak értékelése még fejlesztés alatt áll.'
+        ].map(value => { const p = document.createElement('p'); p.textContent = value; return p; });
+        openPanel(title, ...paragraphs);
       });
       if (control.hash.slice(1) === searchParams.get('info') && !dialog.open) control.click();
     }
