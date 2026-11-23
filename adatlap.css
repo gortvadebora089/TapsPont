@@ -400,7 +400,7 @@
 /* Színész: a díjak és a kapcsolódó előadások rendezett megjelenése. */
 .artist-work-detail .artist-awards { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 14px 0 16px; }
 .artist-work-detail .artist-award { display: inline-flex; align-items: center; gap: 7px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--ink); font: 400 11px/1.35 var(--mono); }
-.artist-work-detail .artist-award svg { flex: 0 0 25px; width: 25px; height: 25px; fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.artist-work-detail .artist-award svg { flex: 0 0 20px; width: 20px; height: 20px; fill: none; stroke: var(--red); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .artist-work-detail .detail-facts { grid-template-columns: repeat(auto-fit, minmax(100px, max-content)); gap: 0; padding: 8px 0; }
 .artist-work-detail .detail-facts > div { padding-inline: 18px; }
 .artist-work-detail .detail-facts > div:first-child { padding-left: 0; }
@@ -462,7 +462,7 @@
   .artist-work-detail .detail-actions .icon { width: 14px; height: 14px; flex: none; }
   .artist-work-detail .artist-awards { gap: 7px 10px; margin: 10px 0 12px; }
   .artist-work-detail .artist-award { font-size: 10px; }
-  .artist-work-detail .artist-award svg { flex-basis: 18px; width: 18px; height: 18px; }
+  .artist-work-detail .artist-award svg { flex-basis: 16px; width: 16px; height: 16px; }
   .artist-work-detail .detail-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .artist-work-detail .detail-facts > div { min-width: 0; padding-inline: 5px; overflow-wrap: anywhere; }
   .artist-work-detail .detail-facts > div:first-child { padding-left: 0; }
@@ -487,3 +487,4 @@
 
 .theatre-work-detail #detail-related-title { color: var(--red); }
 .work-detail:not(.theatre-work-detail):not(.artist-work-detail) #detail-related-title { color: var(--red); }
+

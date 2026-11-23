@@ -72,6 +72,9 @@
     if (entry.credit) {
       caption.textContent = 'Fotó: ' + entry.credit;
       caption.hidden = false;
+    } else if (entry.imageSource) {
+      caption.replaceChildren(link('Kép forrása: ' + entry.imageSourceName, entry.imageSource));
+      caption.hidden = false;
     }
     addPhoto(imageFrame, entry.image || entry.logo, entry.imageAlt || entry.title, () => {
       caption.hidden = true;
@@ -107,9 +110,40 @@
       'medveczky-balazs': { 'dzsungel': '' },
     };
     const credits = affiliations[entry.id] || {};
+    const profiles = {
+      'szendy-szilvi': { birth: '1977. február 26.', birthPlace: 'Kecel', description: 'Színművész és szubrett, zenés színházi előadások szereplője.', sources: [['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/Szendy_Szilvi']] },
+      'janosi-david': { birth: '1975. március 22.', birthPlace: 'Budapest', description: 'Színművész, az Újszínház előadásaiban is szerepel.', sources: [['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/J%C3%A1nosi_D%C3%A1vid']] },
+      'medveczky-balazs': { description: 'Színművész, a Vígszínház és a Pesti Színház előadásaiban is látható.', sources: [['Vígszínház · művészadatlap', 'https://vigszinhaz.hu/hu/szemelyek/medveczky_balazs']] },
+      'csakanyi-eszter': { birth: '1953. június 10.', birthPlace: 'Budapest', description: 'Kossuth- és Jászai Mari-díjas színművész. Pályáját Kaposváron kezdte, később a Katona József Színházban és a Krétakörben játszott; 2017 óta az Örkény Színház társulatának tagja.', awards: ['Jászai Mari-díj', 'Kossuth-díj', 'Páger Antal-színészdíj · 2006'], sources: [['Nemzeti Színház · művészadatlap', 'https://nemzetiszinhaz.jegy.hu/person/csakanyi-eszter-47'], ['Nemzeti Archívum · portré', 'https://nemzetiarchivum.hu/stories/Csakanyi-Eszter'], ['Wikipédia · életrajz', 'https://en.wikipedia.org/wiki/Eszter_Cs%C3%A1k%C3%A1nyi']] },
+      'lengyel-tamas': { birth: '1977. szeptember 7.', birthPlace: 'Budapest', description: 'Jászai Mari-díjas színművész, a Loupe alapítója és produkciós vezetője. 2001-ben végzett a Színház- és Filmművészeti Egyetemen.', awards: ['Jászai Mari-díj · 2017'], sources: [['Centrál Színház · életrajz', 'https://centralszinhaz.hu/tarsulat/lengyel_tamas/'], ['Jegy.hu · művészadatlap', 'https://nfz.jegy.hu/person/lengyel-tamas-70']] },
+      'lovas-rozi': { description: 'Színművész, a Loupe alapító tagja. 2012-ben végzett Kaposváron, majd a Miskolci Nemzeti Színház és a Radnóti Színház társulatában játszott.', awards: ['Junior Prima díj', 'POSZT-díj · legjobb 30 év alatti színésznő'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/lovas-rozi/person-227725']] },
+      'molnar-aron': { birth: '1987. december 18.', birthPlace: 'Újvidék', description: 'Színművész és előadó, a Loupe alapító tagja. 2010-ben végzett a Színház- és Filmművészeti Egyetemen, majd a Vígszínház társulatában dolgozott.', awards: ['Junior Prima díj · 2013', 'Soós Imre-díj · 2015'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/molnar-aron/person-171616']] },
+      'mohai-tamas': { birth: '1988. május 31.', birthPlace: 'Budapest', description: 'Színművész, 2010-ben végzett a Színház- és Filmművészeti Egyetemen. Korábban a Thália Színház társulatának tagja volt.', awards: ['Bujtor István-díj'], sources: [['Mafab · művészadatlap', 'https://www.secure.mafab.hu/people/tamas-mohai-490858.html']] },
+      'rusznak-andras': { birth: '1984. december 31.', birthPlace: 'Záhony', description: 'Színművész, korábban a Miskolci Nemzeti Színház és a Radnóti Színház tagja volt; 2024-től a Loupe társulatához tartozik.', awards: ['Soós Imre-díj · 2013', 'Kaszás Attila-díj · 2021'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/rusznak-andras/person-190925']] },
+      'varadi-gergely': { birth: '1996. január 25.', birthPlace: 'Budapest', description: 'Színművész, 2021-ben végzett a Színház- és Filmművészeti Egyetemen. Filmes munkái között a Guerilla és A besúgó is szerepel.', sources: [['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/V%C3%A1radi_Gergely']] },
+      'foldes-eszter': { birth: '1987. február 28.', birthPlace: 'Szekszárd', description: 'Színművész, 2010-ben végzett a Színház- és Filmművészeti Egyetemen. Színpadi és filmes szerepekben, valamint szinkronszínészként is dolgozik.', awards: ['Soós Imre-díj · 2014', 'Verebély Iván-díj · 2024'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/foldes-eszter/person-221953']] },
+      'trill-beatrix': { birthPlace: 'Fehérgyarmat', description: 'Színművész, 2021-ben végzett Kaposváron. Színházi munkái mellett a Valami Amerika sorozatban és a Futni mentem című filmben is szerepelt.', sources: [['RTL · művészadatlap', 'https://rtl.hu/sztarok/trill-beatrix']] },
+      'rainer-micsinyei-nora': { birth: '1988. szeptember 17.', birthPlace: 'Budapest', description: 'Színművész, humorista és forgatókönyvíró, a Loupe és a Dumaszínház társulatának tagja.', awards: ['Boszporusz Nemzetközi Filmfesztivál · legjobb színésznő · 2021'], sources: [['Jegy.hu · művészadatlap', 'https://nfz.jegy.hu/person/nora-rainer-micsinyei-4497'], ['TEDx · bemutatkozás', 'https://www.youtube.com/watch?v=uYKijUOCX90']] },
+      'gryllus-dorka': { birth: '1972. december 26.', birthPlace: 'Budapest', description: 'Színművész és énekesnő, 1998-ban végzett a Színház- és Filmművészeti Főiskolán. 1998 és 2003 között a kaposvári Csiky Gergely Színház tagja volt, magyar és nemzetközi filmekben is szerepelt.', awards: ['Magyar Filmszemle · legjobb női főszereplő · 2005', 'Arany Medál-díj · 2010'], sources: [['Index · portré', 'https://index.hu/kultur/2025/12/26/gryllus-dorka-szinesz-enekesno-szuletesnap-kviz/'], ['Wikipédia · életrajz', 'https://en.wikipedia.org/wiki/Dorka_Gryllus']] },
+      'sztarenki-dora': { birth: '1991. november 2.', birthPlace: 'Budapest', description: 'Színművész és táncművész, a Magyar Táncművészeti Főiskolán végzett. 2018 és 2023 között a Centrál Színház tagja volt.', awards: ['Magyar Filmdíj · legjobb női főszereplő · 2018'], sources: [['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/Sztarenki_D%C3%B3ra']] },
+      'brezovszky-daniel': { birth: '2000', birthPlace: 'Budapest', description: 'Színművész, 2024-ben végzett a Színház- és Filmművészeti Egyetemen. A Loupe előadásai mellett az Örkény Színházban is játszott.', sources: [['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/Brezovszky_D%C3%A1niel']] },
+      'sodro-eliza': { birth: '1990. december 17.', description: 'Színművész és szinkronszínész, a Loupe vendégművésze. Kaposváron tanult színészetet, majd a szombathelyi és a Radnóti Színház társulatában játszott.', awards: ['Színikritikusok Díja · legígéretesebb pályakezdő · 2018', 'Junior Prima díj · 2020'], sources: [['Arany Medál-díj · portré', 'https://aranymedaldij.hu/sodro-eliza/'], ['Jegy.hu · művészadatlap', 'https://zeneakademia.jegy.hu/person/eliza-sodro-9494']] },
+      'ullmann-monika': { birth: '1973. augusztus 2.', birthPlace: 'Budapest', description: 'Színművész, a Loupe vendégművészeként a Becsapódás című előadásban is szerepel.', sources: [['Jegy.hu · művészadatlap', 'https://pannonvarszinhaz.jegy.hu/person/ullmann-monika-911'], ['Wikipédia · művészadatlap', 'https://hu.wikipedia.org/wiki/Ullmann_M%C3%B3nika']] },
+      'banki-gergely': { birth: '1974', birthPlace: 'Budapest', description: 'Színművész, a Loupe vendégművésze. A társulat Az éjjel soha nem érhet véget című előadásában is játszik.', sources: [['Jegy.hu · művészadatlap', 'https://nfz.jegy.hu/person/banki-gergely-1146']] },
+      'samudovszky-adrian': { description: 'Színművész, a Loupe vendégművészeként a Nem vagyunk már gyerekek és Az éjjel soha nem érhet véget című előadásokban játszik.', sources: [['Jegy.hu · művészadatlap', 'https://nfz.jegy.hu/person/samudovszky-adrian-14381']] },
+      'stefanovics-angela': { birthPlace: 'Budapest', description: 'Színművész és forgatókönyvíró, a Loupe vendégművésze.', awards: ['Jászai Mari-díj'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/stefanovics-angela/person-24752'], ['Szelfi · beszélgetés', 'https://www.youtube.com/watch?v=ol4YYtjMiEI']] },
+      'takacs-katalin': { birth: '1951. január 15.', birthPlace: 'Budapest', description: 'Jászai Mari-díjas színművész, érdemes művész, a Loupe vendégművésze. 1975-ben végzett a Színház- és Filmművészeti Főiskolán.', awards: ['Jászai Mari-díj · 1989'], sources: [['Nemzeti Archívum · portré', 'https://nemzetiarchivum.hu/stories/Takacs-Katalin'], ['Jegy.hu · művészadatlap', 'https://nemzetiszinhaz.jegy.hu/person/takacs-katalin-75']] },
+      'znamenak-istvan': { birth: '1966. január 8.', birthPlace: 'Budapest', description: 'Színművész és rendező, a Loupe vendégművészeként több előadásban is szerepel.', sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/znamenak-istvan/person-6961']] },
+      'balla-eszter': { birth: '1980. május 11.', birthPlace: 'Szekszárd', description: 'Színművész, a Színház- és Filmművészeti Egyetemen végzett. Prózai és zenés előadásokban egyaránt szerepel.', awards: ['Kaszás Attila-díj · 2024'], sources: [['Nemzeti Színház · művészadatlap', 'https://nemzetiszinhaz.jegy.hu/person/balla-eszter-320'], ['Kaszás Attila-díj · díjazott', 'https://kaszasattiladij.hu/balla-eszter-kapta-iden-a-kaszas-attila-dijat/']] },
+      'trill-zsolt': { birth: '1972. április 13.', birthPlace: 'Sárosoroszi', description: 'Színművész, a beregszászi Illyés Gyula Magyar Színház alapító tagja. 2013-tól a Nemzeti Színház társulatának tagja.', awards: ['Jászai Mari-díj · 2003', 'Kossuth-díj · 2024'], sources: [['Nemzeti Színház · művészadatlap', 'https://nemzetiszinhaz.hu/muvesz/trill-zsolt'], ['Nemzeti Színház · Kossuth-díj', 'https://nemzetiszinhaz.hu/hirek/2024/03/trill-zsolt-kossuth-dijas']] },
+      'maho-andrea': { birth: '1979. február 21.', birthPlace: 'Budapest', description: 'Színművész és énekesnő, aki több zenés színházi produkcióban is játszott.', awards: ['eMeRTon-díj · 2003', 'Artisjus-díj · 2007', 'Jászai Mari-díj · 2020'], sources: [['ICON Talent Management · életrajz', 'https://www.iconm.hu/maho-andrea/'], ['Bors Lexikon · életrajz', 'https://borsonline.origo.hu/lexikon/sztar/maho-andrea']] },
+      'palmai-anna': { birth: '1984. január 23.', birthPlace: 'Budapest', description: 'Színművész, 2007-ben végzett a Színház- és Filmművészeti Egyetemen.', awards: ['Junior Prima díj · 2008', 'Smeraldina-díj · 2009', 'Máthé Erzsi-díj · 2014'], sources: [['PORT.hu · művészadatlap', 'https://port.hu/adatlap/szemely/palmai-anna/person-179625']] },
+    };
+    const profile = profiles[entry.id];
     const rich = entry.id === 'wunderlich-jozsef';
     related = productions.filter(p => p.id && Object.hasOwn(credits, p.id))
       .map(p => ({ ...p, role: credits[p.id] }));
+    related.push(...productions.filter(p => p.cast?.includes(entry.title)));
     if (entry.id === 'janosi-david') {
       related.push({ ...premieres.find(p => p.title === 'La Grange'), role: 'Erkel Ferenc szerepében' });
     }
@@ -117,24 +151,25 @@
     byId('detail-kicker').hidden = true;
     const affiliation = byId('detail-subtitle');
     affiliation.hidden = true;
-    if (rich) {
+    const awardLabels = rich ? ['Junior Prima Díj · 2016', 'Ruttkai Éva-emlékdíj · 2016', 'Soós Imre-díj · 2017'] : profile?.awards || [];
+    if (awardLabels.length) {
       const awards = node('div', '', 'artist-awards');
-      const icon = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M10 5h12v6c0 6-2.7 9-6 9s-6-3-6-9V5Zm0 2H5v3c0 3 2 5 5 5M22 7h5v3c0 3-2 5-5 5M16 20v5m-5 3h10m-8-3h6"/></svg>';
-      const awardSource = 'https://vigszinhaz.jegy.hu/person/wunderlich-jozsef-7337';
-      for (const [label, url] of [['Junior Prima Díj · 2016', notes.wunderlich], ['Ruttkai Éva-emlékdíj · 2016', awardSource], ['Soós Imre-díj · 2017', awardSource]]) {
-        const item = node('span', label, 'artist-award');
+      const icon = '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M10 5h12v6c0 6-2.7 9-6 9s-6-3-6-9V5Zm0 2H5v3c0 3 2 5 5 5M22 7h5v3c0 3-2 5-5 5M16 20v5m-5 3h10m-8-3h6"/></svg>';
+      for (const award of awardLabels) {
+        const item = node('span', award, 'artist-award');
         item.insertAdjacentHTML('afterbegin', icon);
         awards.append(item);
       }
       byId('detail-title').after(awards);
     }
-    copy('detail-description', rich
+    copy('detail-description', profile?.description || (rich
       ? 'A Színház- és Filmművészeti Egyetem zenés színművész szakán végzett. Pályáját Pécsett kezdte, majd 2015-ben csatlakozott a Vígszínházhoz, ahol A Pál utcai fiúk zenés játékában Boka Jánost alakította.'
-      : role && role !== 'színművész' ? role + '.' : '');
+      : role && role !== 'színművész' ? role + '.' : ''));
     addFacts(rich ? [
       ['Születési év', '1989'], ['Születési hely', 'Pécs'],
       ['Társulat', place(venueName)],
     ] : [
+      ['Született', profile?.birth], ['Születési hely', profile?.birthPlace],
       ['Színház', place(venueName)], ['Szakma', 'Színművész'],
     ]);
     copy('detail-panel-title', 'Színpadon');
@@ -149,19 +184,30 @@
     previous.append(node('h2', 'Korábbi emlékezetes alakítások'), node('p', 'Korábbi szerepekről még nincs adat a katalógusban.', 'muted'));
     document.querySelector('.detail-intro').append(previous);
     sources = rich ? [['Vígszínház · Művészadatlap', notes.wunderlichProfile], ['Vígszínház · Junior Prima Díj', notes.wunderlich], ['Vígszínház · Díjak és elismerések', 'https://vigszinhaz.jegy.hu/person/wunderlich-jozsef-7337']]
-      : [['Színházi forrás', entry.url]];
+      : [['Színházi forrás', entry.url], ...(profile?.sources || [])];
     setPortrait();
   } else if (type === 'szinhaz') {
     byId('detail-content').classList.add('work-detail', 'theatre-work-detail');
     const isVig = entry.id === 'vigszinhaz';
+    // A magyar és angol Wikipédia API-jából ellenőrzött, saját megfogalmazású ismertetők.
+    const theatreInfo = {
+      'madach-szinhaz': ['A Madách Színház a második világháború után szerveződött újjá, és 1961-ben költözött az Erzsébet körúti épületébe. Repertoárjában zenés színházi előadások, köztük musicalek szerepelnek.', 'https://hu.wikipedia.org/wiki/Mad%C3%A1ch_Sz%C3%ADnh%C3%A1z'],
+      'budapesti-operettszinhaz': ['A Budapesti Operettszínház zenés színház a Nagymező utcában. Műsorán operettek és más zenés színpadi előadások is helyet kapnak.', 'https://hu.wikipedia.org/wiki/Budapesti_Operettsz%C3%ADnh%C3%A1z'],
+      'nemzeti-szinhaz': ['A Nemzeti Színház elődje 1837-ben nyílt meg. A társulat története során több épületben működött; a Bajor Gizi parki épület 2002-ben nyitotta meg kapuit.', 'https://en.wikipedia.org/wiki/National_Theatre_(Budapest)'],
+      'magyar-allami-operahaz': ['Az Andrássy úti Operaházat Ybl Miklós tervezte, és 1884-ben nyílt meg. Az épület opera- és balettelőadásoknak ad otthont.', 'https://en.wikipedia.org/wiki/Hungarian_State_Opera_House'],
+      'central-szinhaz': ['A Révay utcai színház Vidám Színpad néven működött, majd 2008-ban vette fel a Centrál Színház nevet. Az intézmény 2017-től magánszínházként működik.', 'https://hu.wikipedia.org/wiki/Centr%C3%A1l_Sz%C3%ADnh%C3%A1z'],
+      'ujszinhaz': ['A Paulay Ede utcai színház korábban gyermek- és ifjúsági színházként működött. 1994-ben új névvel és megújult művészeti arculattal folytatta munkáját.', 'https://hu.wikipedia.org/wiki/%C3%9Ajsz%C3%ADnh%C3%A1z'],
+      'katona-jozsef-szinhaz': ['A budapesti Katona József Színház 1982 őszétől önálló társulattal működik. A Petőfi Sándor utcai színház mellett a Kamrában is tart előadásokat.', 'https://hu.wikipedia.org/wiki/Katona_J%C3%B3zsef_Sz%C3%ADnh%C3%A1z_(Budapest)'],
+      'orkeny-istvan-szinhaz': ['Az Örkény István Színház 2004-ben a korábbi Madách Kamara önállósodásával alakult meg. Nevét Örkény István íróról és dramaturgról kapta.', 'https://hu.wikipedia.org/wiki/%C3%96rk%C3%A9ny_Istv%C3%A1n_Sz%C3%ADnh%C3%A1z'],
+    };
     const places = isVig ? ['Vígszínház · Nagyszínpad', 'Pesti Színház', 'Házi Színpad', 'Víg Szalon']
-      : entry.id === 'katona-jozsef-szinhaz' ? ['Kamra'] : [];
+      : entry.id === 'katona-jozsef-szinhaz' ? ['Kamra'] : entry.id === 'loupe-szinhazi-tarsulas' ? ['Marczibányi Téri Művelődési Központ', 'RaM ArT Színház'] : [];
     related = [...productions, ...premieres].filter(p => theatreForVenue(p.venue || p.meta)?.id === entry.id);
     byId('detail-kicker').hidden = true;
     copy('detail-subtitle', entry.meta || '');
     copy('detail-description', isVig
       ? 'A Vígszínház 1896. május 1-jén nyitotta meg kapuit Budapesten. A Szent István körúti épületet a Fellner és Helmer építészpáros tervezte, és alig egy év alatt épült fel. A színház alkotói kezdettől fontos szerepet vállaltak a korszerű magyar színjátszás formálásában, műsorán magyar és külföldi szerzők darabjai egyaránt helyet kaptak. A nagyszínház mellett az 1967-ben megnyílt Pesti Színház kamarateret ad a kisebb léptékű előadásoknak. A társulat a Házi Színpadon és a Víg Szalonban is játszik.'
-      : '');
+      : entry.id === 'loupe-szinhazi-tarsulas' ? 'A Loupe független színházi társulás, amely kortárs társadalmi és emberi kérdéseket feldolgozó előadásokat hoz létre. Budapesten több játszóhelyen és vendégjátékokon is fellép.' : theatreInfo[entry.id]?.[0] || '');
     byId('detail-facts').remove();
     const ratingPanel = panel.closest('.detail-panel');
     copy('detail-panel-title', 'A színház értékelései');
@@ -179,12 +225,20 @@
     venueLinks.append(link('A színház honlapja', new URL(entry.url).origin, 'theatre-tag'));
     venueSection.append(venueLinks);
     document.querySelector('.detail-intro').append(venueSection);
-    sources = [['Hivatalos színházi oldal', entry.url]];
+    sources = [['Hivatalos színházi oldal', entry.url], ...(theatreInfo[entry.id] ? [['Wikipédia · színháztörténet', theatreInfo[entry.id][1]]] : [])];
     setPortrait();
   } else {
     byId('detail-content').classList.add('work-detail');
     copy('detail-kicker', entry.kind || 'Színdarab');
     const isPal = entry.id === 'pal';
+    const workInfo = {
+      dzsungel: ['Rudyard Kipling 1894-es elbeszélésgyűjteményének legismertebb alakja Maugli, akit farkasok nevelnek fel. A történetekből számos feldolgozás született; a Pesti Színház zenés változatát Dés László, Geszti Péter és Békés Pál alkotta.', 'https://en.wikipedia.org/wiki/The_Jungle_Book'],
+      mamma: ['Catherine Johnson musicalje az ABBA dalaiból építkezik. A történetben Sophie az esküvője előtt keresi édesapját, miközben édesanyja múltja is felszínre kerül.', 'https://en.wikipedia.org/wiki/Mamma_Mia!_(musical)'],
+      csardas: ['Kálmán Imre háromfelvonásos operettjében a varietésztár Szilvia és az arisztokrata Edvin kapcsolatát társadalmi különbségek nehezítik.', 'https://hu.wikipedia.org/wiki/Cs%C3%A1rd%C3%A1skir%C3%A1lyn%C5%91'],
+      dio: ['Csajkovszkij kétfelvonásos balettje karácsony este kezdődő mesét elevenít meg. A színpadi történet E. T. A. Hoffmann meséjének Alexandre Dumas által átdolgozott változatához is kapcsolódik.', 'https://en.wikipedia.org/wiki/The_Nutcracker'],
+      fair: ['Alan Jay Lerner és Frederick Loewe musicalje George Bernard Shaw Pygmalion című darabja nyomán készült. Eliza Doolittle virágárus beszédleckéket vesz Higgins professzortól.', 'https://en.wikipedia.org/wiki/My_Fair_Lady'],
+      gep: ['Anthony Burgess 1962-es regényében Alex egy erőszakos ifjúsági csoport tagjaként, majd az állam átnevelési kísérletének alanyaként jelenik meg. A Kamra előadása a regény színpadi adaptációja.', 'https://en.wikipedia.org/wiki/A_Clockwork_Orange_(novel)'],
+    };
     related = productions.filter(p => p.id === entry.id);
     copy('detail-subtitle', entry.author);
     const duration = node('p', '', 'work-duration');
@@ -194,6 +248,8 @@
     copy('detail-description', isPal
       ? 'A Pál utcai fiúk egy budapesti diákcsapat története, amelynek tagjai a grundot, kedves játékterüket védik a vörösingesekkel szemben. A fiúk saját szabályaik szerint szerveződnek, miközben a két csapat közötti ellentét egyre komolyabb próbatétellé válik. Boka és társai történetében különös szerepet kap a legkisebb közlegény, Nemecsek Ernő bátorsága és hűsége. Molnár Ferenc regénye barátságról, összetartozásról, árulásról és áldozatvállalásról mesél.'
       : '');
+    if (!isPal && related[0]?.description) copy('detail-description', related[0].description);
+    if (workInfo[entry.id]) copy('detail-description', workInfo[entry.id][0]);
     addFacts([['Alkotó', entry.author], ['Műfaj', entry.kind], ['Első könyvkiadás', isPal ? '1907' : '']]);
     copy('detail-panel-title', 'A mű értékelései');
     const stars = node('p', '☆☆☆☆☆', 'detail-stars');
@@ -208,6 +264,7 @@
     relatedTitle = 'Színpadi változatok';
     sources = isPal ? [['Magyar Elektronikus Könyvtár · A Pál utcai fiúk', notes.pal], ['Vígszínház · Színpadi változat', entry.url]]
       : [['Kapcsolódó produkció hivatalos oldala', entry.url]];
+    if (workInfo[entry.id]) sources.push(['Wikipédia · a műről', workInfo[entry.id][1]]);
     setCover();
   }
 
@@ -451,7 +508,7 @@
     const castMap = { pal: [['Wunderlich József', 'Boka János']], fair: [['Balla Eszter', 'Eliza Doolittle']] };
     const cast = node('section', '', 'detail-related work-extra'); cast.append(node('h2', 'Szereposztás')); const castList = node('div', '', 'work-cast');
     castList.classList.add('topic-records'); castList.dataset.topic = 'szineszek';
-    for (const [name, role] of castMap[entry.id] || []) {
+    for (const [name, role] of (castMap[entry.id] || (related[0]?.cast || []).map(name => [name, '']))) {
       const artist = artistRecords.find(a => a.title === name); if (!artist) continue;
       const item = link('', artist.detail, 'card topic-record');
       item.setAttribute('aria-label', name + ' - adatlap' + (role ? ', ' + role + ' szerepében' : ''));
@@ -542,3 +599,4 @@
   byId('detail-content').hidden = false;
   if (location.hash === '#nezoi-velemenyek' && !reviewSection.hidden) reviewSection.scrollIntoView();
 })();
+
